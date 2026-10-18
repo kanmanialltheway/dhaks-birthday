@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Mafia King — Chapter I: The Girl Who Hated Him</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0807;--char:#15110f;--ivory:#efe6d6;--ivory-d:#b9ae9c;
+  --crim:#7a1226;--crim-d:#3d0a14;--gold:#c2a15a;--amber:#e0a458;
+  --serif:'Cormorant Garamond','Cormorant',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --glow:rgba(122,18,38,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--ink);color:var(--ivory);overflow:hidden;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--serif)}
+body.warm{--glow:rgba(224,164,88,.22)}
+body.cold{--glow:rgba(122,18,38,.38)}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;user-select:none}
+#bg{position:absolute;inset:-4%;background:
+  radial-gradient(ellipse 70% 60% at 50% 42%,var(--glow),transparent 70%),
+  linear-gradient(180deg,var(--char),var(--ink) 80%);
+  transition:background 2.4s ease;animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.2%,.8%)}}
+.fog{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fog i{position:absolute;width:140%;height:60%;left:-20%;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(239,230,214,.07),transparent 65%);filter:blur(30px);animation:fog 38s linear infinite}
+.fog i:nth-child(1){top:5%}.fog i:nth-child(2){top:48%;animation-duration:55s;animation-direction:reverse}
+@keyframes fog{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.82) 100%)}
+.grain{position:absolute;inset:-50%;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(3%,3%)}}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease;z-index:5}
+#fade.on{opacity:1}
+
+#view{position:relative;z-index:3;width:min(720px,88vw);text-align:center;padding:0 0 env(safe-area-inset-bottom,0)}
+.who{font-family:var(--sans);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;opacity:0;transition:opacity 1s}
+.who.minho{color:var(--amber)}.who.bangchan{color:#b3364f}
+.txt{font-size:clamp(1.45rem,4.4vw,2.15rem);line-height:1.55;font-weight:400;letter-spacing:.01em;text-wrap:balance}
+.txt.say::before{content:"“"}.txt.say::after{content:"”"}
+.txt.nar{font-style:italic;color:var(--ivory-d)}
+.txt.big{font-size:clamp(2rem,7vw,3.6rem);letter-spacing:.14em;font-weight:500}
+.txt.sm{font-family:var(--sans);font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-style:normal}
+.w{opacity:0;display:inline-block;transform:translateY(5px);filter:blur(3px);animation:w .9s ease forwards}
+@keyframes w{to{opacity:1;transform:none;filter:none}}
+.show .who{opacity:1}
+#hint{position:fixed;bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;z-index:4;font-family:var(--sans);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ivory-d);opacity:0;transition:opacity 1s;pointer-events:none}
+#hint.on{opacity:.55;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+#bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--crim),var(--gold));z-index:6;width:0;transition:width 1s}
+.back-library{
+  position:fixed;
+  top:1.5rem;
+  left:1.5rem;
+  z-index:20;
+  color:var(--ivory-d);
+  text-decoration:none;
+  font-family:var(--sans);
+  font-size:.65rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  opacity:.45;
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.back-library:hover{
+  opacity:.9;
+  transform:translateX(-3px);
+}
+
+@media(max-width:600px){
+  .back-library{
+    top:1rem;
+    left:1rem;
+    font-size:.58rem;
+    letter-spacing:.18em;
+  }
+}
+.choices{display:flex;flex-direction:column;gap:.9rem;margin-top:2.2rem;align-items:center}
+.btn{font-family:var(--sans);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ivory);background:rgba(10,8,7,.55);
+  border:1px solid rgba(194,161,90,.55);padding:1rem 2rem;min-width:min(320px,80vw);cursor:pointer;text-decoration:none;display:inline-block;
+  transition:background .6s,border-color .6s,color .6s,box-shadow .6s;backdrop-filter:blur(4px)}
+.btn:hover,.btn:focus-visible{background:var(--crim-d);border-color:var(--gold);box-shadow:0 0 28px rgba(122,18,38,.45);outline:none}
+.btn.warm:hover,.btn.warm:focus-visible{background:rgba(224,164,88,.14);box-shadow:0 0 28px rgba(224,164,88,.3)}
+.btn.ghost{border-color:rgba(239,230,214,.2);color:var(--ivory-d)}
+.end{display:flex;flex-direction:column;gap:.9rem;align-items:center;margin-top:2.4rem}
+#view{max-height:92vh;display:flex;flex-direction:column;justify-content:center}
+#lines{max-height:60vh;display:flex;flex-direction:column;gap:1.5rem;padding:1.2rem 0;}
+.beat{flex:none;transition:opacity 2s ease}
+.beat.old{opacity:.38}
+.beat .who{opacity:1}
+.who.afu{color:#d9b8a2}
+#lines .txt:not(.big):not(.sm){font-size:clamp(1.3rem,4vw,2rem);line-height:1.55}
+.beat .txt+.txt{margin-top:.7rem}
+#cta{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));
+  min-height:2rem;
+  margin:0;
+  z-index:4;
+}
+.txt.th{color:var(--gold);font-style:italic}
+.beat .who:not(:first-child){margin-top:1.4rem}
+.btn .sub{display:block;font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:.02em;font-size:1.05rem;color:var(--ivory-d);margin-top:.45rem}
+.end .lbl{font-family:var(--sans);font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+@media (prefers-reduced-motion:reduce){
+  #bg,.fog i,.grain,#hint.on{animation:none}.w{animation-duration:.01s}#fade{transition-duration:.01s}
+}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body class="cold">
+<div id="bar"></div>
+<a href="chapters.html" class="back-library">← BACK TO LIBRARY</a>
+<div id="stage" role="button" tabindex="0" aria-label="Advance story">
+  <div id="bg"></div>
+  <div class="fog"><i></i><i></i></div>
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="vig"></div><div class="grain"></div>
+  <div id="view" aria-live="polite"><div id="lines"></div><div id="cta"></div></div>
+  <div id="fade" class="on"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function n(x,m,br){return{t:"n",x:x,m:m,br:br}}
+function s(w,x,m,br){return{t:"s",w:w,x:x,m:m,br:br}}
+function T(x,m){return{t:"title",x:x,m:m,br:1}}
+var D="dhaks",B="bangchan",A="afu";
+
+var M=function(i,m,br){return{t:"m",i:i,m:m,br:br}};
+
+/* ===== CHAPTER I — edit the story here =====
+   n("line one|line two")  narration (| = new line, same beat)
+   M([ ["n","text"], [D,"dialogue"], ["t","thought"] ])  one grouped moment
+   Speakers: D = Dhaks, B = Bangchan                                    */
+var S1=[
+T("Chapter I","cold"),
+{t:"big",x:"The Girl Who Hated Him"},
+n("Some people enter your life as enemies."),
+T("Medical College \u00B7 Morning","cold"),
+n("Medical college was supposed to be about lectures, exams, and surviving endless assignments.|Dhakshatha had it figured out. Up at six. Chase the professors. Survive on canteen coffee. Repeat."),
+n("Nobody in her family owned buildings or knew important people. Her seat here had been earned one sleepless night at a time, and she liked it that way.|Here, nobody cared about her last name. She was just Dhaks, the girl who never backed down from a bad grade or a worse argument."),
+n("But that morning, something felt off.|The corridor had gone quiet. Not the polite quiet before a lecture. The other kind. The kind that makes you check over your shoulder.")
+];
+var S2=[
+T("The Main Corridor","cold"),
+n("She was halfway down the main corridor, arms full of case files, when someone walked straight into her.|Forty pages of notes hit the floor and scattered across the tiles."),
+M([[D,"Seriously?"],["n","She looked up. Tall. A black coat in a college where nobody wore one. He looked at her the way you look at a delay on your schedule."]]),
+M([[B,"Do you always cause this much trouble?"],[D,"Only when you're around."]]),
+n("Somewhere behind her, someone sucked in a sharp breath. A few students slowly stepped back against the wall.|She didn't notice. She was too busy being furious."),
+M([[B,"Pick them up."],["n","He didn't say it loudly. He didn't need to. It was the voice of someone who had never once had to repeat himself."]]),
+M([[D,"They're my files. You knocked them down. You're welcome to help."],["n","He waited for the usual. The apology. The lowered eyes. The quick scramble to make him happy.|It didn't come."]]),
+M([[B,"Do you know who I am?"],[D,"Should I? From here you look like a man who's late for something and taking it out on me."]]),
+M([["n","Something crossed his face. Surprise, brief and quickly buried. It was a long time since anyone had looked him in the eye without flinching."],["t","She's not afraid of me."]])
+];
+var CHOICE={t:"choice",x:"What will she do?"};
+/* Two short branches. Both are spliced in, then the story continues with S3. */
+var WALK=[
+n("Dhakshatha looked at him for one long second. Then she crouched and gathered her papers, slowly, at her own pace.|An argument was exactly what he wanted. She wasn't going to give him one."),
+M([[D,"Have a lovely day."],["n","Flat. Polite. Dismissive. She stood, tucked the files against her chest, and walked away without looking back."]]),
+M([["n","Behind her, Bangchan didn't move. People did not walk away from him. Not ever.|The corner of his mouth twitched. Not quite a smile."],[B,"Interesting."]])
+];
+var CHALLENGE=[
+n("Dhakshatha didn't move. She straightened up, files forgotten at her feet, and looked directly at him."),
+M([[D,"Let's get this straight. I don't know who you are and I don't care. You hit me, you ruined my work, and you've decided I'm the problem. I'm not the one who owes an apology."],["n","The corridor held its breath."]]),
+M([[B,"You have a lot of nerve."],[D,"I have a lot of exams. Nerve is the cheap part."]]),
+n("His jaw tightened. But his eyes didn't turn cold. For one second he looked almost tired of being obeyed, and something else flickered there. Curiosity."),
+M([[B,"What's your name?"],[D,"Find out."],["n","She crouched, picked up her papers herself, and left him standing there."]])
+];
+var S3=[
+T("A Few Steps Later","cold"),
+n("It was only when she turned the corner that Dhakshatha realized how quiet the corridor was.|Students who had been laughing minutes ago were pressed against the walls, eyes down."),
+n("At the far end stood two men in dark suits, hands folded. They weren't students. They weren't looking at her. They were looking past her, at him, waiting for a signal."),
+n("Then a professor came the other way. He saw who stood behind her, stopped, stepped aside, and gave a small nod.|A professor. Nodded."),
+M([["t","Who exactly was he?"]]),
+n("She didn't know it yet...|but that man was about to change everything."),
+{t:"end"}
+];
+var chosen=false;
+
+var queue=[].concat(S1,S2,[CHOICE],S3),qi=0,busy=false,
+    view=document.getElementById("view"),lines=document.getElementById("lines"),cta=document.getElementById("cta"),
+    fade=document.getElementById("fade"),bar=document.getElementById("bar");
+
+function mood(m){if(m==="neutral"){document.body.className=""}else if(m){document.body.className=m}}
+function wait(ms){return new Promise(function(r){setTimeout(r,reduce?30:ms)})}
+function render(b){
+  lines.innerHTML="";
+  var d=document.createElement("div");d.className="beat";var n=0;
+  var NAMES={dhaks:"Dhaks",bangchan:"Bangchan",afu:"Afu"};
+  function addLines(text,cls){
+    text.split("|").forEach(function(line){
+      var el=document.createElement("p");el.className="txt "+cls;
+      line.split(" ").forEach(function(w){
+        var sp=document.createElement("span");sp.className="w";sp.textContent=w;
+        sp.style.animationDelay=(reduce?0:n*60)+"ms";el.appendChild(sp);el.appendChild(document.createTextNode(" "));n++;
+      });
+      d.appendChild(el);
+    });
+  }
+  function addWho(w){var who=document.createElement("div");who.className="who "+w;who.textContent=NAMES[w];d.appendChild(who)}
+  if(b.t==="m"){
+    b.i.forEach(function(it){
+      if(it[0]==="n")addLines(it[1],"nar");
+      else if(it[0]==="t")addLines(it[1],"nar th");
+      else{addWho(it[0]);addLines(it[1],"say")}
+    });
+  }else{
+    if(b.t==="s")addWho(b.w);
+    addLines(b.x,b.t==="s"?"say":b.t==="big"?"big":b.t==="title"?"sm":"nar");
+  }
+  lines.appendChild(d);
+  return n*60+700;
+}
+function showContinue(){
+  var hint=document.createElement("div");
+  hint.id="cont";
+  hint.textContent="TAP TO CONTINUE";
+  hint.style.opacity="0";
+  hint.style.fontFamily="var(--sans)";
+  hint.style.fontSize=".68rem";
+  hint.style.letterSpacing=".3em";
+  hint.style.textTransform="uppercase";
+  hint.style.color="var(--ivory-d)";
+  hint.style.cursor="pointer";
+  hint.style.transition="opacity 1s ease";
+  hint.style.animation="pulse 2.6s ease-in-out infinite";
+
+  hint.addEventListener("click",function(e){
+    e.stopPropagation();
+    if(busy) advance();
+  });
+
+  cta.appendChild(hint);
+
+  setTimeout(function(){
+    hint.style.opacity=".55";
+  },reduce?20:150);
+}
+function showChoice(b){
+  lines.innerHTML="";
+  var d=document.createElement("div");d.className="beat";
+  var p=document.createElement("p");p.className="txt";p.textContent=b.x;d.appendChild(p);lines.appendChild(d);
+  var c=document.createElement("div");c.className="choices";
+  [["Walk away","Don't give him the satisfaction.",WALK],["Challenge him","Stand your ground.",CHALLENGE]].forEach(function(o){
+    var bt=document.createElement("button");bt.className="btn";bt.appendChild(document.createTextNode(o[0]));var sb=document.createElement("span");sb.className="sub";sb.textContent=o[1];bt.appendChild(sb);
+    bt.addEventListener("click",function(){
+      if(chosen)return;chosen=true;
+      c.querySelectorAll("button").forEach(function(x){x.disabled=true});
+      queue.splice.apply(queue,[qi+1,0].concat(o[2]));busy=true;advance();
+    });
+    c.appendChild(bt);
+  });
+  cta.appendChild(c);
+  setTimeout(function(){var f=c.querySelector("button");if(f)f.focus({preventScroll:true})},700);
+}
+function showEnd(){
+  lines.innerHTML='<div class="beat"><p class="txt sm">End of Chapter I</p></div>';
+  cta.innerHTML='<div class="end"><a class="btn" href="chapter2.html">Continue to Chapter II \u2192</a><a class="btn ghost" href="./index.html">Back to Story</a></div>';
+  bar.style.width="100%";
+  setTimeout(function(){var f=cta.querySelector("a");if(f)f.focus({preventScroll:true})},700);
+}
+async function step(){
+  var b=queue[qi];busy=false;
+  bar.style.width=Math.min(100,qi/queue.length*100)+"%";
+  if(b.br&&qi>0){fade.classList.add("on");await wait(1300);lines.innerHTML="";mood(b.m);fade.classList.remove("on");await wait(500)}
+  else mood(b.m);
+  if(b.t==="end"){showEnd();return}
+  if(b.t==="choice"){showChoice(b);return}
+  var d=render(b);
+  await wait(d);
+  busy=true;showContinue();
+}
+async function advance(){
+  if(!busy)return;busy=false;
+  cta.innerHTML="";
+  var cur=lines.firstChild;if(cur){cur.style.transition="opacity .6s";cur.style.opacity=0}
+  await wait(650);
+  qi++;step();
+}
+document.addEventListener("keydown",function(e){
+  if(e.key!=="Enter"&&e.key!==" "&&e.key!=="ArrowRight")return;
+  if(e.target&&e.target.closest&&e.target.closest(".btn"))return;
+  var c=document.getElementById("cont");
+  if(c&&busy){e.preventDefault();advance()}
+});
+document.getElementById("stage").addEventListener("click",function(e){
+  if(e.target.closest&&e.target.closest(".btn"))return;
+  if(document.getElementById("cont")&&busy)advance();
+});
+
+/* embers */
+(function(){
+  var cv=document.getElementById("embers"),cx=cv.getContext("2d"),P=[],W,H;
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  size();addEventListener("resize",size);
+  var n=reduce?0:38;
+  for(var k=0;k<n;k++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.4,s:Math.random()*.25+.08,o:Math.random()*.5+.15,d:Math.random()*6});
+  var t=0;
+  function loop(){
+    t+=.01;cx.clearRect(0,0,W,H);
+    var warm=document.body.classList.contains("warm");
+    P.forEach(function(p){
+      p.y-=p.s;p.x+=Math.sin(t+p.d)*.25;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);
+      cx.fillStyle=(warm?"rgba(224,164,88,":"rgba(194,80,70,")+(p.o*(.6+.4*Math.sin(t*3+p.d)))+")";cx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  if(n)loop();
+})();
+
+setTimeout(function(){fade.classList.remove("on");setTimeout(step,900)},300);
+})();
+</script>
+</body>
+</html>

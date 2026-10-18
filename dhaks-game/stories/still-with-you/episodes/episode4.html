@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Still With You — Episode 04: The Ones Who Came Back</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#fbf6ed;
+  --parchment:#ecdcc8;
+  --rose:#c58595;
+  --amber:#f0b46a;
+  --peach:#e39572;
+  --navy:#0a1222;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--navy);color:var(--ivory);-webkit-tap-highlight-color:transparent;user-select:none}
+
+/* ---------- Dreamy Sky Palette Backgrounds ---------- */
+.bg{position:fixed;inset:0;opacity:0;transition:opacity 1.4s ease}
+.bg.on{opacity:1}
+.dawn{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%,rgba(227,149,114,.45),transparent 70%),
+    linear-gradient(180deg,#142038 0%,#24375e 35%,#66506e 70%,#d28e75 100%);
+}
+.hall{
+  background:
+    radial-gradient(circle at 75% 30%,rgba(240,180,106,.22),transparent 50%),
+    linear-gradient(180deg,#111930 0%,#1e294b 45%,#3f3552 80%,#261c30 100%);
+}
+.class{
+  background:
+    radial-gradient(ellipse 65% 55% at 20% 35%,rgba(240,180,106,.28),transparent 65%),
+    linear-gradient(180deg,#131e38 0%,#283556 50%,#5e4f66 85%,#302232 100%);
+}
+.yard{
+  background:
+    radial-gradient(circle at 50% 15%,rgba(251,246,237,.2),transparent 45%),
+    radial-gradient(ellipse 90% 45% at 50% 100%,rgba(227,149,114,.4),transparent 75%),
+    linear-gradient(180deg,#192748 0%,#374b73 40%,#7d5b6e 75%,#c4967a 100%);
+}
+.gold{
+  background:
+    radial-gradient(ellipse 75% 55% at 65% 65%,rgba(240,180,106,.52),transparent 70%),
+    linear-gradient(180deg,#152037 0%,#353655 40%,#82495b 70%,#d9855b 95%);
+}
+.dusk{
+  background:
+    radial-gradient(ellipse 85% 45% at 50% 100%,rgba(227,149,114,.32),transparent 75%),
+    linear-gradient(180deg,#0a1120 0%,#141d34 40%,#32263d 72%,#6a3c4b 92%,#1d111f 100%);
+}
+
+.veil{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(7,11,22,.65));z-index:3}
+#rain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 2.5s;z-index:4}
+#dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:calc(16px + env(safe-area-inset-top,0px)) 24px 0;z-index:25;font:300 11px var(--sans);letter-spacing:.22em;text-transform:uppercase}
+nav a{color:var(--ivory);opacity:.5;text-decoration:none;padding:6px 2px;transition:opacity .3s}
+nav a:hover,nav a:focus-visible{opacity:1}
+
+#story,#title,#end{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 32px;pointer-events:none;z-index:10}
+
+#story .in{
+  max-width:38rem;
+  font:400 clamp(1.4rem,3.3vw,1.92rem)/1.65 var(--serif);
+  opacity:0;
+  transform:translateY(14px);
+  filter:blur(4px);
+  transition:opacity .8s ease,transform .8s ease,filter .8s ease;
+  text-shadow:0 2px 20px rgba(4,7,16,.75);
+}
+#story .in.show{opacity:1;transform:translateY(0);filter:blur(0)}
+
+.sp{display:block;font:400 12px var(--sans);letter-spacing:.28em;color:var(--amber);margin-bottom:1rem;text-transform:uppercase}
+.d{font-style:italic;color:var(--ivory)}
+
+#title,#end{opacity:0;transition:opacity 1.8s ease}
+#title.show,#end.show{opacity:1}
+#end{pointer-events:none}
+#end a{pointer-events:auto;color:var(--ivory);font:400 12px var(--sans);letter-spacing:.22em;text-decoration:none;opacity:.75;margin:26px 14px 0;display:inline-block;border-bottom:1px solid rgba(240,180,106,.5);padding-bottom:4px;transition:opacity .3s,color .3s}
+#end a:hover{opacity:1;color:var(--amber)}
+
+.t1{font:300 12px var(--sans);letter-spacing:.36em;color:var(--rose);text-transform:uppercase}
+h1{font:400 clamp(2.4rem,8vw,4.6rem)/1.08 var(--serif);margin:18px 0 12px;letter-spacing:.06em;text-transform:uppercase}
+.t2{font:italic 400 1.25rem var(--serif);color:var(--amber);margin-top:6px}
+.t3{font:italic 300 1.1rem var(--serif);color:var(--parchment);opacity:.85;margin-top:32px;max-width:32ch}
+
+/* ---------- Character Reveal Card ---------- */
+#intro{position:fixed;inset:0;z-index:15;opacity:0;pointer-events:none;transition:opacity 1.1s ease}
+#intro.show{opacity:1}
+.fig{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.fig img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.fig::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2}
+
+.L .fig::after{
+  background:linear-gradient(to right,transparent 0%,transparent 32%,rgba(10,18,34,.35) 52%,rgba(10,18,34,.85) 76%,var(--navy) 100%);
+}
+.R .fig::after{
+  background:linear-gradient(to left,transparent 0%,transparent 32%,rgba(10,18,34,.35) 52%,rgba(10,18,34,.85) 76%,var(--navy) 100%);
+}
+
+.itext{position:absolute;top:50%;transform:translateY(-50%);width:46%;padding:0 5%;z-index:3}
+.L .itext{right:0}
+.R .itext{left:0}
+
+.nm{font:400 clamp(2rem,4.8vw,3.2rem)/1 var(--serif);letter-spacing:.12em;text-transform:uppercase;color:var(--ivory)}
+.ti{font:400 11px var(--sans);letter-spacing:.26em;color:var(--amber);margin:10px 0 24px;text-transform:uppercase}
+.ln{
+  font:400 clamp(1.1rem,2.1vw,1.42rem)/1.6 var(--serif);
+  margin-bottom:.8rem;
+  opacity:0;
+  transform:translateY(12px);
+  filter:blur(3px);
+  transition:opacity .65s ease,transform .65s ease,filter .65s ease;
+  color:var(--parchment);
+}
+.ln.show{opacity:1;transform:translateY(0);filter:blur(0)}
+
+#hint{
+  position:fixed;
+  bottom:calc(24px + env(safe-area-inset-bottom,0px));
+  left:0;right:0;
+  text-align:center;
+  font:400 10px var(--sans);
+  letter-spacing:.32em;
+  opacity:.45;
+  color:var(--amber);
+  animation:pulse 3.6s ease-in-out infinite;
+  pointer-events:none;
+  text-transform:uppercase;
+  z-index:20;
+}
+@keyframes pulse{50%{opacity:.15}}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="bg" id="b0"></div><div class="bg" id="b1"></div>
+<canvas id="dust"></canvas>
+<canvas id="rain"></canvas>
+<div class="veil"></div>
+
+<nav>
+  <a href="../chapters.html">← Episodes</a>
+  <a href="../../../index.html#library">Library</a>
+</nav>
+
+<div id="title" class="show">
+  <div class="t1">Still With You · Season One</div>
+  <h1>The Ones Who Came Back</h1>
+  <div class="t2">Episode 04</div>
+  <div class="t3">“Some people return carrying things they never told you.”</div>
+</div>
+
+<div id="intro">
+  <div class="fig"><img id="iimg" alt=""></div>
+  <div class="itext">
+    <div class="nm" id="inm"></div>
+    <div class="ti" id="iti"></div>
+    <div id="ils"></div>
+  </div>
+</div>
+
+<div id="story"><div class="in" id="txt"></div></div>
+
+<div id="end">
+  <div class="t1">End of Episode 04</div>
+  <h1>The Ones Who Came Back</h1>
+  <div>
+    <a href="episode5.html">Next Episode →</a>
+    <a href="../chapters.html">Episodes</a>
+    <a href="../../../index.html#library">Library</a>
+  </div>
+</div>
+
+<div id="hint">Tap to Continue</div>
+
+<script>
+(function(){
+var SP=/^(Celine|Meher|Ayeesha|Sunny|Mingyu|Yerin|Minho|Hyunjin|Thoufiq|Ken|Granny|Aalim|Father|Mother):\s*(.*)$/;
+var S=[
+"@bg=dawn",
+"While Minho remained in Boston keeping watch by Hyunjin's bedside, the city back home slipped into quiet, cold routine.",
+"In Room 11-B, the silence beside Meher's desk felt heavier with every passing bell.",
+"Then, on a rainy Tuesday evening, an ambulance siren tore through the quiet roads near the school crossing.",
+"Ms. Ayeesha was struck by a speeding vehicle at the pedestrian crossing, suffering fractures and deep contusions.",
+"She lay in the district emergency ward without a single relative to sign the medical registers.",
+"Having cut every tie with her abusive father years ago, she had lived entirely alone.",
+"When Meher's father arrived at the hospital ward and saw her lying solitary beneath the sterile lights, his strict posture softened into paternal grace.",
+
+"Father: A young teacher who guides our children with such pure honor cannot be left to heal in an empty room.",
+"Ayeesha: Uncle, please... you have already given me so much respect. I cannot burden your household.",
+"Father: It is not a burden, Miss Ayeesha. It is our duty before God. You are coming home with us until your arm heals.",
+
+"@bg=hall",
+"Meher and her mother prepared the quiet corner room with hand-embroidered quilts and brass incense burners.",
+"Ayeesha, who had spent her entire youth dodging cruel blows from her own father, wept quietly into her pillow that first night.",
+"For the first time in her life, she had a roof over her head that felt like sanctuary.",
+
+"The next evening, Ayeesha sat propped on the divan in the courtyard, her fractured arm resting in a sling.",
+"Aalim entered carrying a silver bowl of steaming broth and medicinal herbs prepared by his mother.",
+"He looked completely out of his formal lawyer element—wearing comfortable cotton trousers and rolling his sleeves up.",
+"Aalim: You haven't taken your pain medicine.",
+"Ayeesha looked up with that familiar, faint teasing glint in her eyes despite her bruises.",
+"Ayeesha: And is the terrifying elder brother now my attending physician?",
+"Aalim's ears flushed pink. He cleared his throat, carefully setting the bowl on the low wooden stool beside her.",
+"Aalim: If you don't take it, Ammi will make me drink the bitter decoction to prove it's harmless. Spare me the punishment, please.",
+"Ayeesha laughed softly, taking the spoon with her uninjured hand.",
+"Ayeesha: Sit down, Aalim. You look like you're standing before a magistrate.",
+"Aalim hesitated, then pulled up a low wicker chair, watching her eat with quiet, guarded gentleness.",
+"Aalim: Does... does the shoulder hurt when you breathe?",
+"Ayeesha paused, touched by the genuine anxiety in his deep voice.",
+"Ayeesha: Only when I laugh at your serious face.",
+"Aalim looked down at his shoes, a reluctant, tender smile curving his lips before he quickly wiped it away.",
+
+"@bg=class",
+"Two days later, hesitant knocks echoed against the heavy front door.",
+"Sunny, Yerin, and Mingyu stood on the porch in tailored coats, holding fruit baskets and imported flowers.",
+"Yerin: Is... is Ms. Ayeesha staying here?",
+"Meher opened the door with a warm, welcoming smile.",
+"From the hallway, Meher's mother bustled over in her embroidered dupatta, ushering them inside.",
+"Mother: Arrey, come in, come in! Don't stand out in that freezing wind!",
+"The three stepped into the courtyard, mesmerized by the intoxicating aromas filling the air.",
+"The house smelled of slow-simmered dum pukht mutton, melting off the bone in rich marrow juices and roasted cumin.",
+"Golden saffron biryani was resting on the stove, layered with sweet fried onions, fresh mint, and whole black cardamom.",
+"Beside it simmered bowls of thick, velvety nihari fragrant with fennel and ginger, accompanied by hot, fluffy tandoori sheermal.",
+
+"@bg=class",
+"In the dining room, Meher's mother set down steaming porcelain bowls before them.",
+"Mother: Eat, sweet children. You look so pale. In this house, nobody leaves without a full stomach.",
+"She set a wide, ornate bowl of warm badam-pista kheer directly before Yerin.",
+"Slow-cooked for hours with full-cream milk, crushed green cardamom, and golden toasted saffron strands, it glistened like liquid silk.",
+"Yerin, raised on cold formal catering in empty penthouses, took a slow, hesitant spoonful.",
+"Her dark eyes widened in pure, childlike astonishment.",
+"Yerin: This... this is the most delicious thing I have ever tasted in my entire life.",
+"Meher's mother smiled tenderly, smoothing down Yerin's hair.",
+"Mother: Then you must visit every week, darling. I will make a whole pot just for you.",
+"Sunny was grinning, asking Meher's father about the spices in the dough, while Mingyu quietly ate every bite of sweet saffron rice.",
+"For the very first time, the three wealthy, lonely heirs saw what an affectionate home felt like.",
+
+"@bg=yard",
+"A week later, Yerin, Sunny, and Mingyu boarded an international flight to Boston to join Minho before Hyunjin's surgery.",
+"Massachusetts General Hospital was draped in crisp New England gold.",
+"Hyunjin sat propped in bed in a pale hospital gown, an oxygen cannula resting beneath his nose.",
+"Beside him sat Granny, stroking his thin fingers with patient devotion, while Minho watched from the frosted window.",
+"When the door clicked open and Yerin stepped through, Hyunjin's breath hitched.",
+"A deep, flustered flush rushed up to his ears.",
+"Hyunjin: Yerin... you actually flew all the way across the ocean?",
+"Yerin dropped her handbag onto the chair and crossed the room, wrapping her arms tightly around his neck.",
+"She held him like she was terrified that letting go would allow the monitors to stop.",
+"Yerin: Did you think I would let you go into that operating theater alone, you idiot?",
+"Hyunjin rested his cheek against her shoulder, his arms slowly rising to circle her waist.",
+"Hyunjin: The doctors said the anesthesia is strong, love. What if I wake up and my brand-new heart forgets everything?",
+"Yerin pulled back slightly, tears welling in her eyes, her lips trembling with raw, aching emotion.",
+"Yerin: Don't you dare joke about that, Hyunjin.",
+"Hyunjin: I'm serious... what if I wake up and don't remember who you are?",
+"Yerin: If you're going to forget how much you love me... then make sure you forget this too.",
+"She leaned forward and pressed her lips to his.",
+"A long, breathless, lingering kiss that tasted of hospital salt, terror, and eight years of unspoken devotion.",
+"Hyunjin froze for a heartbeat before his slender fingers tangled into her hair, kissing her back with every ounce of life in his frail chest.",
+"When they parted, their foreheads rested together, both of them breathing in uneven, beautiful rhythm.",
+"Hyunjin smiled softly against her lips.",
+"Hyunjin: I could live ten lifetimes... and I would never forget that.",
+"An hour later, the surgical team scrubbed in, and Hyunjin was wheeled into the operating theater with Yerin holding his hand until the double doors swung shut.",
+"Six grueling hours later, the surgeon stepped into the hall with a tired smile—the donor heart had taken. Hyunjin was safe.",
+
+"@bg=hall",
+"Weeks passed, and winter settled in as the group returned home together.",
+"Ms. Ayeesha returned to 11-B with her arm healing nicely.",
+"Minho walked back into the classroom, his dark eyes instantly finding Meher in the third row.",
+"Meher's face lit up with a quiet, breathtaking relief that she didn't try to hide.",
+"And beside them, Hyunjin and Yerin walked into class holding hands in plain sight—unapologetic, radiant, their love no longer hidden in the shadows.",
+"It felt like peace had finally found their room.",
+"And then, the classroom door creaked open.",
+"A boy stepped through the doorway wearing a battered leather jacket over a half-buttoned shirt.",
+"Split lip. Dark scuffs along his sharp jawline. Hollow, unreadable eyes.",
+"Ken.",
+"Known across the city's underground backstreets as Phoenix—a merciless fighter whose bare knuckles were feared by every gang in the north campus.",
+
+"!ken|L|17 • KEN (PHOENIX) · THE EXILED BROTHER|Former sixth member of the F5.|Notorious across the underground rings as Phoenix.|He carried horrific scars from childhood, choosing to let his brothers hate him rather than reveal how broken he was.",
+
+"Mingyu bolted from his seat the second Ken entered the aisle.",
+"Mingyu: What the hell are you doing back here?!",
+"Ken didn't speak. He stood with his hands resting in his leather pockets, silent as stone.",
+"Mingyu lunged forward, slamming Ken violently into the metal lockers.",
+"*BANG!*",
+"Mingyu's fist drove hard into Ken's ribs, followed by a vicious hook across his jaw.",
+"Ken's head snapped to the side, blood dripping fresh down his collar.",
+"Yet Phoenix—the street legend who could shatter bones—did not lift a single finger.",
+"He took every blow in absolute, unyielding silence.",
+"At the front of the room, Sunny gripped his desk until his knuckles turned chalk-white, tears pouring silently down his face.",
+"Mingyu shoved Ken back with disgust.",
+"Mingyu: If you ever walk near Sunny again, I swear to God I'll end you.",
+"Ken wiped the crimson from his chin with his sleeve, walked to the far corner desk, and stared out the window without a word.",
+
+"@bg=yard",
+"During lunch, Meher and Celine walked past the chain-link fence behind the gym.",
+"They stopped.",
+"Sitting in the dirt by the shed was Ken, his stomach empty, shivering in the cold wind.",
+"In his lap curled a tiny, shivering grey kitten covered in mud.",
+"Ken was gently tearing bits of bread, soaking them in warm milk from a carton, and feeding the kitten with bruised, bleeding hands.",
+"His eyes were not cold.",
+"They were shattered, lonely, and profoundly tender.",
+"Meher: A boy who hates the world doesn't feed an abandoned kitten with bleeding hands, Celine.",
+
+"@bg=class;rain=1",
+"That afternoon, cold rain battered the courtyard glass.",
+"Mingyu had cornered Ken again near the rear staircase, shoving him against the brick wall.",
+"Ms. Ayeesha arrived just in time, her sharp voice echoing down the corridor.",
+"Ayeesha: Mingyu! Back away right now!",
+"Mingyu clicked his tongue, glaring murder at Ken before storming off down the hall.",
+"Ayeesha turned to Ken, whose eyebrow was bleeding freely.",
+"She knew him only as Ken, a troubled student—she had no idea he was the infamous underground fighter known as Phoenix.",
+"Ayeesha: Come into the faculty office, Ken. Let me clean your wounds.",
+
+"@bg=class",
+"In the quiet office, Ayeesha dabbed an antiseptic pad against Ken's temple.",
+"Ken sat rigid, flinching away from the touch.",
+"Ayeesha: You didn't fight back. You just took every punch. Why?",
+"Ken clenched his fists until his knuckles turned purple.",
+"Ken: Because I deserve every single blow, ma'am.",
+"Ayeesha paused, setting the tweezers down, looking into his eyes with deep, perceptive sorrow.",
+"Ayeesha: No child deserves to be beaten, Ken. Who hurt you before you met them?",
+"Ken's shoulders shook, the wall he had held for years collapsing into dust.",
+"Ken: My father... had an affair with a colleague when I was twelve. That man came into my room while my mother was dying in the hospital. He abused me, ma'am. He told me I was filthy.",
+"Ayeesha gasped softly, tears filling her eyes as she recognized the agony of abuse.",
+"Ken's voice cracked, sobs tearing from his throat.",
+"Ken: Two years ago... I got drunk at the dorm with Sunny. We were close. We kissed. The intimacy... it was completely mutual, ma'am! But I blacked out... I woke up the next morning and forgot everything.",
+"Ayeesha listened in stunned silence, her heart breaking for him.",
+"Ayeesha: Ken... did you ever tell Sunny this?",
+"Ken shook his head violently, tears streaming down his bruised cheeks.",
+"Ken: I couldn't! When I looked at him that morning, he looked terrified of me! I thought... I thought I had become the same monster who ruined me. I thought I assaulted my best friend!",
+
+"The office door pushed open.",
+"Sunny stood in the doorway, trembling, having followed them down the hall.",
+"He had heard everything.",
+"Ken froze, staring at Sunny with raw, agonizing shame.",
+"Ken: Sunny...",
+"Sunny cried out, tears spilling like an open dam, and sprinted across the room.",
+"He collided into Ken, wrapping his arms fiercely around Ken's neck, weeping uncontrollably.",
+"Sunny: Ken! You idiot! You absolute idiot! You never assaulted me!",
+"Ken's body stiffened in shock.",
+"Sunny buried his face in Ken's shoulder, his voice breaking with two years of buried torment.",
+"Sunny: I wasn't scared of you! I was terrified because I loved you! I had loved you for years, and when it happened, I felt so insecure and panicked that I broke down!",
+"Ken's breath hitched, his wide eyes welling with tears.",
+"Sunny: The guys saw me crying and assumed you attacked me... and you just vanished! I missed you every single day, Ken! Every single second!",
+"Ken slowly lifted his bruised arms, wrapping them tightly around Sunny, burying his face in his neck, sobbing like a lost child.",
+"Outside in the corridor, Mingyu leaned against the wall, listening through the crack of the door.",
+"He covered his face with his hands, tears of bitter regret soaking through his fingers.",
+"Their brother had never betrayed them.",
+"He had been bleeding in the dark the entire time.",
+
+"@bg=dusk",
+"Winter deepened over the city, and the six brothers were finally whole again.",
+"Then, a dark crisis struck 11-B.",
+"Celine sat at her desk with bloodless lips, staring at her phone screen with trembling hands.",
+"A predatory senior athlete had illegally obtained private photos of Celine, demanding she meet him behind the rusted shed after hours or he would leak them across every school forum.",
+"When Thoufiq discovered the message, his easygoing charisma vanished into lethal fury.",
+"Thoufiq didn't tell his father. He didn't tell the teachers.",
+"He walked into the stormy darkness behind the stadium alone.",
+
+"@bg=dusk;rain=1",
+"The rain poured in violent sheets against the corrugated tin shed.",
+"A brutal struggle in the mud. A glint of steel. The senior pulled a switchblade.",
+"Thoufiq lunged forward to disarm him—and in the blind chaos of the grapple, the knife twisted.",
+"*Squelch.*",
+"The senior collapsed face-first into the red mud, his pulse fading into zero.",
+"Thoufiq fell to his knees, staring at his blood-soaked palms, hyperventilating in sheer horror.",
+"Minho, Mingyu, and Ken reached the shed minutes later.",
+"Minho took in the scene: Thoufiq in the mud, Meher's family honor, their faith, the brutal court trial that would break their home forever.",
+"Then he thought of his own billionaire father—a man with high-court judges and politicians on private retainer.",
+"Minho: Thoufiq. Stand up.",
+"Thoufiq: Minho... I killed him... what did I do...",
+"Minho took the bloody switchblade into his own bare hands, pressing his fingers firmly around the hilt.",
+"Minho: Go home. Wash the rain off. You were never here.",
+"Mingyu: Minho! Are you out of your mind?!",
+"Minho: Thoufiq's family won't survive this trial, Mingyu. Mine can bury it. Ken, get him out through the east fence.",
+"Within three hours, Minho's father's legal team had sealed the precinct reports as unprovoked self-defense.",
+"And within five hours, Minho was escorted to a private runway in the dead of night, struck across the face by his furious father, and exiled to Paris.",
+
+"@bg=dusk;rain=1",
+"At two in the morning, a black car pulled up outside Meher's darkened street.",
+"Meher rushed down the steps into the drizzle, clutching a woolen shawl.",
+"Minho stepped out into the rain, his coat collar pulled high, a dark bruise along his jaw.",
+"Meher gripped his wet lapels, her tears mixing with the rain on her cheeks.",
+"Meher: Minho... what did you do? Thoufiq came home covered in blood... why did you take the blame?!",
+"Minho lifted his hand, his thumb gently catching a falling tear on her cheek.",
+"His touch was so tender, so heartbreakingly reverent, that Meher's breath hitched in her chest.",
+"Minho: Because the people beside you are worth saving.",
+"Meher sobbed, burying her forehead against his chest.",
+"Meher: Don't go... please, Minho, don't leave me here.",
+"Minho held her for one stolen, sacred second in the rain, resting his chin lightly against the top of her head.",
+"He pulled a silver pendant from his pocket—a delicate compass on a fine chain—and pressed it into her trembling palm.",
+"Minho: Keep our seat safe in the third row. I will come back for you. I promise.",
+"The car door clicked shut.",
+"Minho stepped into the shadows without looking back, knowing if he looked at her again, he would never have the strength to leave.",
+
+"Some people return carrying things they never told you.",
+"And some people leave, carrying the sins of everyone they love.",
+"Across an ocean in Boston, a boy held the hand of the girl who gave him his first kiss.",
+"In a dark room, another boy held a brother he had finally forgiven.",
+"And beneath the streetlamp in the rain, a girl clutched a silver compass to her chest, praying for the boy who took the fall for her world.",
+
+"!end"
+];
+
+/* ---------- Engine Code ---------- */
+var B=[],pend={},cur,k,m,parts;
+S.forEach(function(s){
+  if(s[0]==='@'){s.slice(1).split(';').forEach(function(p){var a=p.split('=');pend[a[0]]=a[1]});return}
+  var b={};for(k in pend)b[k]=pend[k];pend={};
+  if(s==='!end'){b.t='end';B.push(b);return}
+  if(s[0]==='!'){
+    parts=s.slice(1).split('|');
+    for(var i=3;i<parts.length;i++){
+      var c={t:'i',id:parts[0],side:parts[1],ti:parts[2],n:i-3,lines:parts.slice(3)};
+      if(i===3){for(k in b)c[k]=b[k]}
+      B.push(c);
+    }
+    return;
+  }
+  m=s.match(SP);
+  if(m){b.t='s';b.sp=m[1];b.x=m[2]}else{b.t='s';b.x=s}
+  B.push(b);
+});
+
+var idx=-1,lock=false,bgi=0,swapTimer;
+var $=function(i){return document.getElementById(i)};
+var txt=$('txt'),intro=$('intro'),hint=$('hint');
+
+function setBg(n){
+  var next=$('b'+(1-bgi)),prev=$('b'+bgi);
+  next.className='bg '+n+' on';prev.className='bg '+prev.className.split(' ')[1];
+  bgi=1-bgi;
+}
+setBg('dawn');
+
+/* ---------- Atmosphere Particles (Sun Dust & Motes) ---------- */
+var cvDust=$('dust'), cxDust=cvDust.getContext('2d'), dW, dH, motes=[];
+function sizeDust(){
+  var dpr=Math.min(devicePixelRatio||1,2);
+  dW=cvDust.width=innerWidth*dpr;
+  dH=cvDust.height=innerHeight*dpr;
+  motes=[];
+  var count=Math.round(Math.min(75, innerWidth/12));
+  for(var i=0;i<count;i++){
+    motes.push({
+      x:Math.random()*dW,
+      y:Math.random()*dH,
+      r:(0.6+Math.random()*1.8)*dpr,
+      vx:(Math.random()*.12+.02)*dpr,
+      vy:(Math.random()-.55)*.12*dpr,
+      a:Math.random()*6.28,
+      s:.003+Math.random()*.007,
+      glow:Math.random()<.25,
+      o:.18+Math.random()*.45
+    });
+  }
+}
+addEventListener('resize',sizeDust);
+sizeDust();
+
+function frameDust(){
+  cxDust.clearRect(0,0,dW,dH);
+  for(var i=0;i<motes.length;i++){
+    var p=motes[i];
+    p.a+=p.s;
+    p.x+=p.vx+Math.sin(p.a)*.18;
+    p.y+=p.vy+Math.cos(p.a*.8)*.12;
+    if(p.x>dW+10) p.x=-10;
+    if(p.y<-10) p.y=dH+10;
+    if(p.y>dH+10) p.y=-10;
+
+    var tw=.5+.5*Math.sin(p.a*2.2);
+    var alpha=p.o*tw;
+    if(p.glow){
+      var g=cxDust.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);
+      g.addColorStop(0,'rgba(240,180,106,'+alpha*.8+')');
+      g.addColorStop(1,'rgba(227,149,114,0)');
+      cxDust.fillStyle=g;
+      cxDust.beginPath();cxDust.arc(p.x,p.y,p.r*5,0,6.283);cxDust.fill();
+    } else {
+      cxDust.fillStyle='rgba(251,246,237,'+alpha+')';
+      cxDust.beginPath();cxDust.arc(p.x,p.y,p.r,0,6.283);cxDust.fill();
+    }
+  }
+  requestAnimationFrame(frameDust);
+}
+requestAnimationFrame(frameDust);
+
+/* ---------- Rain: Soft ambient drizzle ---------- */
+var cv=$('rain'),cx=cv.getContext('2d'),W,H,drops=[],raining=false,running=false;
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+size();addEventListener('resize',size);
+for(var d=0;d<75;d++)drops.push({x:Math.random(),y:Math.random(),l:10+Math.random()*14,v:.6+Math.random()*.7});
+function frame(){
+  if(!raining&&cv.style.opacity==='0'){running=false;return}
+  cx.clearRect(0,0,W,H);cx.strokeStyle='rgba(230,238,250,.22)';cx.lineWidth=1;cx.beginPath();
+  drops.forEach(function(p){
+    var x=p.x*W,y=p.y*H;
+    cx.moveTo(x,y);cx.lineTo(x-p.l*.14,y+p.l);
+    p.y+=p.v*.006;p.x-=p.v*.0006;
+    if(p.y>1.05){p.y=-.05;p.x=Math.random()*1.1}
+    if(p.x<-.05)p.x=1.05;
+  });
+  cx.stroke();requestAnimationFrame(frame);
+}
+function setRain(on){
+  raining=on;cv.style.opacity=on?1:0;
+  if(on&&!running){running=true;requestAnimationFrame(frame)}
+  if(!on)setTimeout(function(){if(!raining){running=false;cx.clearRect(0,0,W,H)}},2600);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function showText(b){
+  clearTimeout(swapTimer);
+  txt.classList.remove('show');
+  swapTimer=setTimeout(function(){
+    txt.innerHTML=(b.sp?'<span class="sp">'+b.sp.toUpperCase()+'</span>':'')+(b.sp?'<span class="d">“'+esc(b.x)+'”</span>':esc(b.x));
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        txt.classList.add('show');
+      });
+    });
+  },500);
+}
+
+var introId=null;
+var introTimers=[];
+function showIntro(b){
+  var first=introId!==b.id;
+  introTimers.forEach(clearTimeout);
+  introTimers=[];
+
+  if(first){
+    introId=b.id;
+    var img=$('iimg');
+    img.style.display='';
+    img.onerror=function(){img.style.display='none'};
+    img.src='../assets/'+b.id+'.png';
+
+    intro.className=b.side;
+    $('inm').textContent=b.id.toUpperCase();
+    $('iti').textContent=b.ti;
+    $('ils').innerHTML=b.lines.map(function(l){
+      return '<div class="ln">'+esc(l)+'</div>';
+    }).join('');
+
+    requestAnimationFrame(function(){
+      intro.classList.add('show');
+    });
+  }
+
+  var ls=$('ils').children;
+  for(var i=0;i<=b.n;i++){
+    (function(e,i){
+      var timer=setTimeout(function(){
+        e.classList.add('show');
+      }, first ? i*130 : 70);
+      introTimers.push(timer);
+    })(ls[i],i);
+  }
+}
+function hideIntro(){
+  introTimers.forEach(clearTimeout);
+  introTimers=[];
+  intro.classList.remove('show');
+  introId=null;
+}
+function go(){
+  idx++;var b=B[idx];if(!b)return;
+  if(b.bg)setBg(b.bg);
+  if(b.rain!==undefined)setRain(b.rain==='1');
+  if(b.t==='i'){showIntro(b)}
+  else{
+    if(introId)hideIntro();
+    if(b.t==='end'){txt.classList.remove('show');$('end').classList.add('show');hint.style.display='none';return}
+    showText(b);
+  }
+  var nx=B[idx+1];
+  hint.textContent=(b.t==='i'&&nx&&nx.t!=='i')?'CONTINUE':'TAP TO CONTINUE';
+}
+function advance(){
+  if(lock||(B[idx]&&B[idx].t==='end'))return;
+  lock=true;
+  setTimeout(function(){lock=false},320);
+  if(idx===-1){$('title').classList.remove('show')}
+  go();
+}
+document.addEventListener('click',function(e){if(e.target.closest('a'))return;advance()});
+document.addEventListener('keydown',function(e){
+  if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){e.preventDefault();advance()}
+});
+})();
+</script>
+</body>
+</html>

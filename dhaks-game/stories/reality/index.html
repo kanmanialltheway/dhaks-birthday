@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>REALITY — The Last World</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600&family=Italiana&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#08060d;--amber:#e2ba74;--rose:#d46a8a;--glow:rgba(142,92,199,.22);--paper:#f4ecdc;--txt:#ece4d6;
+--serif:"Cormorant Garamond",Georgia,serif;--sans:"DM Sans",system-ui,sans-serif;--hand:"Cormorant Garamond",Georgia,serif;--disp:"Italiana","Playfair Display",Georgia,serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--ink);color:var(--txt);overflow:hidden}
+#bg{position:fixed;inset:0;z-index:0;background:radial-gradient(60% 50% at 20% 25%,var(--glow),transparent 70%),radial-gradient(50% 50% at 80% 75%,rgba(212,106,138,.14),transparent 70%),radial-gradient(40% 40% at 60% 20%,rgba(226,186,116,.07),transparent 70%);background-size:140% 140%;animation:drift 28s ease-in-out infinite alternate}
+@keyframes drift{to{background-position:100% 80%;filter:hue-rotate(12deg)}}
+.fog{position:fixed;left:-30%;width:160%;height:45%;z-index:1;pointer-events:none;background:radial-gradient(50% 50% at 50% 50%,rgba(142,92,199,.10),transparent 70%);animation:fog 40s linear infinite alternate}
+.fog.f1{top:5%}.fog.f2{bottom:0;animation-duration:55s;animation-direction:alternate-reverse}
+@keyframes fog{to{transform:translateX(18%)}}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.12;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+canvas{position:fixed;inset:0;pointer-events:none}
+#stars{z-index:1}#fx{z-index:50}
+.back-library{position:fixed;z-index:60;top:calc(14px + env(safe-area-inset-top));left:calc(16px + env(safe-area-inset-left));font:600 11px var(--sans);letter-spacing:.18em;color:var(--amber);text-decoration:none;opacity:.8;padding:8px 4px}
+.back-library:hover{opacity:1}
+#app{position:fixed;inset:0;z-index:10;overflow-y:auto;display:flex;padding:calc(64px + env(safe-area-inset-top)) calc(22px + env(safe-area-inset-right)) calc(80px + env(safe-area-inset-bottom)) calc(22px + env(safe-area-inset-left));cursor:pointer;-webkit-overflow-scrolling:touch}
+#stage{margin:auto;width:100%;max-width:700px}
+.beat{animation:in .9s ease both;text-align:center}
+@keyframes in{from{opacity:0;transform:translateY(14px)}}
+.beat p{font:400 clamp(1.3rem,3.6vw,1.75rem)/1.6 var(--serif);margin:0 0 1.1em}
+.w{display:inline;opacity:0;filter:blur(5px);animation:w .8s ease forwards}
+@keyframes w{to{opacity:1;filter:none}}
+.instant .w{animation:none;opacity:1;filter:none}
+.title .kick{font:600 11px var(--sans);letter-spacing:.5em;color:var(--amber);margin-bottom:22px}
+.title h1{font:700 clamp(2.4rem,9vw,4.6rem)/1.1 var(--disp);letter-spacing:.14em;margin:0 0 .5em;color:var(--paper);text-shadow:0 0 40px rgba(142,92,199,.6)}
+.title p{font-style:italic;color:var(--amber)}
+.title h2{font:500 clamp(1.8rem,6vw,3rem)/1.2 var(--disp);margin:0 0 .5em;color:var(--paper)}
+.m{text-align:left}
+.line{margin:0 0 1.3em}
+.spk{display:block;font:600 10.5px var(--sans);letter-spacing:.3em;color:var(--rose);margin-bottom:4px}
+.m .line p{margin:0}
+.letter .card{text-align:left;padding:clamp(18px,4vw,34px);border-left:2px solid var(--amber);background:linear-gradient(90deg,rgba(226,186,116,.07),transparent);border-radius:0 6px 6px 0}
+.letter .card p{font-style:italic;font-size:clamp(1.3rem,3.5vw,1.65rem);margin:0 0 1em}.letter .card p:last-child{margin:0}
+.pol{margin:0 auto 26px;width:min(440px,86vw);background:var(--paper);padding:14px 14px 12px;transform:rotate(var(--r,-2deg));box-shadow:0 24px 70px rgba(0,0,0,.7),0 0 60px var(--glow);animation:pol 1.2s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pol{from{opacity:0;transform:translateY(40px) rotate(calc(var(--r,-2deg)*3)) scale(.93)}}
+.pol .fr{aspect-ratio:4/5;background:#1b1426;overflow:hidden;display:flex}
+.pol img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{margin:auto;text-align:center;padding:20px;font:500 12px var(--sans);letter-spacing:.14em;color:#9b8fb3}
+.ph b{display:block;font-size:44px;margin-bottom:10px;filter:grayscale(.3)}
+.pol figcaption{font:500 clamp(1.45rem,5vw,1.9rem)/1.2 var(--hand);color:#3b2a36;text-align:center;padding:12px 4px 2px}
+.ask{font-style:italic;color:var(--amber)}
+.choices{display:grid;gap:14px;margin-top:26px}
+.later{opacity:0;transition:opacity 1s;pointer-events:none}.later.show{opacity:1;pointer-events:auto}
+.choice-btn,.pop,.end-link{font:italic 400 clamp(1.2rem,3.4vw,1.5rem)/1.4 var(--serif);color:var(--paper);background:rgba(20,14,30,.7);border:1px solid rgba(226,186,116,.5);border-radius:10px;padding:16px 20px;cursor:pointer;transition:.25s;backdrop-filter:blur(6px);text-decoration:none;display:inline-block}
+.choice-btn:hover,.choice-btn:focus-visible,.pop:hover{border-color:var(--rose);box-shadow:0 0 30px rgba(212,106,138,.35);transform:translateY(-2px);outline:none}
+.pop{font:600 12px var(--sans);letter-spacing:.3em;padding:18px 34px;color:#1a1020;background:linear-gradient(135deg,var(--amber),var(--rose));border:0;border-radius:40px}
+.sig{font:500 2rem var(--hand);color:var(--amber);margin-top:6px}
+.end-link{font:600 11px var(--sans);letter-spacing:.25em;margin-top:20px}
+#hint{position:fixed;z-index:20;left:0;right:0;bottom:calc(26px + env(safe-area-inset-bottom));text-align:center;font:500 10px var(--sans);letter-spacing:.35em;color:var(--amber);opacity:0;pointer-events:none;transition:opacity .6s}
+#hint.on{opacity:.6;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+#barw{position:fixed;z-index:20;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.05);pointer-events:none}
+#bar{height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--amber));transition:width .6s}
+
+/* Reality-specific cinematic upgrades */
+#bg{background-size:160% 160%;animation:drift 32s ease-in-out infinite alternate}
+#app{align-items:flex-start}
+#stage{max-width:760px;padding:clamp(8px,2vh,24px) 0 34px}
+.beat{width:100%;padding:clamp(8px,2vh,20px) 0;animation:beat-arrive .85s cubic-bezier(.2,.8,.2,1) both}
+@keyframes beat-arrive{from{opacity:0;transform:translateY(18px) scale(.99);filter:blur(2px)}to{opacity:1;transform:translateY(0) scale(1);filter:none}}
+.beat p{max-width:680px;margin:0 auto 1.05em;line-height:1.72}
+.beat p:last-child{margin-bottom:0}
+.m{max-width:680px;margin:0 auto}
+.m .line{padding:clamp(16px,3vw,25px);margin:0 auto 10px;border:1px solid rgba(226,186,116,.13);border-radius:16px;background:linear-gradient(135deg,rgba(142,92,199,.10),rgba(8,6,13,.16));box-shadow:0 14px 40px rgba(0,0,0,.12)}
+.m .line p{font-size:clamp(1.35rem,3.8vw,1.8rem);line-height:1.65}
+.letter .card{padding:clamp(22px,5vw,42px);border-left:2px solid var(--amber);background:linear-gradient(115deg,rgba(142,92,199,.13),rgba(226,186,116,.035) 70%,transparent);box-shadow:0 20px 60px rgba(0,0,0,.12)}
+.letter .card p{font-size:clamp(1.4rem,3.7vw,1.8rem);line-height:1.75}
+.pol{width:min(440px,86vw);margin:0 auto 25px}
+.pair-photos{display:flex;align-items:flex-start;justify-content:center;gap:clamp(12px,3vw,28px);width:100%;margin:4px auto 28px}
+.pair-photos .pol{width:min(350px,42vw);flex:0 1 350px;margin:0}
+.pair-photos .fr {
+    aspect-ratio: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+.pair-photos .fr img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+.pair-photos .pol:nth-child(2){animation-delay:.18s}
+.memory-note{font:500 clamp(1.45rem,5vw,1.9rem)/1.25 var(--hand);color:var(--amber);margin:20px auto 0!important}
+.cameo{position:relative;display:flex;align-items:center;justify-content:center;gap:18px;max-width:520px;min-height:170px;margin:24px auto;padding:15px;border:1px solid rgba(226,186,116,.22);border-radius:18px;overflow:hidden;background:radial-gradient(ellipse at 35% 50%,rgba(142,92,199,.2),transparent 65%),linear-gradient(135deg,rgba(18,11,30,.82),rgba(8,6,13,.48));box-shadow:0 18px 55px rgba(0,0,0,.2);animation:cameo-rise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes cameo-rise{from{opacity:0;transform:translateY(28px) scale(.97);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:none}}
+.cameo-art{flex:0 0 112px;height:148px;border-radius:9px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.45);border:1px solid rgba(226,186,116,.28)}
+.cameo-art img{width:100%;height:100%;object-fit:cover;display:block}
+.cameo-copy{text-align:left;min-width:0}
+.cameo-kicker{font:500 9px var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+.cameo-name{font:400 clamp(1.7rem,4.5vw,2.35rem)/1.05 var(--disp);color:var(--paper);letter-spacing:.015em}
+.cameo-note{font:italic 400 clamp(1.05rem,2.7vw,1.25rem)/1.45 var(--serif);color:rgba(236,228,214,.78);margin-top:10px}
+.music-card{width:min(480px,100%);margin:20px auto 0;padding:17px 20px;border:1px solid rgba(226,186,116,.24);border-radius:16px;background:linear-gradient(135deg,rgba(142,92,199,.13),rgba(8,6,13,.42));text-align:left;box-shadow:0 14px 40px rgba(0,0,0,.18)}
+.music-label{font:500 9px var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+.music-title{font:italic 500 clamp(1.35rem,4vw,1.7rem)/1.15 var(--serif);color:var(--paper);margin-bottom:12px}
+.music-card audio{width:100%;height:34px;accent-color:var(--amber)}
+.music-caption{font:italic 400 1.05rem/1.4 var(--serif);color:rgba(236,228,214,.72);margin:-3px 0 13px}
+.music-toggle{font:500 11px var(--sans);letter-spacing:.12em;color:var(--paper);background:rgba(226,186,116,.09);border:1px solid rgba(226,186,116,.4);border-radius:30px;padding:10px 16px;cursor:pointer;transition:background .25s,border-color .25s}
+.music-toggle:hover{background:rgba(226,186,116,.17);border-color:var(--amber)}
+/* Refined literary typography: softer contrast, generous breathing room */
+.beat p{font-weight:400;letter-spacing:.008em;text-shadow:0 1px 18px rgba(0,0,0,.12)}
+.title h1{font-weight:400;letter-spacing:.12em}
+.title h2{font-weight:400;letter-spacing:.015em}
+.m .line{border-color:rgba(226,186,116,.11);background:linear-gradient(135deg,rgba(142,92,199,.075),rgba(8,6,13,.12));}
+.spk{font-weight:500;letter-spacing:.24em}
+.letter .card{border-left:1px solid rgba(226,186,116,.8);border-radius:0 10px 10px 0;background:linear-gradient(115deg,rgba(142,92,199,.10),rgba(226,186,116,.025) 72%,transparent);}
+.letter .card p{font-weight:400;letter-spacing:.01em;line-height:1.82}
+.choice-btn,.pop,.end-link{letter-spacing:.01em}
+@media(max-width:560px){.cameo{gap:12px;padding:12px;min-height:145px}.cameo-art{flex-basis:96px;height:128px}.cameo-note{font-size:1rem}.music-card{padding:15px}}
+#stars{opacity:.9}
+@media(max-width:560px){
+ .pair-photos{gap:10px}
+ .pair-photos .pol{width:calc(50% - 5px);padding:7px 7px 9px;transform:rotate(var(--r,-1deg))}
+ .pair-photos .fr{aspect-ratio:3/4}
+ .pair-photos .pol figcaption{font-size:clamp(1rem,4vw,1.35rem);padding-top:8px}
+ .cameo{gap:10px;padding:14px;min-height:145px}
+ .cameo-art{flex-basis:82px;height:118px;transform:scale(.85);transform-origin:center}
+ .cameo-copy{flex:1}
+ .cameo-note{font-size:.92rem}
+}
+@media (prefers-reduced-motion:reduce){#bg,.fog,.beat,.pol,.cameo{animation:none}.w{animation:none;opacity:1;filter:none}}
+
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+<div id="bg"></div><div class="fog f1"></div><div class="fog f2"></div>
+<canvas id="stars"></canvas><div class="grain"></div>
+<a href="../../index.html#library" class="back-library">← BACK TO LIBRARY</a>
+<main id="app"><div id="stage"></div></main>
+<div id="hint">TAP · SPACE · →</div><div id="barw"><div id="bar"></div></div>
+<canvas id="fx"></canvas>
+
+<script>
+(function(){
+"use strict";
+var RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+var IMG="assets/";
+
+/* ============ THE STORY ============ */
+var STORY=[
+{t:"title",k:"THE LAST WORLD",x:"REALITY",s:"Some stories are meant to be lived."},
+
+{t:"n",x:["Hey, Dhaks.","You just spent hours wandering through fictional kingdoms, dark alleys, dangerous vows, and high-school corridors.","You trusted people who never existed, and I watched you fall for every single one of them."]},
+{t:"m",l:[["ME","Let’s address a small matter of record."],["ME","You swooned over Christopher Bangchan in Blood Bound."],["ME","And you blushed over Choi Minho in Still With You."],["ME","And who wrote every word? Who gave them life, scripted their dialogue, and played them for you?"],["ME","Hi. It was me. I’m right here. I’d like some credit, please."]]},
+{t:"n",x:["I’d be offended, but honestly, they’re easy to love. They never change. They never run late. They follow the script, every single time.","Reality doesn’t come with a script. It’s messy and unpredictable, and it argues back.","It is also infinitely more valuable. So for this last world, I put the pen down."]},
+
+{t:"title",k:"CHAPTER ONE",x:"Two Kids, One Washbasin"},
+{t:"n",x:["Let’s start at the beginning. The real one.","2nd grade. A school washbasin, near the restroom. Two kids passing each other.","No dramatic music. No slow motion. No idea that anything was happening.","Which, if you think about it, is the most us thing possible. The biggest stories start with nothing at all."]},
+
+{t:"title",k:"CHAPTER TWO",x:"The Enemies Era",s:"9th grade"},
+{t:"n",x:["Years later, we ended up classmates.","And I need you to know that I genuinely hated you. I couldn’t stand you. Not a little. Properly."]},
+{t:"m",l:[["ME","I teased you constantly. It was a full-time job."],["ME","I kicked your leg under the desk. Playfully. Let the record show: playfully."],["ME","And I messed with those rolled, curly rings of hair you tried so, so hard to manage."],["ME","In my defence, you made it very easy."]]},
+{t:"pic",src:"dhaks-school.jpg",cap:"Exhibit A: the curls. I regret nothing.",r:-2.5,x:["There she is. The curls, the effort, the patience I was actively testing."]},
+{t:"n",x:["And then the last bench happened.","You ended up sitting infront of me, sharing notes, and laughing at exactly the moments we were supposed to be dead silent.","We had our secret game with a pen and movie songs, and we played it until the final bell rang.","Somewhere between the notes and the laughing, the hate quietly left the building. I never even saw it go."]},
+
+{t:"title",k:"CHAPTER THREE",x:"Madurai",s:"11th & 12th grade"},
+{t:"n",x:["Then you moved to Madurai.","Most school friendships fade when the distance arrives. They get a few polite messages, then a birthday wish, then silence.","Ours did the opposite. Ours exploded."]},
+{t:"pic",src:"dhaks-madurai.jpg",cap:"Madurai Dhaks. Far away, somehow still next to me.",r:2,x:["Hours on the phone. Every day. Plus texts, day and night, without pause."]},
+{t:"n",x:["School. Crushes. Flirting. Heartbreaks. Life. Fears. Family drama.","And the deepest secrets, the ones we would never dare whisper to anyone else."]},
+{t:"m",l:[["YOU","Jimin. Always Jimin. Not up for debate."],["ME","Jungkook. Obviously. Stand firm."],["ME","And whenever life felt like too much, we plugged in our headphones and dreamed up our own stories."],["YOU","...and now look at where that went."]]},
+
+{t:"title",k:"CHAPTER FOUR",x:"The Girl in the Corridor"},
+{t:"n",x:["Look at the distance between the back bench and where you are now.","Hospital corridors. Clinical rounds. Patient vitals. Trainee nurse shifts."]},
+{t:"pic",src:"dhaks-nurse.jpg",cap:"Trainee nurse. Future lifesaver. Still my Dhaks.",r:-1.5,x:["I know what this costs you."]},
+{t:"n",x:["Your feet ache. Your sleep schedule is destroyed. Your shifts drain you down to nothing, and some days you must be running on whatever tiny bit of energy you have left.","And still, every single day, you make time for me.","You check in. You listen. You talk. You have never once let a day pass without that. I notice it, even when I don’t say it properly.","I hope you know you don’t have to be endlessly strong to make me proud. I hope you get kinder shifts, proper rest, and days when you can just be Dhaks without having to take care of anything or anyone.","Bone-tired, and you still show up. I don’t say this often because we don’t do sugary. But I see it, every day.","I’m so proud of the woman you’re becoming. You’re going to save lives, Dhaks. That is not a small thing to say about someone who used to be hit with a pen under a desk."]},
+
+{t:"title",k:"CHAPTER FIVE",x:"How We Actually Work"},
+{t:"n",x:["Let’s be honest. We do not have a polite, delicate, sugary friendship."]},
+{t:"m",l:[["THE LAW","Leaving a text on read for more than three minutes is high treason."],["ME","“Oh, so you’re too famous for me now? Cool.”"],["THE LAW","Missing a phone call is also high treason. No appeals."],["ME","We are complete opposites. We disagree on choices. We argue over dumb things. We are stubborn to a fault."],["ME","And against all odds, we fit perfectly. I have stopped asking how."]]},
+{t:"n",x:["You have a boyfriend. Good for him. Genuinely.","But let’s make one thing undisputed, legally binding, and not up for review:","I am still your permanent main chick."]},
+{t:"n",x:["Also, we need to discuss your character development. Because once upon a time, Dhaks, you were RUDE. With capital letters.","If anyone from school told me that one day you would be the girl saying, “I’ll pray for you” whenever I cry, I would have asked them to repeat that very slowly.","And yet, here you are. When I’m hurting, you remember me in your prayers. Under all that old attitude, you’ve grown into someone who genuinely wants the people she loves to be okay. That means more to me than I know how to say.","Our old classmates would never believe Dhakshatha is now a full-on Jesus fan. Not one witness would survive that plot twist. 😭✝️ But jokes aside, I’m grateful I get to know this softer, kinder version of you."]},
+
+{t:"title",k:"CHAPTER SIX",x:"The Ocean"},
+{t:"n",x:["In a few years, you’ll move to the United Kingdom to work as a registered nurse.","It won’t be a bus ride to Madurai anymore. It will be ocean crossings, different time zones, and far fewer chances to meet in person.","I’ve thought about that more than I admit. So before the last pages, you get to ask me one thing."]},
+{t:"choice",q:["Dhaks, this one is yours.","What do you want to hear most?"],o:[["Tell me the truth: are you really proud of me?","proud"],["Tell me: what happens to us when oceans are between us?","ocean"]]}
+];
+
+var BRANCH={
+proud:[
+{t:"letter",x:["You asked if I’m really proud of you. First of all, rude. Second, yes.","I’m proud of the girl who sat on the last bench and laughed when she shouldn’t have. I’m proud of the girl who learned to survive a stranger kicking her leg. I’m proud of the girl who moved away and kept holding on.","And I’m proudest of the nurse you’re becoming."]},
+{t:"letter",x:["You’re doing a job where people meet you on their hardest days. You’ll be the calm in somebody’s worst hour, and most of the time nobody will say thank you the way they should.","So let me say it early. On behalf of every patient who will never find the words: thank you.","You do this while exhausted, while your feet hurt, while your sleep is a rumour. And you still call me. I don’t take that lightly."]},
+{t:"letter",x:["I’m not proud because you’re perfect. You’re stubborn, you argue about dumb things, and you’ve made me say “fine, you’re right” through gritted teeth.","I’m proud because you’re real. You work hard, you love hard, and you refuse to quit.","So yes, Dhaks. Truthfully, loudly, annoyingly: I’m proud of you. Put that on a wall somewhere."]}
+],
+ocean:[
+{t:"letter",x:["You asked what happens to us when there’s an ocean between us. Honest answer? It gets harder. I won’t lie to you. Different time zones, fewer visits, fewer chances to just show up.","But I’ve seen what distance does to us, and so have you. When you moved to Madurai, it didn’t break us. It made us louder."]},
+{t:"letter",x:["Chennai to Madurai, or the UK to wherever life takes me, nothing changes about the thing underneath.","We’ll find each other’s clocks. We’ll stay on read for less than three minutes. We’ll argue about dumb things in two time zones and still be opposites who somehow fit.","Distance can change our addresses. It doesn’t get a vote on anything else."]},
+{t:"letter",x:["So here’s the promise, plain and unpoetic: we won’t lose our spark, and we won’t leave each other’s soul.","Best friends. Forever. Not as a birthday-card line. As the rule we already live by.","Go to the UK. Be brilliant. I’ll be right here, being stubborn on the other side of the ocean."]}
+]};
+
+var SHARED=[
+{t:"title",k:"THE ARCHIVE",x:"Two Photographs"},
+{t:"n",x:["You’ve seen your own evolution on this journey: the school curls, the Madurai days, the trainee nurse in scrubs.","But here’s a strange fact. In eight entire years of friendship, we have exactly two photos together.","Two. Not because we don’t care. Because whenever we’re together, we’re too busy living in it. Laughing, eating, arguing. Nobody ever thinks to pose for a phone camera.","So these two are rare. Almost sacred."]},
+{t:"pair",photos:[["us-together-1.jpg","Age 18. We actually stopped moving.",-2],["us-together-2.jpg","Age 21. Evidence we exist in the same place.",2.2]],x:["Two photos in eight years. That’s not a collection. That’s a reason to keep making more, wherever we are."]},
+{t:"n",x:["And one day, there will be a third. And a fourth. Different cities, different chapters, older faces. We’ll keep finding our way into the same frame."]},
+
+{t:"title",k:"THE LETTER",x:"For Dhaks"},
+{t:"letter",x:["Dear Dhaks,","I wrote you kingdoms and mafia dens and school corridors, and none of them were as good as the one you walked into at the last bench in 9th grade."]},
+{t:"letter",x:["I wish you peace. The quiet kind, after a shift, with your feet up and your phone on silent. (Except for me. Obviously.)","I wish you fewer night shifts, kinder days, and a body that gets to rest.","I wish you success that is loud and well deserved, wherever your life takes you."]},
+{t:"letter",x:["My loyalty doesn’t come with conditions. Not when you’re busy, not when you’re tired, not when we argue, not when you take four minutes to reply. (I’ll forgive it. Once.)","You are my permanent main chick. Chennai, Madurai, the UK, wherever. Best friends forever, and I’m not taking questions."]},
+{t:"letter",x:["Some stories are meant to be lived. Ours is one of them. It’s still going, and I still have no idea how it ends.","Happy birthday, Dhaks.","I love you. Don’t you dare leave me on read for this.","— Kanmani"]},
+{t:"popper",x:["Happy Birthday, Dhaks","The story isn’t over. Go on. Pop it."]}
+];
+
+var beats=STORY.slice(),idx=-1,part=0,ready=false,timer=0,lastAt=0,chosen=false,cur=null;
+var app=document.getElementById("app"),stage=document.getElementById("stage"),hint=document.getElementById("hint"),bar=document.getElementById("bar");
+
+/* ============ ENGINE ============ */
+function mk(box,tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)words(e,text);box.appendChild(e);return e}
+function words(el,text){text.split(/\s+/).forEach(function(w){var s=document.createElement("span");s.className="w";s.textContent=w+" ";el.appendChild(s)})}
+function polaroidData(src,cap,r){
+  var f=document.createElement("figure");f.className="pol";f.style.setProperty("--r",r+"deg");
+  var fr=document.createElement("div");fr.className="fr";
+  var im=new Image();im.alt=cap;
+  im.onerror=function(){fr.innerHTML='<div class="ph"><b>📷</b>'+src+'<br>photo goes here</div>'};
+  im.src=IMG+src;fr.appendChild(im);f.appendChild(fr);
+  var c=document.createElement("figcaption");c.textContent=cap;f.appendChild(c);return f
+}
+function cameo(name,note){
+  var el=document.createElement("div");el.className="cameo";
+  var file=name.toLowerCase().indexOf("bangchan")!==-1?"bangchan.jpg":"minho.jpg";
+  el.innerHTML='<div class="cameo-art"><img alt="" loading="lazy"></div><div class="cameo-copy"><div class="cameo-kicker">A little interruption, courtesy of your favourites</div><div class="cameo-name"></div><div class="cameo-note"></div></div>';
+  el.querySelector(".cameo-art img").src=IMG+file;
+  el.querySelector(".cameo-name").textContent=name;el.querySelector(".cameo-note").textContent=note;return el
+}
+var letterAudio=null,letterAudioFade=null;
+function getLetterAudio(){
+  if(!letterAudio){
+    letterAudio=new Audio("assets/uyire-un-uyirena.mpeg");
+    letterAudio.preload="auto";
+    letterAudio.loop=true;
+    letterAudio.volume=0;
+    letterAudio.addEventListener("play",updateMusicButtons);
+    letterAudio.addEventListener("pause",updateMusicButtons);
+    letterAudio.addEventListener("ended",updateMusicButtons);
+  }
+  return letterAudio;
+}
+function updateMusicButtons(){
+  var playing=letterAudio&&!letterAudio.paused;
+  document.querySelectorAll("[data-music-toggle]").forEach(function(btn){
+    btn.textContent=playing?"Ⅱ  Pause the music":"▶  Play the music";
+    btn.setAttribute("aria-pressed",playing?"true":"false");
+  });
+}
+function startLetterMusic(){
+  var audio=getLetterAudio();
+  if(letterAudioFade){clearInterval(letterAudioFade);letterAudioFade=null;}
+  audio.volume=0;
+  var promise=audio.play();
+  if(promise&&promise.then){
+    promise.then(function(){
+      var target=.38,steps=24,count=0;
+      letterAudioFade=setInterval(function(){
+        count++;audio.volume=Math.min(target,target*count/steps);
+        if(count>=steps){clearInterval(letterAudioFade);letterAudioFade=null;}
+      },100);
+      updateMusicButtons();
+    }).catch(function(){updateMusicButtons();});
+  }
+}
+function musicPlayer(){
+  var card=document.createElement("div");card.className="music-card";
+  card.innerHTML='<div class="music-label">A little song for this letter</div><div class="music-title">Uyire Un Uyirena <span style="font-style:normal;font-size:.78em;opacity:.7">· Zero</span></div><div class="music-caption">A little music, just for these words.</div><button type="button" class="music-toggle" data-music-toggle>▶  Play the music</button>';
+  card.addEventListener("click",function(e){e.stopPropagation()});
+  card.querySelector("button").addEventListener("click",function(e){
+    e.stopPropagation();var audio=getLetterAudio();
+    if(audio.paused){startLetterMusic();}else{audio.pause();}
+  });
+  updateMusicButtons();
+  return card
+}
+function itemCount(b){
+  if(b.t==="n"||b.t==="letter"||b.t==="pic"||b.t==="pair")return (b.x||[]).length||1;
+  if(b.t==="m")return (b.l||[]).length||1;
+  return 1;
+}
+function render(b,part){
+  stage.className="";stage.innerHTML="";
+  var box=document.createElement("div");box.className="beat "+b.t;
+  if(b.t==="title"){
+    mk(box,"div","kick",null).textContent=b.k;mk(box,"h1","",b.x);if(b.s)mk(box,"p","",b.s)
+  } else if(b.t==="n"){
+    mk(box,"p","",b.x[part])
+  } else if(b.t==="m"){
+    var l=b.l[part],low=l[1].toLowerCase();
+    if(low.indexOf("christopher bangchan")!==-1)box.appendChild(cameo("Christopher Bangchan","Blood Bound · the man you swooned over."));
+    if(low.indexOf("choi minho")!==-1)box.appendChild(cameo("Choi Minho","Still With You · the one who made you blush."));
+    var d=mk(box,"div","line");mk(d,"span","spk",null).textContent=l[0];mk(d,"p","",l[1])
+  } else if(b.t==="letter"){
+    var c=mk(box,"div","card");var p=mk(c,"p","",b.x[part]);if(b.x[part].charAt(0)==="—")p.className="sig";
+    if(b.x[part].indexOf("Dear Dhaks")===0){box.appendChild(musicPlayer());startLetterMusic();}
+  } else if(b.t==="pic"){
+    box.appendChild(polaroidData(b.src,b.cap,b.r));mk(box,"p","",b.x[part])
+  } else if(b.t==="pair"){
+    var pair=mk(box,"div","pair-photos");
+    b.photos.forEach(function(ph){pair.appendChild(polaroidData(ph[0],ph[1],ph[2]))});
+    if(b.x&&b.x[part])mk(box,"p","memory-note",""+b.x[part])
+  } else if(b.t==="choice"){
+    b.q.forEach(function(t,i){mk(box,"p",i?"ask":"",t)});
+    var cs=mk(box,"div","choices later");b.o.forEach(function(o){var bt=document.createElement("button");bt.className="choice-btn";bt.type="button";bt.disabled=true;bt.setAttribute("data-br",o[1]);bt.textContent=o[0];cs.appendChild(bt)})
+  } else if(b.t==="popper"){
+    box.className="beat title";mk(box,"h1","",b.x[0]);mk(box,"p","",b.x[1]);
+    var w=mk(box,"div","later");var pb=document.createElement("button");pb.type="button";pb.className="pop";pb.setAttribute("data-pop","1");pb.disabled=true;pb.textContent="POP IT";w.appendChild(pb);
+    var a=document.createElement("a");a.href="../../index.html#library";a.className="end-link";a.textContent="← BACK TO LIBRARY";w.appendChild(document.createElement("br"));w.appendChild(a)
+  }
+  stage.appendChild(box);app.scrollTop=0;hint.classList.remove("on");
+  var ws=box.querySelectorAll(".w"),step=Math.min(36,3400/Math.max(ws.length,1));
+  Array.prototype.forEach.call(ws,function(w,i){w.style.animationDelay=(i*step)+"ms"});
+  ready=false;lastAt=performance.now();clearTimeout(timer);
+  if(RM||!ws.length)finish();else timer=setTimeout(finish,ws.length*step+500);
+}
+function finish(){
+  clearTimeout(timer);stage.classList.add("instant");ready=true;
+  Array.prototype.forEach.call(stage.querySelectorAll(".later"),function(e){e.classList.add("show")});
+  Array.prototype.forEach.call(stage.querySelectorAll("button[disabled]"),function(b){b.disabled=false});
+  hint.classList.toggle("on",cur.t!=="choice"&&cur.t!=="popper");
+  bar.style.width=(100*(idx+1)/beats.length)+"%"
+}
+function next(){
+  if(idx+1>=beats.length)return;
+  clearTimeout(timer);idx++;cur=beats[idx];part=0;render(cur,part)
+}
+function advance(){
+  if(!ready){finish();return}
+  if(performance.now()-lastAt<250)return;
+  if(cur&&(cur.t==="choice"||cur.t==="popper"))return;
+  if(part+1<itemCount(cur)){part++;render(cur,part);return}
+  next()
+}
+app.addEventListener("click",function(e){if(e.target.closest("button,a"))return;advance()});
+document.addEventListener("keydown",function(e){
+  if(e.target.closest&&e.target.closest("button,a"))return;
+  if(e.key==="Enter"||e.key===" "||e.key==="ArrowRight"){e.preventDefault();advance()}
+});
+stage.addEventListener("click",function(e){
+  var b=e.target.closest("[data-br]");
+  if(b){e.stopPropagation();if(chosen||!ready)return;chosen=true;
+    Array.prototype.forEach.call(stage.querySelectorAll("[data-br]"),function(x){x.disabled=true});
+    var add=BRANCH[b.getAttribute("data-br")].concat(SHARED);
+    beats.splice.apply(beats,[idx+1,0].concat(add));next();return}
+  var p=e.target.closest("[data-pop]");
+  if(p){e.stopPropagation();pop(p)}
+});
+
+/* ============ CANVAS: STARS ============ */
+var sc=document.getElementById("stars"),sx=sc.getContext("2d"),fc=document.getElementById("fx"),fx=fc.getContext("2d"),W=0,H=0,stars=[];
+var COL=["226,186,116","212,106,138","142,92,199"];
+function size(){
+  W=innerWidth;H=innerHeight;var d=Math.min(window.devicePixelRatio||1,2);
+  [sc,fc].forEach(function(c){c.width=W*d;c.height=H*d;c.style.width=W+"px";c.style.height=H+"px";c.getContext("2d").setTransform(d,0,0,d,0,0)});
+  stars=[];for(var i=0,n=Math.round(W*H/9000);i<n;i++)stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.3,p:Math.random()*6.28,s:.4+Math.random()*1.2,vx:(Math.random()-.5)*.22,vy:.08+Math.random()*.24,c:COL[Math.random()<.6?0:Math.random()<.5?1:2]});
+  if(RM)drawStars(0);
+}
+function drawStars(t){
+  sx.clearRect(0,0,W,H);
+  for(var i=0;i<stars.length;i++){var s=stars[i],a=RM?.5:.25+.55*(.5+.5*Math.sin(t/1000*s.s+s.p));
+    if(!RM){s.x+=s.vx;s.y+=s.vy;if(s.x<-4)s.x=W+4;if(s.x>W+4)s.x=-4;if(s.y>H+4){s.y=-4;s.x=Math.random()*W}}sx.fillStyle="rgba("+s.c+","+a+")";sx.beginPath();sx.arc(s.x,s.y+(RM?0:Math.sin(t/1600+s.p)*2),s.r,0,6.283);sx.fill()}
+  if(!RM)requestAnimationFrame(drawStars);
+}
+addEventListener("resize",size);
+
+/* ============ CANVAS: CONFETTI ============ */
+var ps=[],raf=0,CC=["#e2ba74","#d46a8a","#8e5cc7","#f4ecdc","#ffd9e4"];
+function burst(x,y,n,spd,ang,spr){
+  for(var i=0;i<n;i++){var a=ang==null?Math.random()*6.283:ang+(Math.random()-.5)*spr,v=(6+Math.random()*10)*spd;
+    ps.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*6,h:3+Math.random()*5,r:Math.random()*6.28,vr:(Math.random()-.5)*.4,c:CC[i%CC.length],l:0,m:110+Math.random()*80})}
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+function tick(){
+  fx.clearRect(0,0,W,H);
+  ps=ps.filter(function(p){return p.l++<p.m&&p.y<H+30});
+  ps.forEach(function(p){p.vx=p.vx*.992+Math.sin(p.l/17)*.018;p.vy=p.vy*.992+.20;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;
+    fx.save();fx.globalAlpha=Math.min(1,(p.m-p.l)/30);fx.translate(p.x,p.y);fx.rotate(p.r);fx.fillStyle=p.c;fx.fillRect(-p.w/2,-p.h/2,p.w,p.h);fx.restore()});
+  if(ps.length)raf=requestAnimationFrame(tick);else{raf=0;fx.clearRect(0,0,W,H)}
+}
+function pop(btn){
+  if(btn.dataset.popped==="1")return;
+  btn.dataset.popped="1";btn.textContent="HAPPY BIRTHDAY, DHAKS!";
+  var r=btn.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+  if(RM){burst(x,y,35,.7,null,0);return}
+  /* A broad celebration: several launch points, not one tiny cloud. */
+  burst(x,y,100,1.0,null,0);
+  var launchers=[
+    [W*.06,H+8,-.88],[W*.20,H+8,-1.18],[W*.38,H+8,-1.38],
+    [W*.62,H+8,-1.72],[W*.80,H+8,-1.95],[W*.94,H+8,-2.25]
+  ];
+  launchers.forEach(function(q,i){setTimeout(function(){burst(q[0],q[1],70,1.0,q[2],.72)},i*95)});
+  for(var i=0;i<7;i++)(function(i){setTimeout(function(){
+    var x2=W*(.08+Math.random()*.84),y2=H*(.08+Math.random()*.45);
+    burst(x2,y2,32,.62,null,0)
+  },350+i*190)})(i);
+}
+
+size();if(!RM)requestAnimationFrame(drawStars);
+next();
+})();
+</script>
+</body>
+</html>

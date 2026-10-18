@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Mafia King — Chapter III: The One Who Stayed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0807;--char:#15110f;--ivory:#efe6d6;--ivory-d:#b9ae9c;
+  --crim:#7a1226;--crim-d:#3d0a14;--gold:#c2a15a;--amber:#e0a458;
+  --serif:'Cormorant Garamond','Cormorant',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --glow:rgba(122,18,38,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--ink);color:var(--ivory);overflow:hidden;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--serif)}
+body.warm{--glow:rgba(224,164,88,.22)}
+body.cold{--glow:rgba(122,18,38,.38)}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+#bg{position:absolute;inset:-4%;background:
+  radial-gradient(ellipse 70% 60% at 50% 42%,var(--glow),transparent 70%),
+  linear-gradient(180deg,var(--char),var(--ink) 80%);
+  transition:background 2.4s ease;animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.2%,.8%)}}
+.fog{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fog i{position:absolute;width:140%;height:60%;left:-20%;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(239,230,214,.07),transparent 65%);filter:blur(30px);animation:fog 38s linear infinite}
+.fog i:nth-child(1){top:5%}.fog i:nth-child(2){top:48%;animation-duration:55s;animation-direction:reverse}
+@keyframes fog{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.82) 100%)}
+.grain{position:absolute;inset:-50%;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(3%,3%)}}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease;z-index:5}
+#fade.on{opacity:1}
+
+#view{position:relative;z-index:3;width:min(720px,88vw);text-align:center;padding:0 0 env(safe-area-inset-bottom,0)}
+.who{font-family:var(--sans);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;opacity:0;transition:opacity 1s}
+.who.minho{color:var(--amber)}.who.bangchan{color:#b3364f}
+.txt{font-size:clamp(1.45rem,4.4vw,2.15rem);line-height:1.55;font-weight:400;letter-spacing:.01em;text-wrap:balance}
+.txt.say::before{content:"“"}.txt.say::after{content:"”"}
+.txt.nar{font-style:italic;color:var(--ivory-d)}
+.txt.big{font-size:clamp(2rem,7vw,3.6rem);letter-spacing:.14em;font-weight:500}
+.txt.sm{font-family:var(--sans);font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-style:normal}
+.w{opacity:0;display:inline-block;transform:translateY(5px);filter:blur(3px);animation:w .9s ease forwards}
+@keyframes w{to{opacity:1;transform:none;filter:none}}
+.show .who{opacity:1}
+#hint{position:fixed;bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;z-index:4;font-family:var(--sans);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ivory-d);opacity:0;transition:opacity 1s;pointer-events:none}
+#hint.on{opacity:.55;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+#bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--crim),var(--gold));z-index:6;width:0;transition:width 1s}
+.back-library{
+  position:fixed;
+  top:1.5rem;
+  left:1.5rem;
+  z-index:20;
+  color:var(--ivory-d);
+  text-decoration:none;
+  font-family:var(--sans);
+  font-size:.65rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  opacity:.45;
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.back-library:hover{
+  opacity:.9;
+  transform:translateX(-3px);
+}
+
+@media(max-width:600px){
+  .back-library{
+    top:1rem;
+    left:1rem;
+    font-size:.58rem;
+    letter-spacing:.18em;
+  }
+}
+.choices{display:flex;flex-direction:column;gap:.9rem;margin-top:2.2rem;align-items:center}
+.btn{font-family:var(--sans);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ivory);background:rgba(10,8,7,.55);
+  border:1px solid rgba(194,161,90,.55);padding:1rem 2rem;min-width:min(320px,80vw);cursor:pointer;text-decoration:none;display:inline-block;
+  transition:background .6s,border-color .6s,color .6s,box-shadow .6s;backdrop-filter:blur(4px)}
+.btn:hover,.btn:focus-visible{background:var(--crim-d);border-color:var(--gold);box-shadow:0 0 28px rgba(122,18,38,.45);outline:none}
+.btn.warm:hover,.btn.warm:focus-visible{background:rgba(224,164,88,.14);box-shadow:0 0 28px rgba(224,164,88,.3)}
+.btn.ghost{border-color:rgba(239,230,214,.2);color:var(--ivory-d)}
+.end{display:flex;flex-direction:column;gap:.9rem;align-items:center;margin-top:2.4rem}
+@media (prefers-reduced-motion:reduce){
+  #bg,.fog i,.grain,#hint.on{animation:none}.w{animation-duration:.01s}#fade{transition-duration:.01s}
+}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body class="cold">
+<div id="bar"></div>
+<a href="chapters.html" class="back-library">← BACK TO LIBRARY</a>
+<div id="stage" role="button" tabindex="0" aria-label="Advance story">
+  <div id="bg"></div>
+  <div class="fog"><i></i><i></i></div>
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="vig"></div><div class="grain"></div>
+  <div id="view" aria-live="polite"></div>
+  <div id="fade" class="on"></div>
+</div>
+<div id="hint">Tap to continue</div>
+
+<script>
+(function(){
+"use strict";
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+var D="dhaks",M="minho",B="bangchan";
+/* beat: {t:type n|s|big|sm|title, w:speaker, x:text, m:mood, br:black-cut, c:choice} */
+var S1=[
+{t:"title",x:"Chapter III",m:"cold",br:1},
+{t:"big",x:"The One Who Stayed"},
+{t:"n",x:"Dhaks couldn't stop hearing it.",m:"cold"},
+{t:"n",x:"Because Shin was my best friend."},
+{t:"n",x:"Her brother had a whole life she knew nothing about. And the man who held its pieces was the last person she wanted to ask."},
+{t:"n",x:"Anatomy. Pharmacology. Rounds at nine. None of it stayed in her head.",br:1,m:"neutral"},
+{t:"n",x:"She hurried through the corridor, a stack of files in her arms and half a thought in her mind."},
+{t:"n",x:"One step too fast. One file too many."},
+{t:"s",w:M,x:"Careful.",m:"warm"},
+{t:"s",w:D,x:"I had it."},
+{t:"n",x:"Books lay scattered across the floor. A notebook was still sliding away."},
+{t:"s",w:M,x:"Clearly."},
+{t:"n",x:"She gave him a look. He smiled, and it was not a smug one."},
+{t:"s",w:M,x:"Okay. You definitely had it."},
+{t:"n",x:"He crouched and began gathering her books as if it were nothing."},
+{t:"s",w:M,x:"You're Dhakshatha, right? Second year?"},
+{t:"s",w:D,x:"How do you know my name?"},
+{t:"s",w:M,x:"You're not exactly easy to miss."},
+{t:"n",x:"She raised an eyebrow."},
+{t:"s",w:M,x:"Don't worry. That's a compliment."},
+{t:"n",x:"His name tag read Choi Minho. Final year."},
+{t:"n",x:"Great, she thought. Another person who thinks he's important."}
+];
+var S2=[
+{t:"title",x:"A Different Kind of Person",br:1},
+{t:"n",x:"But the corridors told a different story.",m:"warm"},
+{t:"n",x:"Professors stopped him to ask his opinion. Juniors waited outside the library to ask him for help."},
+{t:"s",w:M,x:"Don't memorise it. Understand why it happens, and you won't forget it."},
+{t:"n",x:"He explained the same concept three times, and never once sounded tired of it."},
+{t:"n",x:"He stayed late with students who were failing. He learned the names of the night nurses. He thanked the cleaners, and meant it."},
+{t:"n",x:"Dhaks watched, and waited to find the flaw."},
+{t:"n",x:"She didn't find one."},
+{t:"n",x:"Bangchan made people move out of his way."},
+{t:"n",x:"Minho made people want to stay."}
+];
+var S3=[
+{t:"title",x:"The First Real Connection",br:1},
+{t:"n",x:"Pharmacology exams were a week away, and the pathways would not stay in her head.",m:"warm"},
+{t:"n",x:"She stared at the same page for an hour. A chair scraped beside her."},
+{t:"s",w:M,x:"You've been on that page since lunch."},
+{t:"s",w:D,x:"Are you watching me?"},
+{t:"s",w:M,x:"Library windows are very large."},
+{t:"n",x:"He sat down anyway and pulled the book toward him. He drew the whole pathway on a napkin, in four lines."},
+{t:"n",x:"She reached for her pen."},
+{t:"s",w:M,x:"You're holding it wrong."},
+{t:"s",w:D,x:"I know how to hold a pen."},
+{t:"s",w:M,x:"I wasn't talking about the pen."},
+{t:"n",x:"A pause. Then she realised he was teasing her, and tried very hard not to smile."},
+{t:"n",x:"They talked long after the pathway made sense. About exams. About home. About nothing."},
+{t:"s",w:D,x:"Why are you always helping everyone?"},
+{t:"s",w:M,x:"Because someone helped me once."},
+{t:"s",w:D,x:"That's it?"},
+{t:"s",w:M,x:"That's usually how it starts."},
+{t:"n",x:"For the first time in weeks, her thoughts went quiet."}
+];
+var S4=[
+{t:"title",x:"He Starts to Fall",br:1},
+{t:"n",x:"A seat saved beside him in the lecture hall. A coffee she never asked for, made the way she liked it.",m:"warm"},
+{t:"n",x:"A quiet glance when she came in tired. A joke, just when she needed one."},
+{t:"n",x:"He didn't fall for her in one moment."},
+{t:"n",x:"It happened quietly."},
+{t:"n",x:"In conversations that lasted too long."},
+{t:"n",x:"In smiles he didn't mean to show."},
+{t:"n",x:"In the little things he began remembering without trying."},
+{t:"n",x:"Dhaks noticed none of it. She only knew that days were lighter when he was in them."}
+];
+var S5=[
+{t:"title",x:"Bangchan Notices",br:1},
+{t:"n",x:"The courtyard was cold that evening. Dhaks was laughing at something Minho had said.",m:"cold"},
+{t:"n",x:"Across the gate, a black car idled. Bangchan watched for a long moment. He looked at Minho as if he knew him."},
+{t:"n",x:"Then he stepped out, and the laughter faded."},
+{t:"s",w:B,x:"You should be careful who you trust.",m:"cold"},
+{t:"s",w:D,x:"Is that another warning?"},
+{t:"s",w:B,x:"Maybe."},
+{t:"s",w:D,x:"You're very annoying."},
+{t:"s",w:B,x:"So I've been told."},
+{t:"n",x:"His eyes stayed on Minho a second too long. Minho met them calmly, and said nothing."},
+{t:"n",x:"Then the car was gone, and the night felt colder than before."}
+];
+var CHOICE={t:"choice",x:"Someone is waiting for you.",m:"cold"};
+var MINHO_PATH=[
+{t:"n",x:"She found him on the hospital rooftop, where he went when the wards were heavy.",m:"warm",br:1},
+{t:"s",w:M,x:"You look like you're carrying something."},
+{t:"s",w:D,x:"I'm always carrying something."},
+{t:"s",w:M,x:"Then let me hold the other end."},
+{t:"n",x:"He offered her half his tea. They watched the city lights come on, and for once she didn't think about anything at all."}
+];
+var BANG_PATH=[
+{t:"n",x:"He was leaning on the car, as if he'd known she would come.",m:"cold",br:1},
+{t:"s",w:D,x:"Why are you here?"},
+{t:"s",w:B,x:"Afu asked if you ate today."},
+{t:"s",w:D,x:"That's why you came?"},
+{t:"s",w:B,x:"Go home, Dhakshatha. Eat something."},
+{t:"n",x:"He didn't say anything else. She walked away with more questions than she came with."},
+{t:"n",x:"And when she turned the corner, it was Minho's voice she heard, calling her name.",m:"warm"}
+];
+var S7=[
+{t:"title",x:"The Promise",br:1},
+{t:"n",x:"Seasons moved quietly. Study nights became coffee nights. Coffee nights became every night.",m:"warm"},
+{t:"n",x:"One evening, beneath the old tree behind the college, he was unusually quiet."},
+{t:"s",w:M,x:"I don't know when it happened."},
+{t:"s",w:D,x:"What?"},
+{t:"s",w:M,x:"When you became the person I look for in every room."},
+{t:"n",x:"She stood still. Her heart was loud."},
+{t:"s",w:M,x:"I'm not asking you to answer right now."},
+{t:"s",w:D,x:"Then what are you asking?"},
+{t:"s",w:M,x:"Just don't disappear."},
+{t:"n",x:"She looked at him, the one who stayed late for strangers, and who had never once asked her for anything."},
+{t:"s",w:D,x:"I won't."},
+{t:"n",x:"His smile was small, and it lit the whole evening."}
+];
+var S8=[
+{t:"title",x:"The Promise to Return",br:1},
+{t:"n",x:"The offer came in spring. A hospital in another city, a place few were ever given.",m:"warm"},
+{t:"s",w:D,x:"When do you leave?"},
+{t:"s",w:M,x:"Friday."},
+{t:"n",x:"She was angry, and then she was not. She was only afraid."},
+{t:"s",w:M,x:"I'll come back."},
+{t:"s",w:D,x:"You better."},
+{t:"s",w:M,x:"I will."},
+{t:"n",x:"The platform was quiet. He held her hand a moment longer than he needed to. Then the train took him away.",m:"neutral"},
+{t:"n",x:"“Reached safely. Already missing your terrible handwriting.”",br:0},
+{t:"n",x:"“Call tonight?”"},
+{t:"n",x:"“Rounds ran long. Tomorrow, I promise.”",m:"cold"},
+{t:"n",x:"“Sorry. Busy.”"},
+{t:"n",x:"Then fewer messages. Then none."},
+{t:"n",x:"She called. It rang, and rang, and rang.",br:1}
+];
+var END=[
+{t:"n",x:"Night. A bus stop outside the college. Her phone glowing in her hand.",m:"cold",br:1},
+{t:"n",x:"No new message."},
+{t:"n",x:"He said he'd come back."},
+{t:"n",x:"He didn't say when."},
+{t:"n",x:"Days became weeks."},
+{t:"n",x:"Then weeks became silence.",br:1},
+{t:"title",x:"Chapter III",m:"cold"},
+{t:"big",x:"The One Who Stayed"},
+{t:"n",x:"Some people leave without meaning to."},
+{t:"n",x:"Some stay without being asked."},
+{t:"end"}
+];
+
+var queue=[].concat(S1,S2,S3,S4,S5,[CHOICE]),
+    tail=[].concat(S7,S8,END),
+    i=0,busy=false,wait=false,total=S1.length+S2.length+S3.length+S4.length+S5.length+3+S7.length+S8.length+END.length+5,done=0;
+var view=document.getElementById("view"),fade=document.getElementById("fade"),hint=document.getElementById("hint"),bar=document.getElementById("bar");
+
+function mood(m){if(m&&m!=="neutral"){document.body.className=m}else if(m==="neutral"){document.body.className=""}}
+function words(el,text){
+  var n=0,ws=text.split(" ");
+  ws.forEach(function(w){var s=document.createElement("span");s.className="w";s.textContent=w;
+    s.style.animationDelay=(reduce?0:n*70)+"ms";el.appendChild(s);el.appendChild(document.createTextNode(" "));n++});
+  return n*70+900;
+}
+function render(b){
+  view.innerHTML="";hint.classList.remove("on");
+  var wrap=document.createElement("div");wrap.className="show";var dur=0,el;
+  if(b.t==="s"){
+    var who=document.createElement("div");who.className="who "+b.w;
+    who.textContent=b.w==="dhaks"?"Dhaks":b.w==="minho"?"Minho":"Bangchan";wrap.appendChild(who);
+    el=document.createElement("p");el.className="txt say";
+  }else if(b.t==="big"){el=document.createElement("p");el.className="txt big"}
+  else if(b.t==="title"){el=document.createElement("p");el.className="txt sm"}
+  else{el=document.createElement("p");el.className="txt nar"}
+  dur=words(el,b.x);wrap.appendChild(el);view.appendChild(wrap);
+  return reduce?100:Math.min(dur,2600);
+}
+function cut(then,t){
+  fade.classList.add("on");
+  setTimeout(function(){then();setTimeout(function(){fade.classList.remove("on")},300)},reduce?20:t||1200);
+}
+function showChoice(b){
+  view.innerHTML="";hint.classList.remove("on");wait=true;
+  var wrap=document.createElement("div");wrap.className="show";
+  var p=document.createElement("p");p.className="txt";p.textContent=b.x;wrap.appendChild(p);
+  var c=document.createElement("div");c.className="choices";
+  [["Go find Minho","warm",MINHO_PATH],["Go find Bangchan","",BANG_PATH]].forEach(function(o){
+    var bt=document.createElement("button");bt.className="btn "+o[1];bt.textContent=o[0];
+    bt.addEventListener("click",function(e){e.stopPropagation();wait=false;
+      queue=o[2].concat(tail);i=0;busy=false;next()});
+    bt.addEventListener("keydown",function(e){e.stopPropagation()});
+    c.appendChild(bt)});
+  wrap.appendChild(c);view.appendChild(wrap);
+  setTimeout(function(){var f=c.querySelector("button");if(f)f.focus()},600);
+}
+function showEnd(){
+  view.innerHTML="";hint.classList.remove("on");wait=true;
+  var wrap=document.createElement("div");wrap.className="show";
+  var e=document.createElement("div");e.className="end";
+  e.innerHTML='<a class="btn" href="./chapter4.html">Continue to Chapter IV</a><a class="btn ghost" href="./index.html">Back to Story</a>';
+  wrap.appendChild(e);view.appendChild(wrap);
+  bar.style.width="100%";
+  setTimeout(function(){var f=e.querySelector("a");if(f)f.focus()},700);
+}
+function next(){
+  if(busy||wait)return;
+  var b=queue[i];if(!b)return;i++;done++;
+  bar.style.width=Math.min(100,done/total*100)+"%";
+  var go=function(){
+    mood(b.m);
+    if(b.t==="choice"){showChoice(b);return}
+    if(b.t==="end"){showEnd();return}
+    var d=render(b);busy=true;
+    setTimeout(function(){busy=false;hint.classList.add("on")},d);
+  };
+  if(b.br||(b.t==="title"&&i>1)){busy=true;cut(go,1400)}else{
+    if(!b.br&&view.firstChild){view.firstChild.style.transition="opacity .5s";view.firstChild.style.opacity=0;
+      busy=true;setTimeout(function(){go()},reduce?20:450)}else go();
+  }
+}
+function act(e){
+  if(e.type==="keydown"){
+    if(e.key!=="Enter"&&e.key!==" "&&e.key!=="ArrowRight")return;
+    if(e.target&&e.target.closest&&e.target.closest(".btn"))return;
+    e.preventDefault();
+  }
+  next();
+}
+document.getElementById("stage").addEventListener("click",act);
+document.addEventListener("keydown",act);
+
+/* embers */
+(function(){
+  var cv=document.getElementById("embers"),cx=cv.getContext("2d"),P=[],W,H;
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  size();addEventListener("resize",size);
+  var n=reduce?0:38;
+  for(var k=0;k<n;k++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.4,s:Math.random()*.25+.08,o:Math.random()*.5+.15,d:Math.random()*6});
+  var t=0;
+  function loop(){
+    t+=.01;cx.clearRect(0,0,W,H);
+    var warm=document.body.classList.contains("warm");
+    P.forEach(function(p){
+      p.y-=p.s;p.x+=Math.sin(t+p.d)*.25;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);
+      cx.fillStyle=(warm?"rgba(224,164,88,":"rgba(194,80,70,")+(p.o*(.6+.4*Math.sin(t*3+p.d)))+")";cx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  if(n)loop();
+})();
+
+setTimeout(function(){fade.classList.remove("on");setTimeout(next,1400)},300);
+})();
+</script>
+</body>
+</html>

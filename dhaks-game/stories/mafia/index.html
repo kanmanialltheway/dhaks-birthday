@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BLOOD BOUND</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/style.css">
+
+  <style>
+    :root {
+      --bg: #040305;
+      --charcoal: #0a0709;
+      --blood-deep: #2e050b;
+      --blood-muted: #5c0f18;
+      --ivory: #dcd4c8;
+      --ivory-dim: rgba(220, 212, 200, 0.55);
+      
+      --font-title: "Cinzel", Georgia, serif;
+      --font-quote: "Cormorant Garamond", Georgia, serif;
+      --font-sans: "Montserrat", sans-serif;
+      --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--ivory);
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* Ambient Background Atmosphere */
+    .scene {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .ambient-glow {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 65% 55% at 50% 50%, rgba(46, 5, 11, 0.45), transparent 75%),
+        radial-gradient(circle at 50% 90%, rgba(20, 3, 6, 0.8), transparent 60%),
+        linear-gradient(180deg, #030204 0%, #080507 50%, #030204 100%);
+    }
+
+    /* Ultra-slow floating embers */
+    canvas#particles {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    /* Deep Vignette */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      background: radial-gradient(ellipse 80% 75% at 50% 50%, transparent 40%, rgba(2, 2, 3, 0.95) 95%);
+    }
+
+    /* Navigation */
+    .back {
+      position: fixed;
+      top: max(26px, env(safe-area-inset-top));
+      left: clamp(22px, 4vw, 52px);
+      z-index: 20;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ivory-dim);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.4s ease;
+    }
+    .back span { transition: transform 0.4s ease; }
+    .back:hover { color: var(--ivory); }
+    .back:hover span { transform: translateX(-4px); }
+
+    /* Main Content */
+    .mafia-story {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 24px;
+    }
+
+    .mafia-content {
+      max-width: 800px;
+      animation: mafiaRise 2.2s var(--ease) forwards;
+    }
+
+    .mafia-label {
+      font-size: clamp(0.65rem, 0.85vw, 0.72rem);
+      font-weight: 400;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(180, 60, 75, 0.7);
+      margin-bottom: 22px;
+    }
+
+    .mafia-title {
+      font-family: var(--font-title);
+      font-size: clamp(2.8rem, 7.5vw, 5.8rem);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      line-height: 1.1;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(180deg, #f0e9df 0%, #b89d98 40%, #5c0f18 85%, #24050a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95));
+      margin-bottom: 18px;
+    }
+
+    .mafia-divider {
+      width: 60px;
+      height: 1px;
+      margin: 24px auto 30px;
+      background: linear-gradient(90deg, transparent, rgba(140, 30, 45, 0.5), transparent);
+    }
+
+    .mafia-subtitle {
+      font-family: var(--font-quote);
+      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.65;
+      color: var(--ivory-dim);
+      max-width: 28ch;
+      margin: 0 auto 48px;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Minimal Elegant Border Button */
+    .enter-mafia {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 15px 44px;
+      font-family: var(--font-sans);
+      font-size: 0.72rem;
+      font-weight: 400;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ivory);
+      background: rgba(12, 8, 10, 0.6);
+      border: 1px solid rgba(140, 30, 45, 0.35);
+      border-radius: 100px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: all 0.5s var(--ease);
+    }
+
+    .enter-mafia:hover {
+      border-color: rgba(180, 50, 65, 0.7);
+      background: rgba(30, 8, 12, 0.75);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.9), 0 0 25px rgba(92, 15, 24, 0.35);
+      transform: translateY(-2px);
+      color: #fff;
+    }
+
+    .enter-mafia span {
+      display: inline-block;
+      transition: transform 0.4s var(--ease);
+    }
+    .enter-mafia:hover span { transform: translateX(4px); }
+
+    @keyframes mafiaRise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  <style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+
+<body>
+
+  <a class="back" href="../../index.html#library">
+    <span>←</span> Back to Library
+  </a>
+
+  <div class="scene" aria-hidden="true">
+    <div class="ambient-glow"></div>
+    <canvas id="particles"></canvas>
+    <div class="vignette"></div>
+  </div>
+
+  <main class="mafia-story">
+    <div class="mafia-content">
+
+      <div class="mafia-label">
+        A Story of Love • Secrets • Revenge
+      </div>
+
+      <h1 class="mafia-title">
+        BLOOD BOUND
+      </h1>
+
+      <div class="mafia-divider"></div>
+
+      <p class="mafia-subtitle">
+        Everyone fears him.<br>
+        Until she walks into his world.
+      </p>
+
+      <a class="enter-mafia" href="chapters.html">
+        Enter Story <span>→</span>
+      </a>
+
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('particles');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+      function resize() {
+        W = canvas.width = window.innerWidth * dpr;
+        H = canvas.height = window.innerHeight * dpr;
+      }
+
+      function spawnParticle(firstRun) {
+        return {
+          x: Math.random() * W,
+          y: firstRun ? Math.random() * H : H + 15,
+          r: (1.0 + Math.random() * 2.0) * dpr,
+          // Ultra slow, deliberate upward drift
+          vy: -(0.18 + Math.random() * 0.35) * dpr,
+          vx: (Math.random() - 0.5) * 0.15 * dpr,
+          alpha: 0.1 + Math.random() * 0.35,
+          // Muted wine, oxidized ash, and dark clotted tones (no bright reds)
+          color: Math.random() < 0.6 ? 'rgba(92, 15, 24, ' : 'rgba(60, 10, 16, ',
+          sway: Math.random() * 6.28,
+          swaySpeed: 0.005 + Math.random() * 0.008
+        };
+      }
+
+      function init() {
+        resize();
+        particles = [];
+        // Increased count from 45 to 75 so they fill across wide screens gently
+        const count = Math.round(Math.min(75, innerWidth / 16));
+        for (let i = 0; i < count; i++) {
+          particles.push(spawnParticle(true));
+        }
+      }
+
+      function loop() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          p.sway += p.swaySpeed;
+          p.y += p.vy;
+          p.x += p.vx + Math.sin(p.sway) * 0.2 * dpr;
+
+          if (p.y < -15 || p.x < -20 || p.x > W + 20) {
+            particles[i] = spawnParticle(false);
+            continue;
+          }
+
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + p.alpha + ')';
+          ctx.shadowBlur = 6 * dpr;
+          ctx.shadowColor = 'rgba(92, 15, 24, 0.25)';
+          ctx.fill();
+        }
+
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', init);
+      init();
+      loop();
+    })();
+  </script>
+
+</body>
+</html>

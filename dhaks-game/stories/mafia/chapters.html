@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BLOOD BOUND — Chapters</title>
+<meta name="theme-color" content="#0a0807">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0807;--char:#15110f;--ivory:#efe6d6;--ivory-d:#b9ae9c;
+  --crim:#7a1226;--crim-d:#3d0a14;--gold:#c2a15a;--amber:#e0a458;
+  --serif:'Cormorant Garamond','Cormorant',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --glow:rgba(122,18,38,.30);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink);-webkit-text-size-adjust:100%}
+body{font-family:var(--serif);color:var(--ivory);background:var(--ink);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+
+/* Top Back Navigation */
+.back-nav{
+  position:fixed;
+  top:max(24px,env(safe-area-inset-top));
+  left:clamp(20px,4vw,48px);
+  z-index:20;
+  font-family:var(--sans);
+  font-size:.68rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--ivory-d);
+  text-decoration:none;
+  transition:color .4s ease,transform .4s ease;
+}
+.back-nav:hover{color:var(--gold);transform:translateX(-3px)}
+
+/* Atmosphere layers */
+.stage{position:fixed;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+#bg{position:absolute;inset:-4%;background:
+  radial-gradient(ellipse 70% 55% at 50% 30%,var(--glow),transparent 70%),
+  linear-gradient(180deg,var(--char),var(--ink) 80%);
+  animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.2%,.8%)}}
+.fog i{position:absolute;width:140%;height:60%;left:-20%;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(239,230,214,.07),transparent 65%);filter:blur(30px);animation:fog 38s linear infinite}
+.fog i:nth-child(1){top:5%}.fog i:nth-child(2){top:48%;animation-duration:55s;animation-direction:reverse}
+@keyframes fog{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+#embers{position:absolute;inset:0;width:100%;height:100%}
+.vig{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.82) 100%)}
+.grain{position:absolute;inset:-50%;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(3%,3%)}}
+
+/* Page layout */
+main{position:relative;z-index:2;max-width:760px;margin:0 auto;
+  padding:calc(5.5rem + env(safe-area-inset-top,0px)) 1.5rem calc(4rem + env(safe-area-inset-bottom,0px));
+  text-align:center}
+
+header{margin-bottom:4.5rem;opacity:0;animation:rise 2.4s ease .3s forwards}
+h1{font-weight:500;font-size:clamp(2.9rem,10vw,5.6rem);letter-spacing:.2em;padding-left:.2em;line-height:1;
+  color:var(--ivory);text-shadow:0 0 42px rgba(122,18,38,.65),0 0 90px rgba(122,18,38,.3)}
+.rule{display:block;width:min(240px,50%);height:1px;margin:2rem auto 1.6rem;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
+.tag{font-style:italic;font-size:clamp(1.15rem,3.6vw,1.45rem);color:var(--ivory-d);max-width:30ch;margin:0 auto;line-height:1.5}
+@keyframes rise{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+
+ol{list-style:none}
+li{opacity:0;animation:rise 1.6s ease forwards}
+li:nth-child(1){animation-delay:1.3s}li:nth-child(2){animation-delay:1.55s}li:nth-child(3){animation-delay:1.8s}
+li:nth-child(4){animation-delay:2.05s}li:nth-child(5){animation-delay:2.3s}li:nth-child(6){animation-delay:2.55s}
+
+.ch{position:relative;display:block;padding:2.3rem 1rem 2.4rem;color:inherit;text-decoration:none;
+  transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.ch::before{content:"";position:absolute;inset:0;z-index:-1;opacity:0;transition:opacity .7s ease;
+  background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(122,18,38,.30),rgba(194,161,90,.05) 60%,transparent 80%)}
+.num{display:block;font-family:var(--sans);font-size:.72rem;font-weight:400;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;padding-left:.34em;transition:color .6s}
+.name{display:block;font-weight:500;font-size:clamp(1.9rem,6.4vw,2.9rem);line-height:1.12;letter-spacing:.03em;color:#d9cfbd;
+  transition:color .6s,text-shadow .6s}
+.sub{display:block;font-style:italic;font-size:clamp(1.12rem,3.5vw,1.3rem);color:var(--ivory-d);margin-top:.7rem;transition:color .6s}
+.ch::after{content:"";display:block;width:36px;height:1px;margin:1.6rem auto 0;background:var(--crim);transition:width .7s cubic-bezier(.2,.7,.2,1),background .6s}
+li:last-child .ch::after{display:none}
+
+@media (hover:hover){
+  .ch:hover{transform:translateY(-4px)}
+  .ch:hover::before{opacity:1}
+  .ch:hover .name{color:#fff6e4;text-shadow:0 0 28px rgba(224,164,88,.35)}
+  .ch:hover .num{color:var(--amber)}
+  .ch:hover .sub{color:var(--ivory)}
+  .ch:hover::after{width:120px;background:var(--gold)}
+}
+.ch:active .name{color:#fff6e4}
+.ch:active::before{opacity:1}
+.ch:focus-visible{outline:1px solid var(--gold);outline-offset:-6px}
+.ch:focus-visible::before{opacity:1}
+
+footer{margin-top:3.5rem;opacity:0;animation:rise 1.6s ease 3s forwards}
+.back-hub{display:inline-block;padding:1rem 1.2rem;font-family:var(--sans);font-size:.7rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--ivory-d);text-decoration:none;transition:color .6s,letter-spacing .6s}
+.back-hub:hover,.back-hub:focus-visible{color:var(--gold);letter-spacing:.38em;outline:none}
+
+/* Two-column on wide screens */
+@media (min-width:1000px){
+  main{max-width:1020px}
+  ol{display:grid;grid-template-columns:1fr 1fr;column-gap:2rem}
+  li:last-child .ch::after{display:block}
+}
+@media (prefers-reduced-motion:reduce){
+  #bg,.fog i,.grain{animation:none}
+  header,li,footer{animation-duration:.01s;animation-delay:0s}
+  .ch,.ch::before,.ch::after,.name,.num,.sub,.back-nav,.back-hub{transition:none}
+}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+
+  <a href="index.html" class="back-nav">← STORY COVER</a>
+
+  <div class="stage" aria-hidden="true">
+    <div id="bg"></div>
+    <div class="fog"><i></i><i></i></div>
+    <canvas id="embers"></canvas>
+    <div class="vig"></div>
+    <div class="grain"></div>
+  </div>
+
+  <main>
+    <header>
+      <h1>BLOOD BOUND</h1>
+      <span class="rule"></span>
+      <p class="tag">A story of secrets, loyalty, love, and the people who refuse to disappear.</p>
+    </header>
+
+    <nav aria-label="Chapters">
+      <ol>
+        <li><a class="ch" href="ch1.html"><span class="num">Chapter I</span><span class="name">THE GIRL WHO HATED HIM</span><span class="sub">Every story begins with a collision.</span></a></li>
+        <li><a class="ch" href="chapter2.html"><span class="num">Chapter II</span><span class="name">THE SECRET</span><span class="sub">Some secrets rewrite everything.</span></a></li>
+        <li><a class="ch" href="chapter3.html"><span class="num">Chapter III</span><span class="name">THE ONE WHO STAYED</span><span class="sub">Sometimes love is simply the person who remains.</span></a></li>
+        <li><a class="ch" href="chapter4.html"><span class="num">Chapter IV</span><span class="name">THE MAN WHO NEVER LEFT</span><span class="sub">Not every goodbye is the end.</span></a></li>
+        <li><a class="ch" href="chapter5.html"><span class="num">Chapter V</span><span class="name">THE ONE WHO CAME BACK</span><span class="sub">Some ghosts return with a heartbeat.</span></a></li>
+        <li><a class="ch" href="chapter6.html"><span class="num">Chapter VI</span><span class="name">THE CHOICE</span><span class="sub">Every story eventually asks you to choose.</span></a></li>
+      </ol>
+    </nav>
+    <footer>
+      <a class="back-hub" href="../../index.html#library">Back to Library</a>
+    </footer>
+  </main>
+
+  <script>
+  (function(){
+    var reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+    var cv = document.getElementById("embers"), cx = cv.getContext("2d"), P = [], W, H, dpr;
+
+    function size(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.width = innerWidth * dpr;
+      H = cv.height = innerHeight * dpr;
+    }
+    size();
+    addEventListener("resize", size);
+
+    var n = reduce ? 0 : 38;
+    for(var k = 0; k < n; k++){
+      P.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: (Math.random() * 1.5 + .4) * dpr,
+        s: (Math.random() * .25 + .08) * dpr,
+        o: Math.random() * .5 + .15,
+        d: Math.random() * 6
+      });
+    }
+
+    var t = 0;
+    function loop(){
+      t += .01;
+      cx.clearRect(0, 0, W, H);
+      P.forEach(function(p){
+        p.y -= p.s;
+        p.x += Math.sin(t + p.d) * .25 * dpr;
+        if(p.y < -5){ p.y = H + 5; p.x = Math.random() * W; }
+        cx.beginPath();
+        cx.arc(p.x, p.y, p.r, 0, 6.283);
+        cx.fillStyle = "rgba(194,80,70," + (p.o * (.6 + .4 * Math.sin(t * 3 + p.d))) + ")";
+        cx.fill();
+      });
+      requestAnimationFrame(loop);
+    }
+    if(n) loop();
+  })();
+  </script>
+</body>
+</html>

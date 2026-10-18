@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Still With You — Episode 03: The Things We Never Say</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#fbf6ed;
+  --parchment:#ecdcc8;
+  --rose:#c58595;
+  --amber:#f0b46a;
+  --peach:#e39572;
+  --navy:#0a1222;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--navy);color:var(--ivory);-webkit-tap-highlight-color:transparent;user-select:none}
+
+/* ---------- Dreamy Sky Palette Backgrounds ---------- */
+.bg{position:fixed;inset:0;opacity:0;transition:opacity 1.4s ease}
+.bg.on{opacity:1}
+.dawn{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%,rgba(227,149,114,.45),transparent 70%),
+    linear-gradient(180deg,#142038 0%,#24375e 35%,#66506e 70%,#d28e75 100%);
+}
+.hall{
+  background:
+    radial-gradient(circle at 75% 30%,rgba(240,180,106,.22),transparent 50%),
+    linear-gradient(180deg,#111930 0%,#1e294b 45%,#3f3552 80%,#261c30 100%);
+}
+.class{
+  background:
+    radial-gradient(ellipse 65% 55% at 20% 35%,rgba(240,180,106,.28),transparent 65%),
+    linear-gradient(180deg,#131e38 0%,#283556 50%,#5e4f66 85%,#302232 100%);
+}
+.yard{
+  background:
+    radial-gradient(circle at 50% 15%,rgba(251,246,237,.2),transparent 45%),
+    radial-gradient(ellipse 90% 45% at 50% 100%,rgba(227,149,114,.4),transparent 75%),
+    linear-gradient(180deg,#192748 0%,#374b73 40%,#7d5b6e 75%,#c4967a 100%);
+}
+.gold{
+  background:
+    radial-gradient(ellipse 75% 55% at 65% 65%,rgba(240,180,106,.52),transparent 70%),
+    linear-gradient(180deg,#152037 0%,#353655 40%,#82495b 70%,#d9855b 95%);
+}
+.dusk{
+  background:
+    radial-gradient(ellipse 85% 45% at 50% 100%,rgba(227,149,114,.32),transparent 75%),
+    linear-gradient(180deg,#0a1120 0%,#141d34 40%,#32263d 72%,#6a3c4b 92%,#1d111f 100%);
+}
+
+.veil{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(7,11,22,.65));z-index:3}
+#rain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 2.5s;z-index:4}
+#dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:calc(16px + env(safe-area-inset-top,0px)) 24px 0;z-index:25;font:300 11px var(--sans);letter-spacing:.22em;text-transform:uppercase}
+nav a{color:var(--ivory);opacity:.5;text-decoration:none;padding:6px 2px;transition:opacity .3s}
+nav a:hover,nav a:focus-visible{opacity:1}
+
+#story,#title,#end{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 32px;pointer-events:none;z-index:10}
+
+#story .in{
+  max-width:38rem;
+  font:400 clamp(1.4rem,3.3vw,1.92rem)/1.65 var(--serif);
+  opacity:0;
+  transform:translateY(14px);
+  filter:blur(4px);
+  transition:opacity .8s ease,transform .8s ease,filter .8s ease;
+  text-shadow:0 2px 20px rgba(4,7,16,.75);
+}
+#story .in.show{opacity:1;transform:translateY(0);filter:blur(0)}
+
+.sp{display:block;font:400 12px var(--sans);letter-spacing:.28em;color:var(--amber);margin-bottom:1rem;text-transform:uppercase}
+.d{font-style:italic;color:var(--ivory)}
+
+#title,#end{opacity:0;transition:opacity 1.8s ease}
+#title.show,#end.show{opacity:1}
+#end{pointer-events:none}
+#end a{pointer-events:auto;color:var(--ivory);font:400 12px var(--sans);letter-spacing:.22em;text-decoration:none;opacity:.75;margin:26px 14px 0;display:inline-block;border-bottom:1px solid rgba(240,180,106,.5);padding-bottom:4px;transition:opacity .3s,color .3s}
+#end a:hover{opacity:1;color:var(--amber)}
+
+.t1{font:300 12px var(--sans);letter-spacing:.36em;color:var(--rose);text-transform:uppercase}
+h1{font:400 clamp(2.4rem,8vw,4.6rem)/1.08 var(--serif);margin:18px 0 12px;letter-spacing:.06em;text-transform:uppercase}
+.t2{font:italic 400 1.25rem var(--serif);color:var(--amber);margin-top:6px}
+.t3{font:italic 300 1.1rem var(--serif);color:var(--parchment);opacity:.85;margin-top:32px;max-width:32ch}
+
+/* ---------- Character Reveal Card (Cinematic Side Layout) ---------- */
+#intro{position:fixed;inset:0;z-index:15;opacity:0;pointer-events:none;transition:opacity 1.1s ease}
+#intro.show{opacity:1}
+.fig{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.fig img{width:100%;height:100%;object-fit:cover;object-position:center center;display:block}
+.fig::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2}
+
+.L .fig::after{
+  background:linear-gradient(to right,transparent 0%,transparent 32%,rgba(10,18,34,.35) 52%,rgba(10,18,34,.85) 76%,var(--navy) 100%);
+}
+.R .fig::after{
+  background:linear-gradient(to left,transparent 0%,transparent 32%,rgba(10,18,34,.35) 52%,rgba(10,18,34,.85) 76%,var(--navy) 100%);
+}
+
+.itext{position:absolute;top:50%;transform:translateY(-50%);width:46%;padding:0 5%;z-index:3}
+.L .itext{right:0}
+.R .itext{left:0}
+
+.nm{font:400 clamp(2rem,4.8vw,3.2rem)/1 var(--serif);letter-spacing:.12em;text-transform:uppercase;color:var(--ivory)}
+.ti{font:400 11px var(--sans);letter-spacing:.26em;color:var(--amber);margin:10px 0 24px;text-transform:uppercase}
+.ln{
+  font:400 clamp(1.1rem,2.1vw,1.42rem)/1.6 var(--serif);
+  margin-bottom:.8rem;
+  opacity:0;
+  transform:translateY(12px);
+  filter:blur(3px);
+  transition:opacity .65s ease,transform .65s ease,filter .65s ease;
+  color:var(--parchment);
+}
+.ln.show{opacity:1;transform:translateY(0);filter:blur(0)}
+
+#hint{
+  position:fixed;
+  bottom:calc(24px + env(safe-area-inset-bottom,0px));
+  left:0;right:0;
+  text-align:center;
+  font:400 10px var(--sans);
+  letter-spacing:.32em;
+  opacity:.45;
+  color:var(--amber);
+  animation:pulse 3.6s ease-in-out infinite;
+  pointer-events:none;
+  text-transform:uppercase;
+  z-index:20;
+}
+@keyframes pulse{50%{opacity:.15}}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="bg" id="b0"></div><div class="bg" id="b1"></div>
+<canvas id="dust"></canvas>
+<canvas id="rain"></canvas>
+<div class="veil"></div>
+
+<nav>
+  <a href="../chapters.html">← Episodes</a>
+  <a href="../../../index.html#library">Library</a>
+</nav>
+
+<div id="title" class="show">
+  <div class="t1">Still With You · Season One</div>
+  <h1>The Things We Never Say</h1>
+  <div class="t2">Episode 03</div>
+  <div class="t3">“First love is beautiful. Until reality gets involved.”</div>
+</div>
+
+<div id="intro">
+  <div class="fig"><img id="iimg" alt=""></div>
+  <div class="itext">
+    <div class="nm" id="inm"></div>
+    <div class="ti" id="iti"></div>
+    <div id="ils"></div>
+  </div>
+</div>
+
+<div id="story"><div class="in" id="txt"></div></div>
+
+<div id="end">
+  <div class="t1">End of Episode 03</div>
+  <h1>The Things We Never Say</h1>
+  <div>
+    <a href="episode4.html">Next Episode →</a>
+    <a href="../chapters.html">Episodes</a>
+    <a href="../../../index.html#library">Library</a>
+  </div>
+</div>
+
+<div id="hint">Tap to Continue</div>
+
+<script>
+(function(){
+var SP=/^(Celine|Meher|Ayeesha|Sunny|Mingyu|Yerin|Minho|Hyunjin|Thoufiq|Aalim):\s*(.*)$/;
+var S=[
+"@bg=dawn",
+"Three weeks had passed since the afternoon at the school gates.",
+"Three long weeks of silence behind the shuttered wooden windows of Meher's family home.",
+"During that time, Celine had visited almost every other afternoon—partly to bring class notes, partly to keep Meher company...",
+"...and partly because Thoufiq was always somewhere in the courtyard with a basketball.",
+"Thoufiq was high school royalty: carefree, athletic, charming, with girl fans screaming his name whenever he scored a three-pointer.",
+"He took everything lightly—a wink here, a celebratory cheek-kiss on the bleachers there.",
+"Yet whenever Celine walked through the gate, he stopped playing.",
+"He noticed how fiercely she defended his sister.",
+"He noticed how she never backed down from a challenge, and how her eyes lit up on the court.",
+
+"Thoufiq: Hey, Celine. Since I'm graduating, the athletic council told me I have to pass the torch. I need a new sports captain.",
+"Celine: And why are you telling me?",
+"Thoufiq: Because you've got venom in your throws. I felt that basketball you hurled at Mingyu's face from forty yards away.",
+"Celine had flushed, trying not to grin.",
+"Thoufiq: But the rule requires co-captains. A boy and a girl. Who's your pick?",
+"Celine had crossed her arms, remembering Mingyu's relentless speed and competitive ferocity.",
+"Celine: The angry transfer. Mingyu.",
+"Thoufiq had raised an eyebrow, a flicker of surprise crossing his face before flashing his trademark grin.",
+"Thoufiq: Bold choice, Celine. Don't let him bite you.",
+
+"@bg=class",
+"When the morning of Eid passed, Meher finally walked back into Room 11-B.",
+"Her uniform was pristine, her scarf pinned neatly in place.",
+"The classroom fell quiet for a second before a collective breath of relief swept through the rows.",
+"Celine tackled her into a tight hug before she could even reach the third row.",
+"And there, sitting in the corner by the window, was her desk.",
+"Completely empty.",
+"Minho had kept his promise. Not a single person had been allowed to touch her chair.",
+"Minho looked up from his thick biology notebook, his sharp features softening into a quiet, warm smile.",
+"Minho: You're back.",
+"Meher: I'm back. Did Sunny get lost while I was gone?",
+"Minho chuckled softly.",
+"Minho: Every single day. I told him he owes you half his lunch for keeping us oriented.",
+
+"Across the aisle, Celine dropped her gym clipboard onto Mingyu's desk.",
+"Celine: Congratulations, benchwarmer. You're looking at your new co-captain.",
+"Mingyu looked up from his phone with a lazy, arrogant smirk.",
+"Mingyu: Co-captain? You dragged me into school bureaucracy?",
+"Celine: You run fast and you never get tired. Consider it an honor.",
+"Mingyu: It's an inconvenience.",
+"Celine: You can thank me later.",
+"Mingyu clicked his tongue, but his fingers tapped the clipboard with quiet pride he refused to admit out loud.",
+
+"@bg=hall",
+"During sixth period, Meher and Minho were cataloging past exam registers in the library annex.",
+"The afternoon light filtered through the tall wooden bookshelves in warm dusty shafts.",
+"Minho reached for a high leather binder, standing close behind her, his steady presence filling the quiet aisle.",
+"Meher's heart thumped against her ribs—a strange, sweet confusion she had never known.",
+"No boy had ever entered the private chambers of her heart before.",
+"Suddenly, quick footsteps clicked on the hardwood floor.",
+"Yerin appeared at the end of the shelf, holding a sleek gold invitation sample.",
+"Yerin: Minho! There you are. I've been looking for you everywhere.",
+"Minho stepped back slightly, composed.",
+"Minho: We're filing the mid-term registers, Yerin.",
+"Yerin held up the card with a bright, possessive smile, completely unbothered by Meher's presence.",
+"Yerin: The printers sent the draft for your eighteenth birthday gala. Mother confirmed the official engagement announcement will happen right before the cake cutting. We need to finalize the guest list tonight.",
+"The words hung in the air like ice water.",
+"*The official engagement announcement.*",
+"Meher's hands went completely numb against the paper binder.",
+"Minho's jaw tightened into a rigid line. He looked at Yerin, then quickly at Meher.",
+"Minho: We'll talk about this at the dorm, Yerin. Not here.",
+"Yerin: Fine. But don't be late tonight. You know how Father gets.",
+"Yerin waved lightly and walked away, completely at ease.",
+
+"The library fell into suffocating silence.",
+"Meher looked down at the floor, clutching her notebooks to her chest.",
+"Minho turned toward her, his eyes carrying a raw, urgent desperation.",
+"Minho: Meher. Look at me.",
+"Meher looked up, her eyes glossy with held-back tears.",
+"Meher: It's your eighteenth birthday...",
+"Minho: It's a business merger between our fathers. It was planned before we were even eight years old. Yerin thinks it's love because she doesn't know any other world. But I don't love her like that, Meher. I never have.",
+"Meher swallowed the lump in her throat.",
+"Meher: But you're getting engaged.",
+"Minho reached out, his hand hovering near hers before pulling back with disciplined restraint.",
+"Minho: I won't let it happen. I don't know how yet... but I won't.",
+
+"@bg=class",
+"That evening in the school auditorium, the tension that had simmered for eight long years finally cracked.",
+"Hyunjin was packing his rehearsal bag when Minho walked in.",
+"Hyunjin: Are you really going to go through with it, Minho?",
+"Minho stopped.",
+"Minho: The birthday? I don't have a choice with Father right now.",
+"Hyunjin turned around, his soft, gentle eyes burning with sudden, uncharacteristic fire.",
+"Hyunjin: I'm not asking about the party. Do you love Yerin? Truly? With your entire soul?",
+"Minho fell silent. His silence was the heaviest answer.",
+"Minho: She is my family, Hyunjin. I would take a bullet for her. But you know that isn't—",
+"Hyunjin: Then say it to her! Say it so she stops building castles in the sky for a man who doesn't feel a damn thing!",
+"The auditorium doors pushed open.",
+"Yerin stood in the doorway, pale and frozen, with Sunny right behind her.",
+"Yerin: What... what are you talking about, Hyunjin?",
+"Hyunjin’s chest rose and fell in ragged breaths. The secret he had buried inside his failing heart since childhood tore through his lips.",
+"Hyunjin: I love you, Yerin.",
+"Yerin’s eyes went wide with pure shock.",
+"Yerin: What...?",
+"Hyunjin took a step toward her, his voice trembling with raw, aching beauty.",
+"Hyunjin: I have loved you since the day you scraped your knee by the cherry trees when we were eight years old. I have loved you while watching you hold his arm. I've loved you in every quiet second of my life.",
+"Yerin backed away, shaking her head in panic.",
+"Yerin: Hyunjin, stop... please. You're my best friend. The five of us—we can't break this! Just... forget it. Pretend you never said it.",
+"Hyunjin smiled—a sad, breathtaking, utterly determined smile.",
+"Hyunjin: I can pretend to be a lot of things, Yerin. But I will never pretend I don't love you.",
+"Sunny watched quietly from the back, his eyes full of sorrow and relief.",
+"Minho stepped forward, placing a steady hand on Hyunjin’s shoulder.",
+"Minho looked at Yerin with profound gentleness.",
+"Minho: Everyone in this group has been starved for real affection, Yerin. You deserve someone who looks at you like you're the only star in the sky. Not someone who stands beside you because of a contract.",
+"Minho turned to Hyunjin, nodding slowly.",
+"Minho: Stay beside her. Show her what real love looks like.",
+
+"@bg=yard",
+"Over the next few weeks, a strange, sweet storm enveloped 11-B.",
+"Hyunjin became relentless in his gentle courtship.",
+"Whenever Yerin carried heavy books, Hyunjin took them effortlessly with a soft grin.",
+"Whenever Yerin ordered iced coffee, Hyunjin had already swapped it for warm honey ginger tea because she had a sore throat.",
+"Yerin would pout, her cheeks turning bright crimson.",
+"Yerin: Hyunjin! Stop it! We're supposed to be childhood friends!",
+"Hyunjin: Anything you say, love. You can call me a friend while I walk you to the car.",
+"Yerin: Don't call me 'love' in the hallway! People are staring!",
+"Hyunjin: Let them stare. They should know I have impeccable taste.",
+"Sunny would lean against the lockers, laughing into his sleeve as Yerin groaned and hurried away, completely flustered.",
+
+"@bg=class",
+"Between the chaos of the school halls, another quiet warmth was growing.",
+"In the faculty lounge corridor, Aalim arrived to drop off Thoufiq's athletic consent forms.",
+"He bumped right into Ms. Ayeesha carrying a stack of literature essays.",
+"Aalim: Miss Ayeesha.",
+"Ayeesha smiled, that teasing glint in her eyes returning.",
+"Ayeesha: Mr. Aalim. No sweatpants today?",
+"Aalim's ears turned violently pink.",
+"Aalim: That was... an unfortunate domestic anomaly.",
+"Ayeesha: I thought it was rather endearing. Like an oversized bear who forgot his roar.",
+"Aalim cleared his throat, adjusting his tie, struggling not to smile.",
+"Aalim: Is Meher doing well in class?",
+"Ayeesha: She is thriving. And so is her brother's reputation for making hasty threats.",
+"Aalim looked down at her, his voice dropping into quiet sincerity.",
+"Aalim: Thank you. For visiting that day. And for seeing our family for what it is.",
+"Ayeesha met his gaze, her heart skipping an unexpected beat.",
+"Ayeesha: Your mother makes wonderful sheer khurma, Mr. Aalim. You should invite me again.",
+"Aalim swallowed hard, nodding like a stunned schoolboy.",
+"Aalim: I will. Definitely.",
+
+"@bg=gold",
+"Months slipped past like falling leaves, until winter began to settle over the city.",
+"One evening during dance rehearsal, Hyunjin collapsed to the auditorium floor.",
+"His chest seized violently. His skin went grey, his pulse racing into erratic flutter.",
+"The ambulances tore through the dusk.",
+"In the hospital corridor, the truth came crashing down like shattered glass: end-stage heart failure.",
+"His biological clock was ticking on borrowed minutes.",
+"Minho took absolute command.",
+"Minho’s family had connections to the premier cardiothoracic research center in Boston, United States.",
+"Minho: We're taking him to the US. Tonight.",
+"Sunny: Minho, what about your classes? What about your father?",
+"Minho: I don't care about my father. Hyunjin has no one left except his grandmother in Boston. Granny can't handle this alone. I am flying with him.",
+"In the rush of medical transports and midnight flights, Minho left.",
+"He didn't have time to see Meher. He left without a goodbye.",
+
+"@bg=dusk",
+"The next Monday, the school felt hollow.",
+"Two empty chairs in the third row.",
+"Meher sat staring at the polished wood beside her, her chest aching with an unbearable, quiet void.",
+"At the end of the day, Mingyu approached Meher and Celine by the lockers.",
+"Mingyu: Hey.",
+"Celine: Where are they, Nobody's telling us anything.",
+"Mingyu: Come to the dorm after school. Yerin's losing her mind. We'll explain everything there.",
+
+"@bg=dusk",
+"The penthouse was vast, cold, and beautiful—filled with modern art and sprawling views of the sunset.",
+"Yerin sat curled on the large velvet sofa, her eyes puffy from crying.",
+"Mingyu walked in with two cups of tea, setting one gently in front of Yerin.",
+"Mingyu: Drink it, princess. Crying isn't going to fix his heart.",
+"Yerin sniffled, leaning her head against Mingyu's shoulder.",
+"Yerin: He always flirted with me, Mingyu... Every single day he called me 'love'. And I just told him to shut up. What if I never hear him say it again?",
+"Mingyu ruffled her hair with a rare, brotherly tenderness.",
+"Mingyu: He's going to come back. He's too stubborn to leave you behind.",
+
+"Mingyu walked over to the floor-to-ceiling glass where Meher stood watching the evening sky.",
+"Mingyu: Minho wanted me to tell you.",
+"Meher turned, her eyes wide and anxious.",
+"Mingyu: His flight was an emergency medical charter. Hyunjin's heart went into ventricular arrest twice at the airport.",
+"Meher pressed a hand to her mouth in horror.",
+"Mingyu: Minho couldn't call. But he told me before boarding: 'Make sure Meher knows I'm coming back. Tell her not to let anyone take our seat.'",
+"Tears slipped down Meher's cheeks—not from hurt, but from the immense relief that he hadn't forgotten her.",
+"Mingyu looked out over the skyline, his voice turning low, rough, and vulnerable.",
+"Mingyu: His father is a monster, Meher. He built Minho into a machine. That engagement with Yerin? It's just a contract. Minho never loved her. His whole life has been duty.",
+"Meher listened, her heart aching deeply for the boy across the ocean.",
+
+"Celine stepped up beside Mingyu on the terrace.",
+"Celine: Why do you always act so angry, Mingyu?",
+"Mingyu looked down at his knuckles, the bitter memories finally breaking through his wall.",
+"Mingyu: When I was nine... we had a lake house. My younger sister... she was six. She ran toward the dock after a toy. I was supposed to be watching her.",
+"Celine’s breath caught.",
+"Mingyu: She slipped into the water. By the time the divers pulled her out... it was too late. My father told me it was my fault. And every day I look in the mirror, I know he was right.",
+"Celine’s eyes filled with tears. Without thinking, she reached out and took his clenched hand in hers.",
+"Celine: It wasn't your fault, Mingyu. You were just a child.",
+"Mingyu looked at her, his voice cracking slightly.",
+"Mingyu: You know... you remind me of her sometimes. The sun-tanned skin. The stubborn faith. The way you snap at everyone just to protect the people you love.",
+"Celine smiled through her tears, squeezing his fingers.",
+"Celine: Well... if you need a sister to yell at you, I can be your sister.",
+"Mingyu flinched as if stung, his face suddenly heating up with an awkward, sharp blush.",
+"He pulled his hand back, crossing his arms and scoffing with his usual defensive arrogance.",
+"Mingyu: What? No. Absolutely not.",
+"Celine: What's wrong with that?!",
+"Mingyu: I don't need another sister, Celine. One spoiled Yerin is enough for ten lifetimes.",
+"Celine rolled her eyes.",
+"Celine: You are impossible, Eden Mathew.",
+"Mingyu froze, his eyes widening in shock before looking away toward the violet dusk.",
+"Mingyu: Don't call me that.",
+"Yet underneath his scowl, his pulse was racing against his ribs.",
+"He didn't know how to explain to her that 'sister' was the last thing he ever wanted her to be.",
+
+"The sun sank below the horizon, draping the city in velvet shadows.",
+"Across the world in Boston, a boy fought for every breath, holding onto the memory of a girl's laugh.",
+"And beside him, another boy stood by the hospital window, staring at the night sky, whispering the name of the girl waiting in the third row.",
+"The things we never say don't disappear into the dark.",
+"They wait in the quiet.",
+"Waiting for the day we finally become brave enough to speak.",
+
+"!end"
+];
+
+/* ---------- Engine Code ---------- */
+var B=[],pend={},cur,k,m,parts;
+S.forEach(function(s){
+  if(s[0]==='@'){s.slice(1).split(';').forEach(function(p){var a=p.split('=');pend[a[0]]=a[1]});return}
+  var b={};for(k in pend)b[k]=pend[k];pend={};
+  if(s==='!end'){b.t='end';B.push(b);return}
+  if(s[0]==='!'){
+    parts=s.slice(1).split('|');
+    for(var i=3;i<parts.length;i++){
+      var c={t:'i',id:parts[0],side:parts[1],ti:parts[2],n:i-3,lines:parts.slice(3)};
+      if(i===3){for(k in b)c[k]=b[k]}
+      B.push(c);
+    }
+    return;
+  }
+  m=s.match(SP);
+  if(m){b.t='s';b.sp=m[1];b.x=m[2]}else{b.t='s';b.x=s}
+  B.push(b);
+});
+
+var idx=-1,lock=false,bgi=0,swapTimer;
+var $=function(i){return document.getElementById(i)};
+var txt=$('txt'),intro=$('intro'),hint=$('hint');
+
+function setBg(n){
+  var next=$('b'+(1-bgi)),prev=$('b'+bgi);
+  next.className='bg '+n+' on';prev.className='bg '+prev.className.split(' ')[1];
+  bgi=1-bgi;
+}
+setBg('dawn');
+
+/* ---------- Atmosphere Particles (Sun Dust & Motes) ---------- */
+var cvDust=$('dust'), cxDust=cvDust.getContext('2d'), dW, dH, motes=[];
+function sizeDust(){
+  var dpr=Math.min(devicePixelRatio||1,2);
+  dW=cvDust.width=innerWidth*dpr;
+  dH=cvDust.height=innerHeight*dpr;
+  motes=[];
+  var count=Math.round(Math.min(75, innerWidth/12));
+  for(var i=0;i<count;i++){
+    motes.push({
+      x:Math.random()*dW,
+      y:Math.random()*dH,
+      r:(0.6+Math.random()*1.8)*dpr,
+      vx:(Math.random()*.12+.02)*dpr,
+      vy:(Math.random()-.55)*.12*dpr,
+      a:Math.random()*6.28,
+      s:.003+Math.random()*.007,
+      glow:Math.random()<.25,
+      o:.18+Math.random()*.45
+    });
+  }
+}
+addEventListener('resize',sizeDust);
+sizeDust();
+
+function frameDust(){
+  cxDust.clearRect(0,0,dW,dH);
+  for(var i=0;i<motes.length;i++){
+    var p=motes[i];
+    p.a+=p.s;
+    p.x+=p.vx+Math.sin(p.a)*.18;
+    p.y+=p.vy+Math.cos(p.a*.8)*.12;
+    if(p.x>dW+10) p.x=-10;
+    if(p.y<-10) p.y=dH+10;
+    if(p.y>dH+10) p.y=-10;
+
+    var tw=.5+.5*Math.sin(p.a*2.2);
+    var alpha=p.o*tw;
+    if(p.glow){
+      var g=cxDust.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);
+      g.addColorStop(0,'rgba(240,180,106,'+alpha*.8+')');
+      g.addColorStop(1,'rgba(227,149,114,0)');
+      cxDust.fillStyle=g;
+      cxDust.beginPath();cxDust.arc(p.x,p.y,p.r*5,0,6.283);cxDust.fill();
+    } else {
+      cxDust.fillStyle='rgba(251,246,237,'+alpha+')';
+      cxDust.beginPath();cxDust.arc(p.x,p.y,p.r,0,6.283);cxDust.fill();
+    }
+  }
+  requestAnimationFrame(frameDust);
+}
+requestAnimationFrame(frameDust);
+
+/* ---------- Rain: Soft ambient drizzle ---------- */
+var cv=$('rain'),cx=cv.getContext('2d'),W,H,drops=[],raining=false,running=false;
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+size();addEventListener('resize',size);
+for(var d=0;d<75;d++)drops.push({x:Math.random(),y:Math.random(),l:10+Math.random()*14,v:.6+Math.random()*.7});
+function frame(){
+  if(!raining&&cv.style.opacity==='0'){running=false;return}
+  cx.clearRect(0,0,W,H);cx.strokeStyle='rgba(230,238,250,.22)';cx.lineWidth=1;cx.beginPath();
+  drops.forEach(function(p){
+    var x=p.x*W,y=p.y*H;
+    cx.moveTo(x,y);cx.lineTo(x-p.l*.14,y+p.l);
+    p.y+=p.v*.006;p.x-=p.v*.0006;
+    if(p.y>1.05){p.y=-.05;p.x=Math.random()*1.1}
+    if(p.x<-.05)p.x=1.05;
+  });
+  cx.stroke();requestAnimationFrame(frame);
+}
+function setRain(on){
+  raining=on;cv.style.opacity=on?1:0;
+  if(on&&!running){running=true;requestAnimationFrame(frame)}
+  if(!on)setTimeout(function(){if(!raining){running=false;cx.clearRect(0,0,W,H)}},2600);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function showText(b){
+  clearTimeout(swapTimer);
+  txt.classList.remove('show');
+  swapTimer=setTimeout(function(){
+    txt.innerHTML=(b.sp?'<span class="sp">'+b.sp.toUpperCase()+'</span>':'')+(b.sp?'<span class="d">“'+esc(b.x)+'”</span>':esc(b.x));
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        txt.classList.add('show');
+      });
+    });
+  },500);
+}
+
+var introId=null;
+var introTimers=[];
+function showIntro(b){
+  var first=introId!==b.id;
+  introTimers.forEach(clearTimeout);
+  introTimers=[];
+
+  if(first){
+    introId=b.id;
+    var img=$('iimg');
+    img.style.display='';
+    img.onerror=function(){img.style.display='none'};
+    img.src='../assets/'+b.id+'.png';
+
+    intro.className=b.side;
+    $('inm').textContent=b.id.toUpperCase();
+    $('iti').textContent=b.ti;
+    $('ils').innerHTML=b.lines.map(function(l){
+      return '<div class="ln">'+esc(l)+'</div>';
+    }).join('');
+
+    requestAnimationFrame(function(){
+      intro.classList.add('show');
+    });
+  }
+
+  var ls=$('ils').children;
+  for(var i=0;i<=b.n;i++){
+    (function(e,i){
+      var timer=setTimeout(function(){
+        e.classList.add('show');
+      }, first ? i*130 : 70);
+      introTimers.push(timer);
+    })(ls[i],i);
+  }
+}
+function hideIntro(){
+  introTimers.forEach(clearTimeout);
+  introTimers=[];
+  intro.classList.remove('show');
+  introId=null;
+}
+function go(){
+  idx++;var b=B[idx];if(!b)return;
+  if(b.bg)setBg(b.bg);
+  if(b.rain!==undefined)setRain(b.rain==='1');
+  if(b.t==='i'){showIntro(b)}
+  else{
+    if(introId)hideIntro();
+    if(b.t==='end'){txt.classList.remove('show');$('end').classList.add('show');hint.style.display='none';return}
+    showText(b);
+  }
+  var nx=B[idx+1];
+  hint.textContent=(b.t==='i'&&nx&&nx.t!=='i')?'CONTINUE':'TAP TO CONTINUE';
+}
+function advance(){
+  if(lock||(B[idx]&&B[idx].t==='end'))return;
+  lock=true;
+  setTimeout(function(){lock=false},320);
+  if(idx===-1){$('title').classList.remove('show')}
+  go();
+}
+document.addEventListener('click',function(e){if(e.target.closest('a'))return;advance()});
+document.addEventListener('keydown',function(e){
+  if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){e.preventDefault();advance()}
+});
+})();
+</script>
+</body>
+</html>

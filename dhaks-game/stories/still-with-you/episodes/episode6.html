@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Still With You — Episode 06: Season Finale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#fbf6ed;
+  --parchment:#ecdcc8;
+  --rose:#c58595;
+  --amber:#f0b46a;
+  --peach:#e39572;
+  --navy:#080d1a;
+  --wine:#3a141e;
+  --crimson:#821d2d;
+  --ash:#7a726d;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'Jost',system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--navy);color:var(--ivory);-webkit-tap-highlight-color:transparent;user-select:none}
+
+/* ---------- Upgraded Cinematic Atmospheric Backgrounds ---------- */
+.bg{position:fixed;inset:0;opacity:0;transition:opacity 1.8s cubic-bezier(.4,0,.2,1);background-size:cover;background-position:center}
+.bg.on{opacity:1}
+
+.gala{
+  background:
+    radial-gradient(circle at 50% 20%,rgba(240,180,106,.28),transparent 60%),
+    radial-gradient(ellipse 90% 70% at 50% 100%,rgba(58,20,30,.7),transparent 80%),
+    linear-gradient(180deg,#0a0f1d 0%,#181a2b 30%,#281622 70%,#09060b 100%);
+}
+.crisis{
+  background:
+    radial-gradient(ellipse 70% 60% at 30% 40%,rgba(130,29,45,.4),transparent 70%),
+    radial-gradient(circle at 80% 80%,rgba(227,149,114,.2),transparent 60%),
+    linear-gradient(180deg,#0c0810 0%,#240d17 45%,#130914 80%,#050408 100%);
+}
+.fire{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 90%,rgba(240,140,60,.45),transparent 70%),
+    radial-gradient(circle at 20% 30%,rgba(130,29,45,.35),transparent 60%),
+    linear-gradient(180deg,#140808 0%,#2c0d0d 40%,#45130f 75%,#120404 100%);
+}
+.hospital{
+  background:
+    radial-gradient(circle at 50% 25%,rgba(197,133,149,.22),transparent 65%),
+    radial-gradient(ellipse 75% 55% at 50% 100%,rgba(20,32,56,.4),transparent 75%),
+    linear-gradient(180deg,#090d16 0%,#131c2e 45%,#1f2433 75%,#080b12 100%);
+}
+.rainstorm{
+  background:
+    radial-gradient(ellipse 85% 55% at 50% 100%,rgba(10,24,45,.5),transparent 75%),
+    linear-gradient(180deg,#04070d 0%,#0c1424 45%,#161c28 75%,#06080e 100%);
+}
+.departure{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 10%,rgba(240,180,106,.2),transparent 65%),
+    radial-gradient(ellipse 90% 50% at 50% 100%,rgba(227,149,114,.35),transparent 75%),
+    linear-gradient(180deg,#0e1526 0%,#20263f 38%,#4f3b4c 72%,#9b6861 95%,#26151c 100%);
+}
+
+.veil{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 30%,rgba(5,8,16,.75) 90%);z-index:3}
+#rain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2.5s ease-in-out;
+  mix-blend-mode: screen;
+  z-index: 4;
+}
+#dust{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
+#ember{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 2s;z-index:4}
+
+.lens{position:fixed;inset:0;box-shadow:inset 0 0 120px rgba(0,0,0,.65);pointer-events:none;z-index:5}
+
+nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:calc(18px + env(safe-area-inset-top,0px)) 28px 0;z-index:25;font:300 11px var(--sans);letter-spacing:.28em;text-transform:uppercase}
+nav a{color:var(--ivory);opacity:.45;text-decoration:none;padding:6px 2px;transition:opacity .3s,color .3s}
+nav a:hover,nav a:focus-visible{opacity:1;color:var(--amber)}
+
+#story,#title,#end{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 36px;pointer-events:none;z-index:10}
+
+#story .in{
+  max-width:44rem;
+  font:400 clamp(1.35rem,3.1vw,1.9rem)/1.72 var(--serif);
+  opacity:0;
+  transform:translateY(16px);
+  filter:blur(5px);
+  transition:opacity .9s cubic-bezier(.25,1,.5,1),transform .9s cubic-bezier(.25,1,.5,1),filter .9s cubic-bezier(.25,1,.5,1);
+  text-shadow:0 3px 25px rgba(2,4,10,.85);
+}
+#story .in.show{opacity:1;transform:translateY(0);filter:blur(0)}
+
+.sp{display:block;font:400 11.5px var(--sans);letter-spacing:.32em;color:var(--amber);margin-bottom:1.1rem;text-transform:uppercase}
+.d{font-style:italic;color:var(--ivory);letter-spacing:.01em}
+
+#title,#end{opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1)}
+#title.show,#end.show{opacity:1}
+#end{pointer-events:none}
+#end a{pointer-events:auto;color:var(--ivory);font:400 11px var(--sans);letter-spacing:.26em;text-decoration:none;opacity:.7;margin:30px 16px 0;display:inline-block;border-bottom:1px solid rgba(240,180,106,.4);padding-bottom:5px;transition:all .3s}
+#end a:hover{opacity:1;color:var(--amber);border-color:var(--amber)}
+
+.t1{font:300 12px var(--sans);letter-spacing:.42em;color:var(--rose);text-transform:uppercase}
+h1{font:400 clamp(2.3rem,7.5vw,4.5rem)/1.08 var(--serif);margin:20px 0 14px;letter-spacing:.08em;text-transform:uppercase}
+.t2{font:italic 400 1.25rem var(--serif);color:var(--amber);margin-top:6px}
+.t3{font:italic 300 1.15rem/1.6 var(--serif);color:var(--parchment);opacity:.9;margin-top:36px;max-width:38ch}
+
+#hint{
+  position:fixed;
+  bottom:calc(26px + env(safe-area-inset-bottom,0px));
+  left:0;right:0;
+  text-align:center;
+  font:400 9.5px var(--sans);
+  letter-spacing:.36em;
+  opacity:.4;
+  color:var(--amber);
+  animation:pulse 3.8s ease-in-out infinite;
+  pointer-events:none;
+  text-transform:uppercase;
+  z-index:20;
+}
+@keyframes pulse{50%{opacity:.12}}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="bg" id="b0"></div><div class="bg" id="b1"></div>
+<canvas id="dust"></canvas>
+<canvas id="rain"></canvas>
+<canvas id="ember"></canvas>
+<div class="veil"></div>
+<div class="lens"></div>
+
+<nav>
+  <a href="../chapters.html">← Episodes</a>
+  <a href="../../../index.html#library">Library</a>
+</nav>
+
+<div id="title" class="show">
+  <div class="t1">Still With You · Season One Finale</div>
+  <h1>The Scars We Leave Behind</h1>
+  <div class="t2">Episode 06</div>
+  <div class="t3">“Some birds build nests in burning branches, believing love alone is enough to keep the fire from reaching their wings.”</div>
+</div>
+
+<div id="story"><div class="in" id="txt"></div></div>
+
+<div id="end">
+  <div class="t1">Season One Finale</div>
+  <h1>Still With You</h1>
+  <div class="t3">“If the earth must spin us apart to keep you alive, then let my absence be the only shield I have left to give you.”</div>
+  <div>
+    <a href="../../../index.html#library">Library</a>
+    <a href="../chapters.html">All Chapters</a>
+  </div>
+</div>
+
+<div id="hint">Tap to Continue</div>
+
+<script>
+(function(){
+var SP=/^(Celine|Meher|Ayeesha|Sunny|Mingyu|Yerin|Minho|Hyunjin|Thoufiq|Ken|Granny|Aalim|Father|Mother|YerinFather|SunnyMother):\s*(.*)$/;
+var S=[
+"@bg=gala",
+"The air inside the ballroom smelled of suffocating lilies, melted white wax, and cold dynastic ambition.",
+"Minho stood atop the marble dais, his posture rigid beneath the black wool of his tuxedo, his fingers lightly curling around the small silver pendant resting against his ribs under his tailored shirt.",
+"Beside him, Yerin stood beneath a veil of imported French lace and freshwater pearls—a porcelain doll curated to seal two billionaire empires before hundreds of flashing cameras.",
+"Minho's father stood at the gilded lectern, his eyes sweeping over the senators and tycoons with the smug, predatory triumph of an emperor crowning his dynasty.",
+
+"Father: Tonight, two lineages that shaped this nation become one flesh, one ledger, and one unbreakable legacy.",
+
+"Beneath the lace veil, Yerin's fingers trembled against Minho's cuff, her voice dropping into a desperate, razor-thin whisper.",
+"Yerin: Minho... my hands won't stop shaking.",
+"Minho: Don't look at them. Look at the doors.",
+
+"@bg=gala",
+"And then—the heavy double doors of the ballroom crashed back against the stone pillars with the violence of a gunshot.",
+"The philharmonic orchestra faltered, the violins screeching into sudden, hollow silence.",
+"Walking down the center aisle, his boots echoing with thunderous clarity against the parquet, was Hyunjin.",
+"His black silk shirt was unbuttoned at the throat, his long dark hair falling across high, pale cheekbones.",
+"And beneath his ribs, beating with stubborn, sacred fury, was the heart that had survived the operating tables across the Atlantic.",
+"Flanked behind him walked Mingyu, Ken, and Sunny—an unmovable phalanx of brothers who had crawled through fire together.",
+
+"Hyunjin: The wedding is finished.",
+
+"Gasps tore through the two thousand guests like a prairie fire.",
+"Minho's father gripped the microphone stand until his knuckles whitened into bone.",
+"Father: Security! Drag these gutter rats out of my sight!",
+"No guard moved. Ken had already cut the communication relays in the basement and barricaded the security gates.",
+"Hyunjin never broke stride until he stood at the base of the white marble steps, looking up past the gold wreaths directly into Yerin's eyes.",
+"His gaze softened into breathtaking tenderness, taking in every line of her beauty beneath the pearls.",
+
+"Hyunjin: You are the most breathtaking bride this world will ever see, Yerin. But you don't belong to this stage. Take off the veil and come home.",
+
+"Yerin let out a ragged, choking sob that echoed across the quiet hall.",
+"She raised both hands, tore the diamond-pinned lace from her hair, and hurled it onto the marble floor.",
+"She swept down the steps, her silk skirts whispering violently, and threw both arms around Hyunjin's neck.",
+"In front of the assembled high-society elite, in front of the international press and the cameras broadcasting live to the city—she kissed him.",
+"A desperate, weeping, defiant kiss that tasted of salt, hospital wards, and eight years of silence.",
+
+"@bg=crisis",
+"The ballroom detonated.",
+"Glass flutes shattered on stone; women screamed, and press shutters clattered like machine gun fire.",
+"Yerin's father lunged from his front-row table, his face mottled purple with humiliating fury.",
+"YerinFather: Shameless bitch! You disgrace our blood in front of the whole world?!",
+"He turned his wrath toward Minho's father, roaring across the stage.",
+"YerinFather: This is your son's orchestration! You invited us here to be mocked by orphans and dancers?!",
+"Father: Watch your tongue! Your filthy daughter threw herself at him!",
+"YerinFather: Say that word again and I will ruin every bank account tied to your foundation!",
+
+"The two lifelong corporate allies descended into a venomous, snarling brawl upon the stage.",
+"Minho's father turned his bloodshot eyes on Minho, raising his heavy cane to strike his son across the face.",
+"Father: You worthless piece of trash! You let this happen!",
+"Before the hardwood cane could descend, Ken's hand clamped around the billionaire's wrist with the crushing strength of a street fighter.",
+"Ken's dark eyes were completely dead, devoid of fear.",
+
+"Ken: Touch him, and you won't live to see sunrise.",
+"Father: Who do you think you are, street scum?!",
+"Ken: I am the boy who spent three years in the north docks watching your black Mercedes pull into the alleyway.",
+"Ken reached into his leather coat, pulled out a thick envelope of surveillance photographs, and hurled them into the crowd.",
+"Glossy prints of Minho's father embracing his twenty-year-old mistress in private luxury villas fluttered through the air, landing at the feet of guests and journalists.",
+"Ken: You talk about family honor while buying apartments for girls young enough to be your daughter.",
+
+"@bg=crisis",
+"Minho's mother let out a shrill, horrified gasp from the stage, her manicured fingers clutching her throat as she stared at the photographs on the floor.",
+"Mother: Min-shik... tell me this is a lie. Tell me!",
+"Minho's father sneered, his mask dropping completely as he ripped his arm from Ken's grasp.",
+"Father: Shut your mouth, Sun-hee! Upstairs. Now!",
+
+"Downstairs, the chaos fractured into terror.",
+"Yerin's father gripped Yerin's arm with bruising brutality, dragging her toward the heavy side exits.",
+"Yerin: Let go of me! Father, stop!",
+"Hyunjin lunged forward, clutching his chest where the surgical stitch was still tender, extending his open palm toward her.",
+"Hyunjin: Yerin! Take my hand! Yerin, come with me!",
+"Yerin looked at Hyunjin—she looked at his pale, sweating brow, the slight shudder in his breath, and then at the four burly bodyguards pulling batons from behind her father.",
+"She knew her father's cruelty. If Hyunjin took one blow to his transplanted heart, he would die on this marble floor.",
+"Tears streamed thick and fast down her cheeks.",
+"Yerin: Hyunjin... don't.",
+"Hyunjin: Yerin, take my hand! Please!",
+"Yerin pulled her hand back against her chest, letting her father drag her backwards into the dark.",
+"Yerin: Go away, Hyunjin! Don't look at me! Just let me go!",
+
+"Hyunjin's hand remained frozen in the empty air.",
+"A sickening, cold snap echoed through his chest.",
+"The ancient, bleeding childhood scar—the terror that everyone he loved would eventually discard him when the room grew dark—ripped wide open.",
+"He didn't see her sacrifice. He saw only her retreating back.",
+"Across the hall, Sunny was violently seized by his own mother's private security detail, kicking and screaming Ken's name before a chloroform rag was pressed to his mouth.",
+"Ken roared, lunging past guests, but the security gate slammed shut, separating them in iron bars.",
+
+"@bg=crisis",
+"Upstairs in the private study, glass shattered violently against mahogany wainscoting.",
+"Minho's mother, Sun-hee, was weeping hysterically, throwing crystal decanters at her husband's chest.",
+"Mother: Twenty-two years! I gave you my father's connections, my youth, my entire family name!",
+"Father: Your youth is gone, Sun-hee! Look at yourself! You are wrinkled and dry! Did you think an empire could be sustained by a woman who bores me?! I needed someone soft! Someone who doesn't complain!",
+
+"Minho stepped into the study, the dark rage that had simmered through eighteen years of beatings detonating behind his ribs.",
+"Minho: Don't you dare speak to my mother like she is cattle.",
+"Father: You dare speak back to me?!",
+"Minho stepped between them, his jaw clenched, shoving his father back against the desk.",
+"Minho: You are the real monster in this house. Not the boys you mocked. Not the girl you tried to buy.",
+"His father's face twisted into unhinged madness. He opened the top drawer of his executive desk, pulled out a black semi-automatic pistol, and leveled it directly at Minho's chest.",
+"Mother: Min-shik, NO!",
+"*BANG!*",
+
+"The gunshot was deafening within the enclosed walls of the study.",
+"Minho stumbled backward, hitting the floor-to-ceiling bookshelf as a searing, white-hot agony tore through his right arm and shoulder blade.",
+"Crimson blood bloomed across the crisp white front of his dress shirt, dripping heavily onto the Persian rug.",
+"Minho slumped to his knees, his vision blurring into static.",
+"Sun-hee shrieked like a dying animal, throwing herself between the gun and her bleeding son.",
+"Mother: You shot him! You shot your own flesh and blood!",
+"Father stood frozen, the smoking barrel lowering, staring at his hands with a hollow, sociopathic twitch.",
+"Sun-hee frantically hit the emergency chime on the wall, screaming at the private staff.",
+"Mother: Get the car! Call Granny! Call the F5! If my son dies, I will burn this entire house to ash!",
+
+"@bg=hospital",
+"Two days later, the surgical floor of St. Jude's Private Hospital smelled of iodine, cold tile, and despair.",
+"The bullet had shattered the edge of Minho's clavicle, missing the carotid artery by barely two centimeters.",
+"Beside the bed sat Granny, her worn hands clutching a rosary, her eyes swollen from two sleepless nights.",
+"Mingyu leaned against the radiator, his fists jammed deep into his pockets, silent as an executioner.",
+"Hyunjin sat in the plastic corner chair, completely altered.",
+"The gentle, laughing boy who used to swap honey teas with Yerin had vanished.",
+"His eyes were flat, dead obsidian. When a nurse accidentally stepped on a fallen bouquet of Yerin's flowers, Hyunjin kicked the petals into the dustbin with cold, vicious disgust.",
+"Mingyu: Hyunjin... she was probably terrified—",
+"Hyunjin: Say her name in front of me again, Mingyu, and I'll break your jaw.",
+"Granny looked at Hyunjin with tears in her wrinkled eyes, her voice shaking.",
+"Granny: My boy... what have they done to your sweet heart...",
+
+"On the bed, Minho's eyelashes fluttered. A low, dry groan escaped his throat.",
+"Minho: Meher...",
+"Ken stepped forward instantly, leaning over the rails.",
+"Ken: Minho. You're in the hospital. You're safe.",
+"Minho: Sunny... where is Sunny... Yerin...",
+"Silence fell over the room like lead.",
+"Ken swallowed hard, his voice trembling with a terror he had never shown in any street brawl.",
+"Ken: Sunny's phone is disconnected. His house is completely locked down. I went to the gates... they have armed guards with attack dogs. Minho... they have Yerin too. Her father took her to their private estate.",
+
+"@bg=class",
+"Ken drove through the rain to Meher's family home.",
+"Thoufiq opened the door, his face pale upon seeing Ken's blood-flecked leather jacket.",
+"Meher rushed to the foyer, clutching her woolen shawl, her heart pounding with instinctual dread.",
+"Meher: Ken? What happened?! Minho hasn't called in two days—",
+"Ken: Minho was shot by his father, Meher.",
+"Meher's face drained of all color, her breath catching violently in her throat as she gripped Ken's sleeve.",
+"Meher: Ken... tell me he's okay. Please, by God, tell me he's okay!",
+"Ken: He's alive, Meher. He's at St. Jude's. But I need your help first. If you don't help me, Sunny and Yerin are going to die.",
+
+"Ken placed his burner phone into Meher's trembling palms.",
+"Ken: Sunny's mother knows all of us. She won't pick up our numbers. But she knows you are the top-ranking literature student. Call her landline. Tell her you need Sunny's notebook for mid-term submissions. Beg her. Don't let her hang up.",
+"Meher wiped the tears from her cheeks, taking a deep, shuddering breath, her faith steeling her spine.",
+"She dialed the private estate line.",
+"The receiver clicked.",
+"SunnyMother: Yes? Who is calling at this hour?",
+"Meher: Ma'am... this is Meher from Class 11-B. I am terribly sorry to disturb you, but Ms. Ayeesha asked me to collect the state competition portfolios. Sunny had the final translated draft in his bag. If it isn't submitted by noon, the entire school will be penalized.",
+"SunnyMother: Sunny is indisposed. He is not taking calls.",
+"Meher: Ma'am, please. Ms. Ayeesha said she would have to contact the school board directly if the papers aren't accounted for. Just thirty seconds, please. I only need him to tell me where the file is located.",
+"A heavy pause on the line. Footsteps echoing down marble corridors. The muffled clinking of iron keys.",
+
+"@bg=crisis",
+"A breath hitched over the receiver. Shivering. Ragged.",
+"Sunny: H-Hello...?",
+"Meher: Sunny! Are you okay?!",
+"Ken took the receiver from Meher, pressing it to his ear, his voice breaking with urgency.",
+"Ken: Sunny. It's me. Talk to me.",
+"A violent, choking sob tore through the speaker, so full of agony that Ken's blood ran cold.",
+"Sunny: B-Berry... Berry, please... it hurts so bad...",
+"Ken: Where are you?!",
+"Sunny: The... the basement wine cellar... beneath the garden terrace... Berry, they chained her... they chained Yerin's ankles to the iron radiator... she's not waking up, Berry... there's so much blood on her dress...",
+"Ken: Who did this?!",
+"Sunny: My mother... her father... they said we disgraced them... they've been hitting her with riding crops since yesterday... Berry, I can't breathe... I'm so scared...",
+"Ken: Hold onto the radiator, Sunny. Close your eyes. Berry is coming.",
+
+"@bg=fire;rain=1",
+"The rain beat violently against the steel gates of the estate as three unmarked vans screeched to a halt across the gravel.",
+"Twelve men in heavy leather and steel-toed boots stepped into the downpour—Ken's brothers from the underground docks, carrying iron crowbars and industrial bolt-cutters.",
+"Mingyu stood beside Ken, an iron tire iron gripped white in his fist.",
+"Ken: Take out the guards. Don't let anyone touch the phone lines.",
+"They tore through the gates like a swarm of hornets.",
+"Security guards were dropped within seconds by bare knuckles and blunt force.",
+"Ken kicked open the reinforced oak door of the basement cellar with a thunderous splintering crash.",
+
+"@bg=fire",
+"The smell of damp mold and copper iron hit Ken's nostrils.",
+"In the corner of the cellar, slumped on the concrete floor, sat Sunny.",
+"His white silk shirt was shredded, his face bruised beyond recognition, his left eye swollen shut.",
+"Beside him lay Yerin, unconscious, her face paper-pale, heavy rusted chains binding her slender ankles to the cast-iron steam pipes.",
+"Her arms were covered in dark purple contusions, her breath shallow and rattling.",
+"Sunny looked up through his swollen eye, tears carving clean lines through the blood on his cheeks.",
+"Sunny: Berry...",
+"Ken's chest caved in. The boy who had never cried through years of dock fights dropped to his knees, his hands trembling as he gathered Sunny's broken frame against his chest.",
+"Ken: Sunny... Sunny, I'm here. Berry is right here.",
+"At the top of the cellar stairs, Sunny's mother and Yerin's father appeared, holding a hunting rifle.",
+"SunnyMother: Gutter rat! How dare you step foot into my home?!",
+"Ken didn't look at them. He took the semi-automatic pistol from his belt, spun on his heel, and fired.",
+"*BANG! BANG!*",
+"Both figures collapsed backward into the corridor, screaming in agony as lead tore through their limbs.",
+"Ken turned to his street crew, his voice terrifyingly calm, devoid of humanity.",
+"Ken: Get the bolt cutters. Free Yerin. Take them to the vans.",
+"He grabbed a gallon of industrial kerosene from the generator rack, splashing it across the antique furniture, the curtains, the walls.",
+"He struck a match and dropped it.",
+"Flames roared into the rafters, consuming eighteen years of aristocratic cruelty in a violent, righteous furnace.",
+
+"@bg=hospital",
+"An hour later, the trauma ward of St. Jude's was a house of weeping.",
+"Doctors and nurses rushed through the double doors wheeling two stretchers side-by-side.",
+"When Mingyu pushed the doors open carrying Yerin's limp, chain-bruised frame, the boys fell into absolute silence.",
+"Sunny and Yerin were the babies of their group—pampered, teased, sheltered by everyone since they were eight years old.",
+"Seeing them beaten to within inches of death shattered the last fragments of their youth.",
+"Hyunjin stood in the corner of the trauma bay, his eyes wide, trembling.",
+"When his gaze fell upon Yerin's battered face—the purple lash marks across her cheeks, the blood crusted at her hairline, her raw, chained ankles—his dark eyes softened with an unbearable, suffocating tenderness.",
+"His chest rose and fell, wanting desperately to run to her, to wipe the blood from her brow.",
+"Yet in the next second, the blinding, toxic wall of his wounded pride and ancient trauma slammed shut.",
+"His jaw clenched so violently his teeth ground together.",
+"He turned his head away, burying his shaking fists into his pockets, letting his bitter anger hold him hostage.",
+
+"@bg=hospital",
+"After four hours of blood transfusions and orthopedic splinting, Yerin regained consciousness.",
+"Her body was wrapped in white gauze, her face bruised, her ankles raw and bandaged.",
+"She weakly pulled the IV tube, looking across the sterile room toward the door.",
+"Yerin: H-Hyunjin... where is Hyunjin...",
+"Mingyu looked down, his voice heavy with sorrow.",
+"Mingyu: He's on the terrace, Yerin. He won't come inside.",
+"Yerin forced her bruised legs over the side of the hospital bed, crying out in agony as her weight bore down on her swollen ankles.",
+"Granny: Yerin, sweetheart, lie back down! You can barely stand!",
+"Yerin: I have to see him... Granny, please... I need to see him...",
+
+"@bg=hospital",
+"Dragging her battered body across the cold linoleum, leaning against the metal wall with every step, Yerin pushed open the heavy door to the fire escape.",
+"Hyunjin stood by the metal railing, staring out at the grey, indifferent skyline.",
+"Yerin: Hyunjin...",
+"Hyunjin didn't turn around. His shoulders were completely rigid.",
+"Yerin took two agonizing steps forward, her voice breaking into a thousand shattered pieces.",
+"Yerin: Hyunjin, look at me... please...",
+"Hyunjin turned slowly.",
+"His face was cold stone, fighting with every ounce of his will to bury the agony in his chest.",
+"Yerin reached out her bandaged hand to touch his sleeve.",
+"Yerin: Hyunjin... I didn't take your hand at the gala because... because my father had four armed guards behind him. You had just gotten your heart transplant! If they hit your chest... you would have died, Hyunjin! I let them drag me away to save your life!",
+"Hyunjin looked at her outstretched hand, then into her weeping eyes.",
+"Hyunjin: You let go of my hand, Yerin.",
+"Yerin: Hyunjin, listen to me—",
+"Hyunjin: In front of two thousand people... when I asked you to walk away with me... you let go.",
+"Yerin: Because they would have killed you!",
+"Hyunjin: I would rather have died on that marble floor holding your hand than live another second knowing you didn't trust me to protect you.",
+"Yerin's breath caught, her heart tearing in two.",
+"Yerin: Hyunjin... you are everything I have left! My parents... they chained me... I have no family, no home... I only have you!",
+"Hyunjin stepped backward, pulling his sleeve away from her fingertips.",
+"Hyunjin: We're done, Yerin.",
+"Yerin gasped, collapsing to her knees on the cold concrete.",
+"Yerin: No... no, Hyunjin, don't say that! Please! Don't abandon me!",
+"Hyunjin's jaw twitched, the terror of loving someone who could break him completely paralyzing his soul.",
+"Hyunjin: I can't trust you. I can't wake up every morning wondering which day you'll let go of my hand again. I'm done.",
+"He turned his back on her and walked through the heavy metal door, leaving Yerin sobbing into the freezing concrete, clutching her chest where her soul used to be.",
+
+"@bg=hospital",
+"Inside the trauma room, a very different vow was being sealed in blood and tears.",
+"Sunny sat on the edge of the examination bed, trembling uncontrollably, every nerve in his body shuddering from post-traumatic shock.",
+"Ken sat on the low stool before him, holding Sunny's swollen, bruised hands between his own calloused palms.",
+"Ken: Look at me, Sunny.",
+"Sunny lifted his swollen, tear-streaked face.",
+"Ken leaned forward, resting his forehead gently against Sunny's temple, his voice thick with unshakeable devotion.",
+"Ken: No one will ever touch you again. Not your mother. Not your father. Not this city.",
+"Sunny: Berry... I'm so scared... they're going to come back...",
+"Ken: Let them come. I burnt their house to the ground. And if they take another breath near you, I will bury them with my bare hands.",
+"Ken kissed Sunny's bruised knuckles with reverent tenderness.",
+"Ken: You are my heart, Sunny. I will carry you until you can walk again.",
+
+"@bg=departure",
+"That evening, Granny gathered the F6 inside Minho's private recovery suite.",
+"Her face was weathered with grief and iron determination.",
+"Granny: Pack what little you have. We are leaving.",
+"Mingyu: Granny... where?",
+"Granny: Boston. Across the ocean. I have the estate in Massachusetts. My savings. My citizenship.",
+"She looked at Yerin's bandages, at Sunny's broken frame, at Minho's sling.",
+"Granny: These monsters do not care about love. They care only about ledgers, power, and breeding stocks. If you stay in this country, they will put you in cages or put you in graves. You are my children now. We board the private charter at midnight.",
+"A heavy, collective breath left the boys.",
+"They were exhausted. Broken. Ready to flee the nightmare.",
+"Mingyu nodded slowly. Hyunjin stood silent, staring at the floorboards. Ken gently held Sunny's shoulder.",
+"Minho, however, felt a cold, suffocating terror seize his throat.",
+
+"@bg=rainstorm",
+"Minho stood up from his bed, clutching his wounded shoulder, staring out the window toward the northern district.",
+"*Meher.*",
+"The realization struck him like lightning through his marrow.",
+"His father was a sociopath who had just shot his own flesh and blood over a business scandal.",
+"If Minho fled to America... what would his father do?",
+"A man with billions in retainer and private mercenaries would search the city for whatever Minho cared about.",
+"And who was the only person Minho had ever loved in Seoul?",
+"Meher.",
+"A quiet, pious girl from an orthodox family who had no private security, no political shields, and no weapons.",
+"If his father discovered the compass... if he discovered that Minho had given his heart to a merchant's daughter...",
+"They would drag her into the darkness.",
+"They would beat her like Yerin. They would shoot her family like dogs.",
+"Minho closed his eyes, his breathing turning ragged and uneven.",
+"He had nothing. He had no fortune, no empire, no legal power to protect her. He could not bring her to America without destroying her conservative household.",
+"The only way to keep Meher breathing... was to make sure his father believed Minho hated her.",
+"The only way to save her life... was to break her heart.",
+
+"@bg=rainstorm;rain=1",
+"The rain poured in violent torrents against the glass as Meher arrived at the hospital ward.",
+"She pushed open the door of the private suite, holding a small thermos of warm saffron milk her mother had sent.",
+"Her eyes instantly filled with tears upon seeing Minho in his hospital sling, pale and bandaged.",
+"Meher: Minho...",
+"She crossed the room in hurried, breathless steps, her hand reaching out to touch his uninjured cheek.",
+"Minho turned his face away.",
+"Meher's hand froze in mid-air, a cold shiver running down her spine.",
+"Meher: Minho? What is wrong? Are you in pain?",
+"Minho kept his eyes fixed on the rain washing down the windowpane, his voice forced into unnatural, brittle ice.",
+"Minho: Don't touch me, Meher.",
+"Meher's breath hitched. She looked at him in total confusion.",
+"Meher: What... what are you saying?",
+"Minho: We're done.",
+
+"The silence that followed was heavier than the gunshot that had shattered his shoulder.",
+"Meher stood completely motionless, her lips parting in disbelief.",
+"Meher: What did you just say?",
+"Minho: You heard me. The F6 is leaving for the United States tonight. I am leaving this country. And I am leaving you.",
+"Meher: Minho... why are you speaking like this?! Is it because of your father? We can fight him! Thoufiq, my father, we can hide you—",
+"Minho: Fight him with what?!",
+"Minho spun around, his dark eyes blazing with manufactured, desperate cruelty.",
+"Minho: With what, Meher?! With your father's prayers?! With your little courtyard and your embroidery?! My father shoots his own family for lunch!",
+"Meher recoiled as if slapped across the face, tears instantly spilling over her dark lashes.",
+"Meher: Minho... you don't mean this...",
+"Minho: Look at me! I am leaving for America to rebuild my life. I need an empire, Meher. I need power. What can you give me? A modest scarf and a prayer rug?! You don't belong in my world! You never did!",
+
+"@bg=rainstorm;rain=1",
+"Every word tore through Meher's chest like jagged shrapnel.",
+"This was the boy she had opened her sacred, guarded soul to.",
+"This was the boy who had seen her hair tumble across her shoulders in the quiet library, the boy who had held her trembling body and whispered that she was his only home.",
+"Her hands began to shake violently.",
+"Meher: I gave you... my heart, Minho. I gave you my trust... things I had guarded my entire life... things no man has ever touched...",
+"Minho's fingernails dug so deeply into his palms beneath his hospital gown that blood broke from his skin, biting the inside of his cheek until he tasted copper.",
+"He wanted to scream. He wanted to fall to his knees, wrap his good arm around her waist, and beg her to forgive him.",
+"But through the rain outside, he saw the shadowy black sedans of his father's scouts circling the street below.",
+"If he softened now, she would die.",
+"Minho: Then you were a fool to give them to me.",
+
+"Meher gasped, the air completely leaving her lungs.",
+"She looked at him—really looked at him.",
+"She saw the cold, unyielding wall he had thrown up, and for the first time, her grief hardened into profound, tragic exhaustion.",
+"She didn't scream. She didn't beg.",
+"She had too much dignity, too much sacred pride to beg a man who was throwing her away.",
+"She reached up to her neck.",
+"With trembling, deliberate fingers, she unclasped the delicate silver compass pendant.",
+"The chain slid free from her collar.",
+"She stepped forward and set the compass gently on the bedside table beside his bandages.",
+"Meher: If this is what you want... then I accept it.",
+"Her voice was steady, but her eyes held a grief so vast it swallowed the entire room.",
+"Meher: Not because your cruel words are true. But because you are too cowardly to let yourself be loved.",
+"She pulled her shawl tightly around her shoulders, turning toward the heavy door.",
+"Meher: Never look for me again, Minho. Not in this life. Not in the next.",
+"The door clicked shut.",
+"She was gone.",
+
+"@bg=rainstorm;rain=1",
+"The moment the latch engaged, Minho collapsed to his knees against the cold linoleum floor.",
+"A soundless, guttural howl tore through his throat as he picked up the small silver compass, pressing it against his lips, soaking it in his tears.",
+"Minho: Forgive me... Meher, forgive me... please live... just stay alive...",
+"The rain hammered relentlessly against the glass, drowning out the sobs of the boy who had destroyed his own soul just to keep her safe.",
+
+"@bg=departure",
+"Midnight struck across the tarmac of Incheon International Airport.",
+"A private Gulfstream jet sat with its turbines screaming in the cold autumn mist.",
+"Granny walked up the airstrip stairs, supporting Yerin's frail, bandaged frame.",
+"Yerin never looked back at the city skyline. Her dark eyes were vacant, her spirit crushed into dust.",
+"Behind them, Ken carried Sunny's duffel bag, holding Sunny's hand with fierce, protective certainty.",
+"Mingyu walked with his hands in his pockets, his jaw set, leaving the ghosts of his childhood in the ashes.",
+"Hyunjin stepped onto the top step, paused for half a second, staring into the dark city lights with icy, unmoving hatred, before disappearing into the cabin.",
+"And lastly, Minho walked up the metal steps, his right arm bound tightly to his chest in a sling, his left hand clutched around a silver compass deep inside his coat.",
+"The cabin door sealed shut.",
+"The jet accelerated down the black runway, roaring into the storm clouds, carrying the F6 across the ocean into exile.",
+
+"@bg=dawn",
+"Morning broke over the city not with golden warmth, but with a pale, cold winter mist.",
+"Inside Room 11-B, the bell rang for the final semester.",
+"The classroom felt cavernous. Empty.",
+"Four desks in the back row sat completely cleared of books.",
+"And there, sitting in the third row beside the rain-streaked window, sat Meher.",
+"Her uniform was pristine. Her scarf was pinned with quiet, unbroken elegance.",
+"Her hands rested flat against her open biology notebook.",
+"Beside her, the empty wooden desk remained cold.",
+"No one sat in it. No one would ever sit in it again.",
+"Outside the high glass window, the autumn leaves detached from the wet branches, drifting silently toward the cold pavement below.",
+"We build monuments out of our pride, and call them boundaries.",
+"We bleed in silence, convinced that severing our own flesh is the only way to spare the ones we love from the blade.",
+"Yet distance does not hollow out a heart; it only sharpens the ache of every sacred word left unsaid.",
+"The sky was vast, cold, and unforgiving.",
+"Two different horizons beneath the same unyielding stars.",
+"And somewhere across ten thousand miles of restless ocean, a silver compass needle trembled in the dark, pointing unceasingly toward the girl in the third row.",
+"*Still With You.*",
+
+"!end"
+];
+
+/* ---------- Upgraded Dual-Engine Rendering Logic ---------- */
+var B=[],pend={},cur,k,m,parts;
+S.forEach(function(s){
+  if(s[0]==='@'){s.slice(1).split(';').forEach(function(p){var a=p.split('=');pend[a[0]]=a[1]});return}
+  var b={};for(k in pend)b[k]=pend[k];pend={};
+  if(s==='!end'){b.t='end';B.push(b);return}
+  m=s.match(SP);
+  if(m){b.t='s';b.sp=m[1];b.x=m[2]}else{b.t='s';b.x=s}
+  B.push(b);
+});
+
+var idx=-1,lock=false,bgi=0,swapTimer;
+var $=function(i){return document.getElementById(i)};
+var txt=$('txt'),hint=$('hint');
+
+function setBg(n){
+  var next=$('b'+(1-bgi)),prev=$('b'+bgi);
+  next.className='bg '+n+' on';prev.className='bg '+prev.className.split(' ')[1];
+  bgi=1-bgi;
+}
+setBg('gala');
+
+/* ---------- Atmosphere Particles (Sun Dust & Motes) ---------- */
+var cvDust=$('dust'), cxDust=cvDust.getContext('2d'), dW, dH, motes=[];
+function sizeDust(){
+  var dpr=Math.min(devicePixelRatio||1,2);
+  dW=cvDust.width=innerWidth*dpr;
+  dH=cvDust.height=innerHeight*dpr;
+  motes=[];
+  var count=Math.round(Math.min(65, innerWidth/14));
+  for(var i=0;i<count;i++){
+    motes.push({
+      x:Math.random()*dW,
+      y:Math.random()*dH,
+      r:(0.6+Math.random()*1.8)*dpr,
+      vx:(Math.random()*.12+.02)*dpr,
+      vy:(Math.random()-.55)*.12*dpr,
+      a:Math.random()*6.28,
+      s:.003+Math.random()*.007,
+      glow:Math.random()<.25,
+      o:.15+Math.random()*.4
+    });
+  }
+}
+addEventListener('resize',sizeDust);
+sizeDust();
+
+function frameDust(){
+  cxDust.clearRect(0,0,dW,dH);
+  for(var i=0;i<motes.length;i++){
+    var p=motes[i];
+    p.a+=p.s;
+    p.x+=p.vx+Math.sin(p.a)*.18;
+    p.y+=p.vy+Math.cos(p.a*.8)*.12;
+    if(p.x>dW+10) p.x=-10;
+    if(p.y<-10) p.y=dH+10;
+    if(p.y>dH+10) p.y=-10;
+
+    var tw=.5+.5*Math.sin(p.a*2.2);
+    var alpha=p.o*tw;
+    cxDust.fillStyle='rgba(251,246,237,'+alpha+')';
+    cxDust.beginPath();cxDust.arc(p.x,p.y,p.r,0,6.283);cxDust.fill();
+  }
+  requestAnimationFrame(frameDust);
+}
+requestAnimationFrame(frameDust);
+
+/* ---------- Dynamic Rain Simulation ---------- */
+var cv=$('rain'),cx=cv.getContext('2d'),W,H,drops=[],raining=false,running=false;
+function sizeRain(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+sizeRain();addEventListener('resize',sizeRain);
+for(var d=0;d<90;d++)drops.push({x:Math.random(),y:Math.random(),l:12+Math.random()*18,v:.8+Math.random()*.9});
+function frameRain(){
+  if(!raining&&cv.style.opacity==='0'){running=false;return}
+  cx.clearRect(0,0,W,H);cx.strokeStyle='rgba(215,228,245,.28)';cx.lineWidth=1;cx.beginPath();
+  drops.forEach(function(p){
+    var x=p.x*W,y=p.y*H;
+    cx.moveTo(x,y);cx.lineTo(x-p.l*.16,y+p.l);
+    p.y+=p.v*.008;p.x-=p.v*.0008;
+    if(p.y>1.05){p.y=-.05;p.x=Math.random()*1.1}
+    if(p.x<-.05)p.x=1.05;
+  });
+  cx.stroke();requestAnimationFrame(frameRain);
+}
+function setRain(on){
+  raining=on;cv.style.opacity=on?1:0;
+  if(on&&!running){running=true;requestAnimationFrame(frameRain)}
+  if(!on)setTimeout(function(){if(!raining){running=false;cx.clearRect(0,0,W,H)}},2600);
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function showText(b){
+  clearTimeout(swapTimer);
+  txt.classList.remove('show');
+  swapTimer=setTimeout(function(){
+    txt.innerHTML=(b.sp?'<span class="sp">'+b.sp.toUpperCase()+'</span>':'')+(b.sp?'<span class="d">“'+esc(b.x)+'”</span>':esc(b.x));
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){
+        txt.classList.add('show');
+      });
+    });
+  },500);
+}
+
+function go(){
+  idx++;var b=B[idx];if(!b)return;
+  if(b.bg)setBg(b.bg);
+  if(b.rain!==undefined)setRain(b.rain==='1');
+  if(b.t==='end'){txt.classList.remove('show');$('end').classList.add('show');hint.style.display='none';return}
+  showText(b);
+  hint.textContent='TAP TO CONTINUE';
+}
+function advance(){
+  if(lock||(B[idx]&&B[idx].t==='end'))return;
+  lock=true;
+  setTimeout(function(){lock=false},320);
+  if(idx===-1){$('title').classList.remove('show')}
+  go();
+}
+document.addEventListener('click',function(e){if(e.target.closest('a'))return;advance()});
+document.addEventListener('keydown',function(e){
+  if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){e.preventDefault();advance()}
+});
+})();
+</script>
+</body>
+</html>

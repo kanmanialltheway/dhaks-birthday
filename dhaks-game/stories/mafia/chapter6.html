@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Mafia King — Chapter VI: The Choice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0a0807;--char:#15110f;--ivory:#efe6d6;--ivory-d:#b9ae9c;
+  --crim:#7a1226;--crim-d:#3d0a14;--gold:#c2a15a;--amber:#e0a458;
+  --serif:'Cormorant Garamond','Cormorant',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+  --glow:rgba(122,18,38,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--ink);color:var(--ivory);overflow:hidden;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--serif)}
+body.warm{--glow:rgba(224,164,88,.22)}
+body.cold{--glow:rgba(122,18,38,.38)}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;user-select:none}
+#bg{position:absolute;inset:-4%;background:
+  radial-gradient(ellipse 70% 60% at 50% 42%,var(--glow),transparent 70%),
+  linear-gradient(180deg,var(--char),var(--ink) 80%);
+  transition:background 2.4s ease;animation:drift 40s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1) translate(0,0)}to{transform:scale(1.07) translate(-1.2%,.8%)}}
+.fog{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.fog i{position:absolute;width:140%;height:60%;left:-20%;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(239,230,214,.07),transparent 65%);filter:blur(30px);animation:fog 38s linear infinite}
+.fog i:nth-child(1){top:5%}.fog i:nth-child(2){top:48%;animation-duration:55s;animation-direction:reverse}
+@keyframes fog{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 38%,rgba(0,0,0,.82) 100%)}
+.grain{position:absolute;inset:-50%;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}100%{transform:translate(3%,3%)}}
+#fade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity 1.2s ease;z-index:5}
+#fade.on{opacity:1}
+
+#view{position:relative;z-index:3;width:min(720px,88vw);text-align:center;padding:0 0 env(safe-area-inset-bottom,0)}
+.who{font-family:var(--sans);font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin-bottom:1.1rem;opacity:0;transition:opacity 1s}
+.who.minho{color:#8fa6d8}.who.bangchan{color:#b3364f}
+.txt{font-size:clamp(1.45rem,4.4vw,2.15rem);line-height:1.55;font-weight:400;letter-spacing:.01em;text-wrap:balance}
+.txt.say::before{content:"“"}.txt.say::after{content:"”"}
+.txt.nar{font-style:italic;color:var(--ivory-d)}
+.txt.big{font-size:clamp(2rem,7vw,3.6rem);letter-spacing:.14em;font-weight:500}
+.txt.sm{font-family:var(--sans);font-size:.78rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-style:normal}
+.w{opacity:0;display:inline-block;transform:translateY(5px);filter:blur(3px);animation:w .9s ease forwards}
+@keyframes w{to{opacity:1;transform:none;filter:none}}
+.show .who{opacity:1}
+#hint{position:fixed;bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;z-index:4;font-family:var(--sans);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--ivory-d);opacity:0;transition:opacity 1s;pointer-events:none}
+#hint.on{opacity:.55;animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+#bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--crim),var(--gold));z-index:6;width:0;transition:width 1s}
+.back-library{
+  position:fixed;
+  top:1.5rem;
+  left:1.5rem;
+  z-index:20;
+  color:var(--ivory-d);
+  text-decoration:none;
+  font-family:var(--sans);
+  font-size:.65rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  opacity:.45;
+  transition:opacity .3s ease, transform .3s ease;
+}
+
+.back-library:hover{
+  opacity:.9;
+  transform:translateX(-3px);
+}
+
+@media(max-width:600px){
+  .back-library{
+    top:1rem;
+    left:1rem;
+    font-size:.58rem;
+    letter-spacing:.18em;
+  }
+}
+.choices{display:flex;flex-direction:column;gap:.9rem;margin-top:2.2rem;align-items:center}
+.btn{font-family:var(--sans);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--ivory);background:rgba(10,8,7,.55);
+  border:1px solid rgba(194,161,90,.55);padding:1rem 2rem;min-width:min(320px,80vw);cursor:pointer;text-decoration:none;display:inline-block;
+  transition:background .6s,border-color .6s,color .6s,box-shadow .6s;backdrop-filter:blur(4px)}
+.btn:hover,.btn:focus-visible{background:var(--crim-d);border-color:var(--gold);box-shadow:0 0 28px rgba(122,18,38,.45);outline:none}
+.btn.warm:hover,.btn.warm:focus-visible{background:rgba(224,164,88,.14);box-shadow:0 0 28px rgba(224,164,88,.3)}
+.btn.ghost{border-color:rgba(239,230,214,.2);color:var(--ivory-d)}
+.end{display:flex;flex-direction:column;gap:.9rem;align-items:center;margin-top:2.4rem}
+#view{max-height:92vh;display:flex;flex-direction:column;justify-content:center}
+#lines{max-height:60vh;display:flex;flex-direction:column;gap:1.5rem;padding:1.2rem 0;}
+.beat{flex:none;transition:opacity 2s ease}
+.beat.old{opacity:.38}
+.beat .who{opacity:1}
+.who.afu{color:#d9b8a2}
+#lines .txt:not(.big):not(.sm){font-size:clamp(1.3rem,4vw,2rem);line-height:1.55}
+.beat .txt+.txt{margin-top:.7rem}
+#cta{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:calc(2.2rem + env(safe-area-inset-bottom,0px));
+  min-height:2rem;
+  margin:0;
+  z-index:4;
+}
+
+.who.ken{color:#cdb98a}
+#view{overflow-y:auto;scrollbar-width:none}#view::-webkit-scrollbar{display:none}
+.cards{display:flex;gap:1.1rem;margin-top:2rem;justify-content:center;opacity:0;animation:rise 1.6s ease 2.4s forwards}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card{flex:1;max-width:330px;text-align:center;padding:1.4rem 1.1rem;background:rgba(10,8,7,.6);border:1px solid rgba(194,161,90,.4);color:var(--ivory);cursor:pointer;
+  font-family:var(--serif);backdrop-filter:blur(4px);letter-spacing:normal;text-transform:none;min-width:0;
+  transition:background .8s,border-color .8s,box-shadow .8s,opacity .9s,transform .8s}
+.card:hover,.card:focus-visible{transform:translateY(-3px)}
+.card.bang:hover,.card.bang:focus-visible{background:rgba(61,10,20,.55);border-color:#b3364f;box-shadow:0 0 34px rgba(122,18,38,.5)}
+.card.minho:hover,.card.minho:focus-visible{background:rgba(40,52,90,.35);border-color:#8fa6d8;box-shadow:0 0 34px rgba(100,130,200,.3)}
+.card b{display:block;font:500 .78rem var(--sans);letter-spacing:.34em;text-indent:.34em;color:var(--gold);margin-bottom:.5rem}
+.card em{display:block;font-size:1.45rem;margin-bottom:.8rem}
+.card small{display:block;font-size:.98rem;line-height:1.4;color:var(--ivory-d);margin-top:.3rem}
+.card.picked{border-color:var(--gold);box-shadow:0 0 34px rgba(194,161,90,.4)}
+.card.faded{opacity:.12}
+#finale{position:absolute;inset:0;z-index:7;background:#000;opacity:0;pointer-events:none;transition:opacity 2s ease;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2rem;text-align:center;padding:2rem}
+#finale.on{opacity:1;pointer-events:auto}
+#finale .fin{opacity:0;animation:rise 2.4s ease forwards}
+#finale .btn{opacity:0;animation:rise 2s ease forwards}
+@media(max-width:560px){.cards{flex-direction:column;align-items:center;gap:.8rem;margin-top:1.4rem}.card{width:100%;padding:1rem}.card small{font-size:.9rem}}
+@media (prefers-reduced-motion:reduce){
+  #bg,.fog i,.grain,#hint.on{animation:none}.w{animation-duration:.01s}#fade{transition-duration:.01s}
+}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body class="cold">
+<div id="bar"></div>
+<a href="chapters.html" class="back-library">← BACK TO LIBRARY</a>
+<div id="stage" role="button" tabindex="0" aria-label="Advance story">
+  <div id="bg"></div>
+  <div class="fog"><i></i><i></i></div>
+  <canvas id="embers" aria-hidden="true"></canvas>
+  <div class="vig"></div><div class="grain"></div>
+  <div id="view" aria-live="polite"><div id="lines"></div><div id="cta"></div></div>
+  <div id="finale" aria-live="polite"></div>
+  <div id="fade" class="on"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+function n(x,m,br){return{t:"n",x:x,m:m,br:br}}
+function s(w,x,m,br){return{t:"s",w:w,x:x,m:m,br:br}}
+function T(x,m){return{t:"title",x:x,m:m,br:1}}
+function CUT(ms,keep){return{t:"cut",ms:ms,keep:keep}}
+var D="dhaks",B="bangchan",A="afu",M="minho",KEN="ken";
+var LIBRARY_HREF="../../index.html"; /* change if your library lives elsewhere */
+var STORY_HREF="./index.html";
+
+var OPEN=[
+T("Chapter VI","cold"),
+{t:"big",x:"The Choice"},
+{t:"choice"}
+];
+
+/* Reactions: both lead into the same resolution */
+var PICK_B=[
+n("She chose the man who stayed.|He had never asked her to forget the one she lost.|He had simply remained.","warm"),
+n("She looked at Bangchan.|The man who stayed.|The man who never asked her to forget."),
+s(B,"You don't have to explain your past to me."),
+s(B,"I already know."),
+s(B,"And I'm still here."),
+n("Dhaks looked at him, and understood.|Choosing him did not erase Minho.|It only meant choosing the life that existed now."),
+n("Across the room, Minho watched.|He did not look away.|Something in his shoulders loosened, the way a man's does when he finally hears what he already knew.","cold")
+];
+var PICK_M=[
+n("She chose the love who returned.|But choosing him couldn't bring back the years they had lost.","cold"),
+n("Minho stood very still.|He looked at Ken's door, left half open.|At Dhaks's hand resting on her stomach.|At Bangchan, who had not moved and had not spoken."),
+s(M,"I can't."),
+n("Dhaks stared at him."),
+s(M,"You chose the one you lost."),
+s(M,"Not the one who stayed."),
+s(M,"The life I left behind doesn't belong to me anymore."),
+n("There was no anger in it.|Only a man finally understanding the shape of the years he had missed.|And in her heart, Dhaks knew he was right.")
+];
+
+var RESOLVE=[
+n("The rain had stopped.|The house held its breath.","cold"),
+s(M,"I came back too late."),
+s(D,"You came back."),
+s(D,"But I had already learned how to live without you."),
+n("It hurt him. She saw it.|But she also saw something in him ease, like a breath held for two years finally leaving.|They had both needed it said."),
+n("Minho told her, quietly, about Davina.|The woman who had stood beside him when he had nothing.|No name. No past worth carrying.|He didn't say it to wound her.|He said it so she would know he hadn't been alone."),
+s(M,"I think I'm ready to go back to my own life."),
+s(D,"Then go.","warm"),
+n("She smiled, and meant it."),
+n("Bangchan, who had said nothing for a long time, stepped forward.|No gloating. No claim.|Only a quiet kind of understanding."),
+s(B,"Her past will always be part of her story."),
+s(B,"I would never ask it to be anything else.")
+];
+
+var KENSCENE=[
+T("Morning","warm"),
+n("Ken woke early, as he always did, wooden sword in hand.|He stopped in the doorway when he saw the stranger from the night before."),
+s(KEN,"Are you the one Mama talks about?"),
+s(M,"I think I am."),
+s(KEN,"Do you want to see my sword?"),
+n("Minho knelt slowly, until his eyes were level with his son's.|He had missed the first word, the first step, every fever.|But not this."),
+s(M,"More than anything."),
+n("Ken was never Bangchan's son by blood.|But Bangchan had raised him as his own, and he did not stand between them now.|He only stepped aside, and made room."),
+s(M,"Thank you for raising him."),
+s(B,"I only kept his place warm."),
+s(B,"Come back whenever you like. He should know you.")
+];
+
+var FINAL=[
+T("Afterward","warm"),
+n("The house was quiet again.|Evening light on the terrace. Afu's laughter drifting in from somewhere.|Dhaks stood at the window, one hand resting on the child not yet born."),
+n("She looked at the people around her.|Minho was the love she lost.|Bangchan was the man who stayed.|Ken was the part of her past that became her future.|Afu had become family."),
+n("And Dhaks herself had become someone stronger than the girl who once waited by the window for someone to return."),
+n("Some people are the love you lose.|Some are the people who stay.|And some return only after you've learned how to live without them."),
+n("Maybe not every story is meant to return to where it began.|Maybe some stories are meant to become something else."),
+n("Some stories don't end the way we imagined."),
+n("But sometimes...|they end exactly where they're supposed to."),
+CUT(4500,true),
+{t:"end"}
+];
+
+var queue=[].concat(OPEN,RESOLVE,KENSCENE,FINAL),qi=0,busy=false,
+    view=document.getElementById("view"),lines=document.getElementById("lines"),cta=document.getElementById("cta"),
+    fade=document.getElementById("fade"),finale=document.getElementById("finale"),bar=document.getElementById("bar");
+
+function mood(m){if(m==="neutral"){document.body.className=""}else if(m){document.body.className=m}}
+function wait(ms){return new Promise(function(r){setTimeout(r,reduce?30:ms)})}
+function render(b){
+  lines.innerHTML="";
+  var d=document.createElement("div");d.className="beat";var n=0;
+  if(b.t==="s"){
+    var who=document.createElement("div");who.className="who "+b.w;
+    who.textContent=b.w.charAt(0).toUpperCase()+b.w.slice(1);d.appendChild(who);
+  }
+  b.x.split("|").forEach(function(line){
+    var el=document.createElement("p");
+    el.className="txt "+(b.t==="s"?"say":b.t==="big"?"big":b.t==="title"?"sm":"nar");
+    line.split(" ").forEach(function(w){
+      var sp=document.createElement("span");sp.className="w";sp.textContent=w;
+      sp.style.animationDelay=(reduce?0:n*70)+"ms";el.appendChild(sp);el.appendChild(document.createTextNode(" "));n++;
+    });
+    d.appendChild(el);
+  });
+  lines.appendChild(d);
+  return n*70+700;
+}
+function showContinue(){
+  var hint=document.createElement("div");
+  hint.id="cont";
+  hint.textContent="TAP TO CONTINUE";
+  hint.style.opacity="0";
+  hint.style.fontFamily="var(--sans)";
+  hint.style.fontSize=".68rem";
+  hint.style.letterSpacing=".3em";
+  hint.style.textTransform="uppercase";
+  hint.style.color="var(--ivory-d)";
+  hint.style.cursor="pointer";
+  hint.style.transition="opacity 1s ease";
+  hint.style.animation="pulse 2.6s ease-in-out infinite";
+
+  hint.addEventListener("click",function(e){
+    e.stopPropagation();
+    if(busy) advance();
+  });
+
+  cta.appendChild(hint);
+
+  setTimeout(function(){
+    hint.style.opacity=".55";
+  },reduce?20:150);
+}
+function showChoice(b){
+  var d=render({t:"big",x:"Who will you choose?"});
+  var c=document.createElement("div");c.className="cards";
+  [["bang","Bangchan","The man who stayed.","He stayed beside her.|He accepted Ken, knowing whose son he was.|He loved her without asking her to erase her past.",PICK_B],
+   ["minho","Minho","The love who returned.","Her first love. He went to find his father.|She waited. She believed he was dead.|Ken's biological father.",PICK_M]].forEach(function(o){
+    var bt=document.createElement("button");bt.type="button";bt.className="btn card "+o[0];
+    bt.innerHTML="<b></b><em></em>"+o[3].split("|").map(function(){return"<small></small>"}).join("");
+    bt.querySelector("b").textContent=o[1].toUpperCase();
+    bt.querySelector("em").textContent="\u201C"+o[2]+"\u201D";
+    var sm=bt.querySelectorAll("small");o[3].split("|").forEach(function(t,i){sm[i].textContent=t});
+    bt.addEventListener("click",async function(){
+      c.querySelectorAll("button").forEach(function(x){x.disabled=true;x.classList.add(x===bt?"picked":"faded")});
+      await wait(1500);
+      queue.splice.apply(queue,[qi+1,0].concat(o[4]));busy=true;advance();
+    });
+    c.appendChild(bt);
+  });
+  lines.appendChild(c);
+  setTimeout(function(){var f=c.querySelector("button");if(f)f.focus({preventScroll:true})},reduce?50:3200);
+}
+function showEnd(){
+  lines.innerHTML="";cta.innerHTML="";
+  finale.innerHTML='<p class="txt big fin" style="animation-delay:1.2s">The End</p>'+
+    '<p class="txt nar fin" style="animation-delay:3.4s">\u201CBlood Bound\u201D</p>'+
+    '<div class="end" style="margin-top:2rem"><a class="btn" style="animation-delay:7s" href="'+STORY_HREF+'">Back to Story</a>'+
+    '<a class="btn ghost" style="animation-delay:7.8s" href="'+LIBRARY_HREF+'">Return to Library</a></div>';
+  finale.classList.add("on");
+  bar.style.width="100%";
+  setTimeout(function(){var f=finale.querySelector("a");if(f)f.focus({preventScroll:true})},reduce?50:8500);
+}
+async function step(){
+  var b=queue[qi];busy=false;
+  bar.style.width=Math.min(100,qi/queue.length*100)+"%";
+  if(b.t==="cut"){
+    /* cinematic cut to black: hold the silence, then return on its own */
+    fade.classList.add("on");await wait(1300);lines.innerHTML="";
+    await wait(b.ms);if(!b.keep){fade.classList.remove("on");await wait(700)}
+    qi++;return step();
+  }
+  if(b.br&&qi>0){fade.classList.add("on");await wait(1300);lines.innerHTML="";mood(b.m);fade.classList.remove("on");await wait(500)}
+  else mood(b.m);
+  if(b.t==="end"){showEnd();return}
+  if(b.t==="choice"){showChoice(b);return}
+  var d=render(b);
+  await wait(d);
+  busy=true;showContinue();
+}
+async function advance(){
+  if(!busy)return;busy=false;
+  cta.innerHTML="";
+  var cur=lines.firstChild;if(cur){cur.style.transition="opacity .6s";cur.style.opacity=0}
+  await wait(650);
+  qi++;step();
+}
+document.addEventListener("keydown",function(e){
+  if(e.key!=="Enter"&&e.key!==" "&&e.key!=="ArrowRight")return;
+  if(e.target&&e.target.closest&&e.target.closest(".btn"))return;
+  var c=document.getElementById("cont");
+  if(c&&busy){e.preventDefault();advance()}
+});
+document.getElementById("stage").addEventListener("click",function(e){
+  if(e.target.closest&&e.target.closest(".btn"))return;
+  if(document.getElementById("cont")&&busy)advance();
+});
+
+/* embers */
+(function(){
+  var cv=document.getElementById("embers"),cx=cv.getContext("2d"),P=[],W,H;
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+  size();addEventListener("resize",size);
+  var n=reduce?0:38;
+  for(var k=0;k<n;k++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.5+.4,s:Math.random()*.25+.08,o:Math.random()*.5+.15,d:Math.random()*6});
+  var t=0;
+  function loop(){
+    t+=.01;cx.clearRect(0,0,W,H);
+    var warm=document.body.classList.contains("warm");
+    P.forEach(function(p){
+      p.y-=p.s;p.x+=Math.sin(t+p.d)*.25;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+      cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);
+      cx.fillStyle=(warm?"rgba(224,164,88,":"rgba(194,80,70,")+(p.o*(.6+.4*Math.sin(t*3+p.d)))+")";cx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  if(n)loop();
+})();
+
+setTimeout(function(){fade.classList.remove("on");setTimeout(step,900)},300);
+})();
+</script>
+</body>
+</html>

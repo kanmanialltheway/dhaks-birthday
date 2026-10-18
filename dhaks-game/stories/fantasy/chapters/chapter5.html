@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Heirs of the Crown — Chapter V</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#05070f;color:#efe6d2;font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;overflow:hidden}
+.layer{position:fixed;inset:0;opacity:0;transition:opacity 2s ease;z-index:1}
+.layer.show{opacity:1}
+.layer::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26vh;background:var(--sil,#04060c);opacity:.85;
+clip-path:polygon(0 100%,0 62%,8% 62%,12% 46%,16% 62%,26% 62%,30% 30%,34% 62%,40% 62%,44% 52%,48% 62%,60% 62%,64% 24%,68% 62%,76% 62%,80% 44%,84% 62%,92% 62%,96% 50%,100% 62%,100% 100%)}
+#rain{position:fixed;inset:0;z-index:2;pointer-events:none}
+#shade{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,.15) 0,rgba(0,0,0,.72) 100%)}
+#stage{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:0 20px;cursor:pointer}
+#box{width:min(720px,100%);text-align:center;opacity:0;transform:translateY(10px);transition:opacity .9s,transform .9s}
+#box.in{opacity:1;transform:none}
+.n{font-size:clamp(21px,3.2vw,29px);line-height:1.6;text-shadow:0 2px 18px #000}
+.d{font-size:clamp(23px,3.4vw,31px);line-height:1.5;font-style:italic;color:#fff4d6;text-shadow:0 2px 18px #000}
+.who{font-size:15px;letter-spacing:.35em;color:#d9b45f;margin-bottom:14px;text-transform:uppercase}
+.kn{font-size:clamp(34px,6vw,56px);color:#e6c373;letter-spacing:.08em;font-weight:600;text-shadow:0 0 30px rgba(230,195,115,.35)}
+.ks{margin-top:12px;font-size:19px;font-style:italic;color:#c9bfa6}
+.ch{display:block;margin:12px auto;padding:13px 22px;width:min(520px,100%);background:rgba(8,12,26,.72);border:1px solid #b99a52;color:#efe6d2;font:inherit;font-size:21px;font-style:italic;cursor:pointer;transition:background .4s,color .4s}
+.ch:hover,.ch:focus{background:#b99a52;color:#0a0d1a;outline:none}
+#hint{margin-top:45px;font-size:13px;letter-spacing:.4em;color:#9d94806e;color:rgba(214,198,150,.6);animation:pulse 2.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+a.lk,.btn{display:inline-block;margin:10px;padding:13px 28px;border:1px solid #b99a52;color:#efe6d2;background:rgba(8,12,26,.7);font:inherit;font-size:20px;letter-spacing:.12em;text-decoration:none;cursor:pointer}
+a.lk:hover,.btn:hover{background:#b99a52;color:#0a0d1a}
+#title{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(ellipse at 50% 35%,#16244a,#05070f 70%);transition:opacity 1.6s}
+#title.gone{opacity:0;pointer-events:none}
+#title h1{font-size:clamp(34px,7vw,68px);color:#e6c373;letter-spacing:.14em;font-weight:600}
+#title .tg{margin:14px 0 36px;font-size:16px;letter-spacing:.38em;color:#a9a086}
+#title h2{font-size:clamp(20px,3.4vw,28px);font-style:italic;font-weight:400;margin-bottom:44px}
+#menuBtn{position:fixed;top:14px;right:16px;z-index:40;background:none;border:1px solid rgba(185,154,82,.5);color:#d9c9a0;font:inherit;font-size:15px;letter-spacing:.2em;padding:6px 14px;cursor:pointer}
+#menu{position:fixed;inset:0;z-index:50;background:rgba(3,5,12,.9);display:none;align-items:center;justify-content:center;text-align:center}
+#menu.open{display:flex}
+#menu div{display:flex;flex-direction:column;align-items:center}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style></head><body>
+<div class="layer" id="bgA"></div><div class="layer" id="bgB"></div>
+<canvas id="rain"></canvas><div id="shade"></div>
+<div id="stage"><div id="box"></div></div>
+<button id="menuBtn" style="display:none">MENU</button>
+<div id="menu"><div>
+<a class="lk" href="../chapters.html">BACK TO STORY</a>
+<a class="lk" href="../../../index.html#library">BACK TO LIBRARY</a>
+<button class="btn" id="mFx">EFFECTS: ON</button></div></div>
+<div id="title"><div>
+<h1>HEIRS OF THE CROWN</h1><div class="tg">THREE HEIRS. THREE LOVES. ONE CROWN.</div>
+<h2>Chapter V — The Queen and the Knight</h2>
+<button class="btn" id="begin">BEGIN</button><br>
+<a class="lk" href="../../../index.html#library">BACK TO LIBRARY</a>
+</div></div>
+<script>
+var $=function(i){return document.getElementById(i)};
+// bg: gradient, silhouette colour, particle mode
+var BG=[
+{g:"radial-gradient(ellipse at 50% 20%,#2f4a5c 0,#16283a 45%,#08101c 100%)",s:"#050a12",m:"mote"},
+{g:"linear-gradient(#3a2f3d 0,#7a4f3c 55%,#1c1520 100%)",s:"#0b0709",m:"mote"},
+{g:"linear-gradient(90deg,#120d14,#3a2512 50%,#120d14)",s:"#070508",m:"mote"},
+{g:"radial-gradient(circle at 78% 22%,#c7d3ee 0,#5b6f9c 3%,#1a2a52 22%,#090e20 75%)",s:"#04070f",m:"rain"},
+{g:"radial-gradient(ellipse at 50% 0,#5a3a1c 0,#2a1a1c 45%,#0c0810 100%)",s:"#060407",m:"mote"},
+{g:"radial-gradient(ellipse at 50% 28%,#f1cf7c 0,#a7762c 30%,#31224a 78%,#0d0a1c 100%)",s:"#100a14",m:"petal"},
+{g:"linear-gradient(#17254a,#32284a 60%,#7a4a3a 100%)",s:"#07060d",m:"mote"},
+{g:"radial-gradient(circle at 30% 20%,#dfe8ff 0,#7e93c8 2.5%,#1c2f63 20%,#070c20 80%)",s:"#03050c",m:"petal"},
+{g:"radial-gradient(circle at 50% 70%,#6b4a2a 0,#1d2850 40%,#080c1c 100%)",s:"#04060d",m:"rain"},
+{g:"linear-gradient(#e9b98c 0,#d9a0a0 28%,#7d86b3 62%,#2a3358 100%)",s:"#1a1830",m:"mote"}];
+function N(b,t){return{b:b,k:"n",t:t}}
+function D(b,w,t){return{b:b,k:"d",w:w,t:t}}
+function K(b,t,s){return{b:b,k:"k",t:t,s:s}}
+function C(b,o){return{b:b,k:"c",o:o}}
+var story=[
+K(0,"I — After the Funeral","The palace garden, after rain"),
+N(0,"The rain had stopped, but the garden had not stopped weeping. Every leaf let go of its water one drop at a time."),
+N(0,"This was where the palace had once been loud with laughter. Now the gravel only answered footsteps."),
+N(0,"A silk ribbon, faded pink, hung from a plum branch. No one had dared to take it down."),
+N(0,"Beside the pavilion lay an archery bow, its string slack. Hers. She had never once let him win."),
+N(0,"A cluster of pale blue flowers she had loved bent under the dripping eaves. An empty seat waited beside the pond."),
+N(0,"Eunsin walked among these things alone. A long shadow on wet stone. Nothing more."),
+N(0,"Every corridor now reminded him of what he had failed to protect."),
+N(0,"Yeon, who died by a blade he never saw coming. Haneul, who followed him before dawn."),
+N(0,"And the hand that held that blade had been his."),
+D(0,"Eunsin","I wished to be a brother who could save someone. I was only the one who arrived."),
+K(1,"II — The Knight","The training yard at dusk"),
+N(1,"Before the next season turned, Eunsin set aside the silks of a carefree prince."),
+N(1,"Not because he fled his duty, but because he finally understood it. A crown cannot protect what it never walks beside."),
+N(1,"In the training yard, a sword was placed in his hands. Dark armor, lined in royal blue, was fitted to his shoulders."),
+N(1,"He trained until the stars came out. Until his palms bled. Until the guilt grew quiet enough to sleep beside."),
+N(1,"At dawn the palace gate opened. A black horse, a cloak, a single rider. He rode out through villages and rice fields, learning every name the people would tell him."),
+N(1,"He was still kind to them. But the laughter was gone from the kindness. What remained was steadier, and far sadder."),
+K(3,"III — Suan Waits","The guest quarters"),
+N(3,"In the guest chamber, a window stayed open to the night."),
+N(3,"On the low table sat a cup of tea, long cold, untouched. Beside it lay a folded dark cloth she had never returned."),
+N(3,"She remembered the first meeting, a stranger in a mask. The lantern street, glowing like a river of small moons."),
+N(3,"The forest, and the long silence that had not felt like silence. The rain. The dance beneath it."),
+N(3,"Pale petals drifted in and settled on the cloth. Rain tapped softly against the glass."),
+D(3,"Suan","He said he would find me. Eunsik does not lie."),
+N(3,"She did not know that Haneul was gone. She did not know that Yeon was gone. She did not know the man she waited for walked these same halls each night, one wall away."),
+K(4,"IV — The Court Decides","The royal council hall"),
+N(4,"With the old king gone, the court moved quickly, as courts do when grief is inconvenient."),
+N(4,"Prince Hansan would take the throne. And beside him, the ministers agreed, the Princess Suan would be the perfect queen."),
+D(4,"Minister","The alliance must outlive the late king. Two kingdoms, one crown. It is the wise course."),
+N(4,"A letter from her father lay unfolded beside her. The red seal said everything the words did not."),
+C(4,[["I will answer them myself.","She stood before the council without trembling."],["I will not be moved.","She did not look at the letter again."]]),
+D(4,"Suan","I will not be handed from one kingdom to another like a treaty."),
+N(4,"The hall fell silent. No one had expected the princess to speak. No one had expected her to be so sure."),
+K(6,"V — The Proposal","A courtyard in the afternoon"),
+N(6,"Hansan found her beneath the lanterns, and sent his attendants away."),
+D(6,"Hansan","I loved my father too, you know. Even when he frightened me. I do not wish to rule alone."),
+N(6,"He was charming, as always. But for once, the charm looked like something he held up to keep from shaking."),
+D(6,"Hansan","I can give you a kingdom, Suan. Safety. Wealth. Power. A queen’s seat beside mine."),
+D(6,"Suan","What about love?"),
+N(6,"He opened his mouth, and found there was no answer in it that she would accept."),
+D(6,"Hansan","Love is what grows inside duty. It need not come before it. My mother was loved that way, I think."),
+D(6,"Suan","Then you offer me a beautiful cage."),
+D(6,"Hansan","I offer you everything I have."),
+D(6,"Suan","I know. And I am sorry. It is not enough. I cannot accept."),
+N(6,"He bowed, smiling, as a prince must. Only after she left did the smile fall."),
+K(2,"VI — A Stranger’s Eyes","A palace corridor"),
+
+N(2,"Eunsin had been assigned to guard the royal family. He wore the dark armor of a knight, but kept his face partly hidden beneath the shadow of his hood."),
+
+N(2,"He knew she was there before he saw her."),
+
+N(2,"The faint fragrance of her perfume. The soft sound of her footsteps. The presence he had once known beneath lanterns, beneath trees, beneath the rain."),
+
+N(2,"He lowered his gaze immediately."),
+
+N(2,"He could not look into her eyes."),
+
+N(2,"If he did, he knew he would forget every reason he had forced himself to stay away."),
+
+N(2,"Suan turned the corner and stopped when she saw him."),
+
+N(2,"Something about the knight unsettled her."),
+
+N(2,"His height. The way he stood. The quiet strength in his shoulders. Even the faint scent that lingered in the air around him."),
+
+N(2,"For one impossible moment, her heart whispered a name she had been waiting to hear for months."),
+
+D(2,"Suan","Eunsik..."),
+
+N(2,"The knight's hand tightened slightly at his side."),
+
+N(2,"But he did not look at her."),
+
+D(2,"Eunsin","You have mistaken me for someone else, Your Highness."),
+
+N(2,"His voice was different. Colder. Deeper. Formal."),
+
+N(2,"Suan stared at him, searching for something familiar."),
+
+D(2,"Suan","Forgive me..."),
+
+N(2,"She looked at his face, but the shadow of his hood gave her nothing."),
+
+N(2,"Still, everything about him reminded her of Eunsik."),
+
+N(2,"The thought was absurd. Eunsik was somewhere beyond these palace walls. He had promised to return. This man was only a knight."),
+
+N(2,"She forced herself to believe it."),
+
+D(2,"Suan","I... must have been mistaken."),
+
+N(2,"Eunsin finally bowed, still refusing to meet her eyes."),
+
+D(2,"Eunsin","Your Highness."),
+
+N(2,"Before she could say another word, he stepped past her."),
+
+N(2,"He did not turn back."),
+
+N(2,"He walked away quickly, carrying the scent of rain and the memory of the woman he loved farther down the corridor."),
+
+N(2,"Suan remained where she was."),
+
+N(2,"She watched the knight disappear around the corner."),
+
+N(2,"Her heart still whispered the same name."),
+
+N(2,"Eunsik."),
+
+N(2,"But she refused to believe it."),
+K(5,"VII — The Coronation","The great hall"),
+N(5,"Gold bells. Banners in royal blue. A thousand candles, and incense rising like a slow tide."),
+N(5,"Hansan knelt before the throne. His hands were steady. His jaw was not."),
+N(5,"And Eunsin stood before him, in dark armor and a ceremonial cloak. No longer the prince at his brother’s side. The knight who would crown him."),
+N(5,"He lifted the crown. It caught the light like a held breath."),
+D(5,"Eunsin","Long may the king reign."),
+D(5,"Hansan","Do not kneel so well, brother. It makes me feel as though I have already lost something."),
+N(5,"Eunsin set the crown upon his brother’s head, and for a moment his hand rested there, almost a blessing."),
+N(5,"Then he turned to the queen."),
+N(5,"Suan stood in layered silk the color of old gold. She felt the room hold still."),
+D(5,"Eunsin","Long life to the queen."),
+N(5,"His voice. She knew that voice. The way his hand hesitated before the crown touched her hair, as it had once hesitated before steadying her in the rain."),
+N(5,"Something broke open. Quietly, completely."),
+D(5,"Suan","Eunsik... was Eunsin."),
+N(5,"The man she loved had been the crown prince all along. He had known who she was from the first night."),
+N(5,"He had given her a false name. He had let her love him without the truth. Gold on her head, ice in her chest."),
+K(6,"VIII — The Quarrel","A courtyard after the ceremony"),
+N(6,"She found him alone, under lanterns that had not yet been lit."),
+D(6,"Suan","You lied to me."),
+D(6,"Eunsin","Yes."),
+D(6,"Suan","Was Eunsik ever real?"),
+D(6,"Eunsin","He was the only part of me that was."),
+D(6,"Suan","Then why? Why did you never tell me?"),
+D(6,"Eunsin","Because beside you, I was not the heir. I was simply a man. I wanted that, even if it was borrowed. But that part of my life is over now."),
+D(6,"Suan","I hate you."),
+N(6,"He did not argue. He did not step closer. He bowed his head, as one accepts a verdict."),
+D(6,"Eunsin","You have every right."),
+K(2,"IX — The King’s Suspicion","The corridor, a week later"),
+N(2,"Hansan was not a fool. He noticed how Suan’s voice thinned whenever his brother entered a room. He noticed how Eunsin never looked up."),
+N(2,"He learned the truth as kings learn everything: from a servant too frightened to lie."),
+N(2,"Suan had loved Eunsin. She loved him still."),
+D(2,"Hansan","You are a prince who hides behind a knight’s sword."),
+D(2,"Eunsin","You are my king."),
+N(2,"No anger. No defense. Only a bow, low and exact."),
+N(2,"Hansan stood alone in the corridor. He had wanted a fight. A fight he could have hated him for."),
+N(2,"Instead, he had been given a brother who would never ask for anything. And a crown that suddenly felt borrowed."),
+K(4,"X — The Court Presses","The council hall"),
+D(4,"Hansan","Suan. Sit with me. Walk with me. Let them see us as one."),
+D(4,"Suan","I cannot love you, Hansan. I will not lie to you about that."),
+D(4,"Hansan","I am not asking for your heart. I am asking you not to shame me before my court."),
+N(4,"There was no cruelty in it. Only fear, dressed as command."),
+N(4,"The ministers pressed. Her father’s letters grew shorter. Every door in the palace seemed to close softly behind her."),
+N(4,"Suan, who had once run barefoot through the rain, now learned how silk can feel like a cage."),
+K(6,"XI — The Gathering","A royal banquet beneath lanterns"),
+N(6,"Cups were raised. Court musicians played something slow and golden."),
+N(6,"Somewhere behind a screen, a minister murmured that the knight carried himself more like a king than the king did."),
+N(6,"Hansan heard it. He drank to quiet it. Then drank to be quieter still."),
+D(6,"Hansan","Smile, Suan. They are watching. You will be my queen whether you love me or not."),
+N(6,"The music faltered. His hand closed too hard around her wrist, and she pulled free."),
+N(6,"For one moment he looked at his own hand as though it belonged to someone else. But pride held him in his seat."),
+N(6,"Suan left the gathering with tears she refused to let anyone see. Eunsin saw them."),
+N(6,"He followed, because it was his duty to follow. That was what he told himself."),
+K(7,"The Moonlit Garden",""),
+N(7,"She stood beneath a plum tree, white petals falling like slow snow. The moon laid silver across her sleeves."),
+D(7,"Eunsin","Your Highness. You should not be out without escort."),
+D(7,"Suan","Then escort me, Sir Knight."),
+N(7,"They stood in silence. Formal words, said carefully, like stepping stones across a river."),
+D(7,"Suan","Does he deserve this? Does anyone?"),
+D(7,"Eunsin","No. Not you."),
+N(7,"A petal landed on her hand. Her shoulders shook once."),
+D(7,"Suan","Eunsik..."),
+D(7,"Eunsin","Suan."),
+N(7,"The titles fell away like petals. For a moment they were only themselves again."),
+K(7,"XII — The Kiss",""),
+D(7,"Suan","Do you still love me?"),
+N(7,"He could not lie to her. He had spent a lifetime lying to everyone else."),
+D(7,"Eunsin","Yes."),
+D(7,"Suan","Then why did you leave me?"),
+D(7,"Eunsin","Because loving you was the one thing I could not do as a prince."),
+D(7,"Suan","I never loved the prince."),
+N(7,"Her hand found his. Her fingers were cold. His were not steady."),
+D(7,"Suan","I loved the man behind the mask."),
+N(7,"Two silhouettes beneath a falling shower of white. The moon stood still to watch."),
+N(7,"Then, softly, as if time itself had leaned closer, they kissed."),
+K(8,"XIII — The Night",""),
+N(8,"A lantern flickered in the quiet pavilion. Rain began again, softly, against the tiled roof."),
+N(8,"A curtain moved. Then the lantern went out."),
+N(8,"The moon slid behind a bank of cloud, and the night closed over them like a hand."),
+N(8,"For one night, there was no crown. There was no throne, no court, no kingdom between them."),
+N(8,"Only Eunsik. Only Suan."),
+K(9,"Dawn","The palace, before the bells"),
+N(9,"The rain stopped. The sky turned the color of a pale rose. Two cups of tea sat on the low table, one still warm."),
+N(9,"A folded dark cloak lay beside a folded silk sash. A thin light crept over the sleeping roofs."),
+N(9,"Eunsin rose before the bells. He buckled his armor in silence, and did not look back, because he knew he could not leave if he did."),
+N(9,"Suan watched him walk away down the corridor. A dark figure growing smaller beneath the lanterns as they went out one by one."),
+N(9,"She knew they could not return to what they had been. But for one night, they had chosen each other."),
+N(9,"For one night, the crown had no name."),
+N(9,"There was only Eunsik."),
+N(9,"There was only Suan."),
+N(9,"And neither of them knew what that night would cost.")];
+var q=story.slice(),i=0,locked=true,started=false,layers=[$('bgA'),$('bgB')],cur=0,fxOn=true;
+var rain=$('rain'),ctx=rain.getContext('2d'),box=$('box'),bgNow=-1,mode="mote",P=[];
+function size(){rain.width=innerWidth;rain.height=innerHeight}
+size();addEventListener('resize',size);
+function setBg(b){
+ if(b===bgNow)return;bgNow=b;
+ var n=1-cur,L=layers[n];
+ L.style.background=BG[b].g;L.style.setProperty('--sil',BG[b].s);
+ L.classList.add('show');layers[cur].classList.remove('show');cur=n;
+ mode=BG[b].m;P=[];
+}
+function spawn(){
+ var w=rain.width,h=rain.height;
+ if(mode==="rain")return{x:Math.random()*w,y:-10,v:11+Math.random()*7,l:14+Math.random()*12};
+ if(mode==="petal")return{x:Math.random()*w,y:-10,v:.7+Math.random()*1.1,d:Math.random()*6,s:3+Math.random()*3};
+ return{x:Math.random()*w,y:h+10,v:-.25-Math.random()*.4,d:Math.random()*6,s:1+Math.random()*1.8};
+}
+function tick(t){
+ ctx.clearRect(0,0,rain.width,rain.height);
+ if(fxOn){
+  var max=mode==="rain"?110:mode==="petal"?36:34;
+  if(P.length<max&&Math.random()<.5)P.push(spawn());
+  for(var k=P.length-1;k>=0;k--){
+   var p=P[k];
+   if(mode==="rain"){p.y+=p.v;p.x-=1.2;ctx.strokeStyle="rgba(170,195,235,.28)";ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+1.5,p.y-p.l);ctx.stroke()}
+   else if(mode==="petal"){p.y+=p.v;p.x+=Math.sin(t/900+p.d)*.7;ctx.fillStyle="rgba(255,236,236,.65)";ctx.beginPath();ctx.ellipse(p.x,p.y,p.s,p.s*.6,p.d,0,6.3);ctx.fill()}
+   else{p.y+=p.v;p.x+=Math.sin(t/1300+p.d)*.3;ctx.fillStyle="rgba(255,210,120,"+(.25+.25*Math.sin(t/500+p.d))+")";ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,6.3);ctx.fill()}
+   if(p.y>rain.height+20||p.y<-20)P.splice(k,1);
+  }
+ }
+ requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+function render(it){
+ var h="";
+ if(it.k==="n")h='<p class="n">'+it.t+'</p>';
+ else if(it.k==="d")h='<div class="who">'+it.w+'</div><p class="d">“'+it.t+'”</p>';
+ else if(it.k==="k")h='<div class="kn">'+it.t+'</div>'+(it.s?'<div class="ks">'+it.s+'</div>':'');
+ else if(it.k==="c"){it.o.forEach(function(o,n){h+='<button class="ch" data-n="'+n+'">'+o[0]+'</button>'})}
+ if(it.k!=="c")h+='<div id="hint">CLICK OR TAP TO CONTINUE</div>';
+ box.innerHTML=h;
+ if(it.k==="c"){var bs=box.querySelectorAll('.ch');for(var n=0;n<bs.length;n++)bs[n].onclick=pick}
+}
+function pick(e){
+ e.stopPropagation();
+ var it=q[i],o=it.o[+this.getAttribute('data-n')];
+ q.splice(i+1,0,N(it.b,o[1]));
+ locked=false;next();
+}
+function show(){
+ locked=true;box.classList.remove('in');
+ setTimeout(function(){
+  var it=q[i];setBg(it.b);render(it);box.classList.add('in');
+  setTimeout(function(){locked=(it.k==="c")},900);
+ },i===0?200:700);
+}
+function ending(){
+ locked=true;box.classList.remove('in');
+ setTimeout(function(){
+  box.innerHTML='<div class="kn">CHAPTER V COMPLETE</div><div class="ks">The Queen and the Knight</div><div style="margin-top:42px"><a class="lk" href="chapter6.html">CONTINUE TO CHAPTER VI →</a><br><a class="lk" href="../../../index.html#library" style="font-size:16px;border-color:transparent">BACK TO LIBRARY</a></div>';
+  box.classList.add('in');
+ },900);
+}
+function next(){
+ if(locked||!started)return;
+ i++;if(i>=q.length){ending();return}
+ show();
+}
+$('stage').onclick=next;
+document.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){if(!$('menu').classList.contains('open')&&$('title').classList.contains('gone')&&e.target.tagName!=="BUTTON"&&e.target.tagName!=="A"){e.preventDefault();next()}}});
+$('begin').onclick=function(){
+ started=true;$('title').classList.add('gone');$('menuBtn').style.display="block";
+ i=0;show();
+};
+$('menuBtn').onclick=function(e){e.stopPropagation();$('menu').classList.add('open')};
+
+$('mFx').onclick=function(){fxOn=!fxOn;this.textContent="EFFECTS: "+(fxOn?"ON":"OFF")};
+</script></body></html>

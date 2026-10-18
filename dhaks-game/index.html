@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Dhaks</title>
+<meta name="theme-color" content="#06050b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+#rotate-screen {
+  display: none;
+}
+
+@media (max-width: 768px) and (orientation: portrait) {
+  #rotate-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    box-sizing: border-box;
+    background:
+      radial-gradient(ellipse at top, #252039 0%, #100f1c 45%, #07070c 100%);
+    color: #f1e6d6;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+
+  #rotate-screen .rotate-icon {
+    font-size: 42px;
+    margin-bottom: 28px;
+    animation: gentle-float 3s ease-in-out infinite;
+  }
+
+  #rotate-screen h2 {
+    font-family: 'Cinzel', Georgia, serif;
+    font-size: clamp(30px, 7vw, 42px);
+    font-weight: normal;
+    letter-spacing: 1px;
+    margin: 0 0 18px;
+  }
+
+  #rotate-screen p {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.8;
+    color: #c9bfd0;
+    margin: 0;
+  }
+
+  #rotate-screen .little-star {
+    color: #d7bd91;
+    font-size: 17px;
+    margin-top: 32px;
+    letter-spacing: 7px;
+  }
+
+  @keyframes gentle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+}
+
+</style>
+</head>
+<body>
+  
+<div id="rotate-screen">
+  <div class="rotate-icon">✧</div>
+
+  <h2>Turn your world sideways</h2>
+
+  <p>
+    A little world awaits you...<br>
+    Some stories are meant to be entered sideways.
+  </p>
+
+  <div class="little-star">✧ · ✦ · ✧</div>
+</div>
+<canvas id="atmosphere" aria-hidden="true"></canvas>
+<div class="fog" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="sweep" id="sweep" aria-hidden="true"></div>
+
+<!-- SCENE 1: Opening prompt -->
+<main class="scene" id="opening" aria-live="polite">
+  <div class="lines" id="lines"></div>
+  <div class="choices" id="choices" hidden>
+    <button class="btn btn-yes" id="yesBtn" type="button">YES</button>
+    <button class="btn btn-no" id="noBtn" type="button">NO</button>
+  </div>
+</main>
+
+<!-- SCENE 2: Story selection library -->
+<section class="scene library" id="library" hidden aria-label="Choose your world">
+  <header class="library-header">
+    <p class="library-eyebrow">A SWEET ESCAPE FROM REALITY</p>
+    <h1 class="library-title">Choose Your World</h1>
+    <div class="library-divider">
+      <span class="line"></span>
+      <span class="diamond"></span>
+      <span class="line"></span>
+    </div>
+  </header>
+
+  <div class="cards" id="cards"></div>
+</section>
+
+<script src="js/script.js"></script>
+
+<script>
+const rotateScreen = document.getElementById("rotate-screen");
+
+function checkOrientation() {
+  const isPhone = window.innerWidth <= 768;
+  const isPortrait = window.innerHeight > window.innerWidth;
+
+  if (isPhone && isPortrait) {
+    rotateScreen.style.display = "flex";
+  } else {
+    rotateScreen.style.display = "none";
+  }
+}
+
+window.addEventListener("resize", checkOrientation);
+window.addEventListener("orientationchange", checkOrientation);
+
+checkOrientation();
+</script>
+</body>
+</html>

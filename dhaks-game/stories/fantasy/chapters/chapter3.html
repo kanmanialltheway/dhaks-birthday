@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heirs of the Crown — Chapter III: Loves in Secret</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#07060a;--ivory:#efe6d2;--gold:#b89a5e;--brown:#2a1d14;--crimson:#7a2230;--moon:#6f8fb8;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--black);color:var(--ivory);overflow:hidden}
+body{font-family:var(--serif);-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* backgrounds */
+.bg{position:fixed;inset:0;opacity:0;transition:opacity 1.8s ease;background-color:var(--black)}
+.bg.on{opacity:1;animation:pan 30s ease-in-out infinite alternate}
+@keyframes pan{from{transform:scale(1)}to{transform:scale(1.07) translate(-1%,-1%)}}
+.k-corridor{background:url(../assets/corridor-bg.jpg) center/cover,radial-gradient(ellipse at 50% 45%,#2a3552 0,#111726 55%,#05060b 100%)}
+.k-chamber{background:url(../assets/chamber-bg.jpg) center/cover,radial-gradient(ellipse at 70% 55%,#5a3a1c 0,#241812 40%,#0a0b16 100%)}
+.k-garden{background:url(../assets/garden-bg.jpg) center/cover,radial-gradient(ellipse at 50% 40%,#4a4a52 0,#2a2c3a 50%,#0b0c14 100%)}
+.k-courtyard{background:url(../assets/archery-courtyard-bg.jpg) center/cover,radial-gradient(ellipse at 40% 70%,#4a3320 0,#1f1a26 50%,#07080e 100%)}
+.k-pavilion{background:url(../assets/pavilion-bg.jpg) center/cover,radial-gradient(ellipse at 50% 55%,#6a4420 0,#2a1a14 42%,#080912 100%)}
+.k-moongarden{background:url(../assets/moon-garden-bg.jpg) center/cover,radial-gradient(ellipse at 50% 25%,#3a4f7a 0,#121b2e 55%,#04060b 100%)}
+.k-palacenight{background:url(../assets/palace-night-bg.jpg) center/cover,radial-gradient(ellipse at 50% 30%,#2f3f66 0,#10172a 55%,#04050a 100%)}
+.shade{position:fixed;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(7,6,10,.55),rgba(7,6,10,.25) 35%,rgba(7,6,10,.88) 100%),radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.65) 100%)}
+.fog{position:fixed;left:-20%;width:140%;height:45%;pointer-events:none;filter:blur(40px);opacity:.14;background:radial-gradient(ellipse,#9fb0cc,transparent 65%);animation:drift 40s linear infinite alternate}
+.fog.a{bottom:0}.fog.b{top:20%;animation-duration:55s;animation-direction:alternate-reverse;opacity:.08}
+@keyframes drift{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+.grain{position:fixed;inset:-50%;pointer-events:none;opacity:.09;animation:grain 1s steps(5) infinite;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-4%)}75%{transform:translate(-3%,-2%)}100%{transform:translate(2%,4%)}}
+#fx{position:fixed;inset:0;pointer-events:none}
+
+/* top bar */
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 0;font:500 11px var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.top a{color:var(--gold);text-decoration:none;opacity:.75;transition:opacity .3s}.top a:hover{opacity:1}
+
+/* text stage */
+#stage{
+  position:fixed;
+  inset:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  cursor:pointer
+}
+#box{width:min(720px,100%);text-align:center;opacity:0;transform:translateY(10px);transition:opacity .9s,transform .9s}
+#box.in{opacity:1;transform:none}
+#who{font:500 12px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;min-height:1em}
+#txt{font-size:clamp(20px,3.4vw,28px);line-height:1.55;font-weight:500;text-shadow:0 2px 14px #000}
+#txt.nar{font-style:italic;color:#e3d9c2}
+#sub{font-size:clamp(15px,2.4vw,18px);color:#bfb39a;margin-top:10px;font-style:italic}
+#hint{font:400 11px var(--sans);letter-spacing:.18em;color:var(--gold);opacity:.65;margin-top:22px;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+#opts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.opt{background:rgba(10,8,12,.7);border:1px solid var(--gold);padding:13px 24px;font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;transition:background .3s,color .3s;min-height:44px}
+.opt:hover{background:var(--gold);color:var(--black)}
+.card{border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);padding:18px 8px}
+.card h2{font-size:clamp(34px,6vw,54px);font-weight:500;letter-spacing:.08em}
+
+/* overlays */
+.screen{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center,rgba(20,14,12,.55),var(--black) 85%);transition:opacity 1.6s}
+.screen.off{opacity:0;pointer-events:none}
+.screen h1{font-size:clamp(40px,10vw,96px);font-weight:500;letter-spacing:.12em;line-height:1.05;color:var(--ivory);text-shadow:0 0 40px rgba(184,154,94,.35)}
+.screen .tag{font:500 12px var(--sans);letter-spacing:.3em;color:var(--gold);margin:22px 0 8px}
+.screen .ch{font-size:clamp(20px,3.4vw,28px);font-style:italic;color:#cbbfa4;margin-bottom:40px}
+.btn{display:inline-block;text-decoration:none;background:transparent;border:1px solid var(--gold);color:var(--ivory);padding:14px 30px;font:500 12px var(--sans);letter-spacing:.2em;text-transform:uppercase;transition:background .3s,color .3s;margin:6px;min-height:44px}
+.btn:hover{background:var(--gold);color:var(--black)}
+.btn.primary{background:var(--crimson);border-color:var(--crimson)}.btn.primary:hover{background:#9c2c3d;color:var(--ivory)}
+.btn.quiet{border-color:transparent;color:var(--gold);padding:10px 16px}
+#end h2{font-size:clamp(28px,6vw,52px);font-weight:500;letter-spacing:.14em;margin-bottom:34px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+<div class="bg" id="bgA"></div><div class="bg" id="bgB"></div>
+<div class="shade"></div><div class="fog a"></div><div class="fog b"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+
+<nav class="top" aria-label="Chapter navigation">
+  <a href="../chapters.html">← Back to Story</a>
+  <a href="../../../index.html#library">← Back to Library</a>
+</nav>
+
+<main id="stage" aria-live="polite">
+  <div id="box">
+    <div id="who"></div>
+    <div id="txt"></div>
+    <div id="sub"></div>
+    <div id="opts" role="group"></div>
+    <div id="hint">CLICK OR TAP TO CONTINUE</div>
+  </div>
+</main>
+
+<section class="screen" id="intro" aria-label="Title">
+  <h1>HEIRS OF<br>THE CROWN</h1>
+  <p class="tag">THREE HEIRS. THREE LOVES. ONE CROWN.</p>
+  <p class="ch">Chapter III — Loves in Secret</p>
+  <button class="btn" id="begin">Begin</button>
+</section>
+
+<section class="screen off" id="end" aria-label="Chapter complete">
+  <h2>CHAPTER III COMPLETE</h2>
+  <a class="btn primary" href="chapter4.html">CONTINUE TO CHAPTER IV →</a>
+  <div>
+    <a class="btn quiet" href="../chapters.html">← BACK TO STORY</a>
+    <a class="btn quiet" href="../../../index.html#library">← BACK TO LIBRARY</a>
+  </div>
+</section>
+
+<script>
+(function(){
+'use strict';
+/* ---------- STORY ---------- */
+var N=function(t){return{n:t}},D=function(w,t){return{w:w,t:t}},BG=function(k){return{bg:k}};
+var story=[
+BG('corridor'),
+N('The rain had thinned to mist when Eunsin crept back through the palace. The long corridors lay silent under the moon, and the paper doors glowed pale blue.'),
+N('He walked more lightly than he had in years. He was smiling, and no one was there to see it.'),
+D('Yeon','You are late, and you are smiling. I do not know which alarms me more.'),
+D('Eunsin','Do you never sleep?'),
+D('Yeon','Not while the heir of the kingdom climbs walls in the dark. Your sleeves are wet through, Your Highness.'),
+D('Eunsin','It rained.'),
+D('Yeon','And the princess?'),
+N('Eunsin said nothing. He looked at the courtyard, where drops still fell from the eaves one at a time.'),
+{q:'How does Eunsin answer?',o:[
+ {l:'Tell the quiet truth',b:[D('Eunsin','She asked who I was, and I did not answer. It is the first time I have wished to.')]},
+ {l:'Smile and say nothing',b:[N('He only smiled, and Yeon looked at that smile for a long moment before he understood.')]}]},
+D('Yeon','You gave her no name?'),
+D('Eunsin','I gave her Eunsik. It is the only honest thing I could.'),
+D('Yeon','It is not honest at all, my friend. But it is kind, and I think you know the difference.'),
+D('Eunsin','She would not look at me the same, if she knew.'),
+D('Yeon','Then you must decide how long a secret can be kept before it becomes a wound.'),
+N('Eunsin had no answer. Somewhere beyond the walls, a night bird called, and he stood listening a long time.'),
+
+BG('chamber'),
+N('In the guest pavilion, one candle still burned. Suan sat by the window with the night air on her face and her damp hair loose on her shoulders.'),
+N('In her hands lay a strip of rough black cloth. He had left it on a branch when the rain began, and she had carried it back without telling anyone.'),
+{q:'What does Suan do with the cloth?',o:[
+ {l:'Hold it to the candlelight',b:[N('Its threads were coarse and plain. Nothing royal in it at all. She turned it slowly in the light and thought that was exactly why she liked it.')]},
+ {l:'Tuck it into her sleeve',b:[N('She folded it small and slid it into her sleeve, near her heart, like something that might be taken from her.')]}]},
+N('She remembered the rain on the pines. His hand around hers. And a voice saying that he was glad she had come.'),
+D('Suan','(softly) I do not know who you are, Eunsik. But I know how I feel when I am near you.'),
+N('That was not wise. She knew it. She did not care to be wise tonight.'),
+
+BG('garden'),
+N('Morning came gently. The plum and peony beds of the palace garden were heavy with dew, and the petals drifted down on the stones.'),
+N('Suan walked alone, finding in the quiet what the court never gave her. Then a bright voice came from behind a flowering branch.'),
+D('Haneul','Are you lost? Everyone is, the first week. The palace has too many gates and not enough reasons for them.'),
+N('A young woman stepped out, plainly dressed, with a basket of cut flowers on her arm and a smile as quick as a bird.'),
+{q:'How does Suan answer her?',o:[
+ {l:'Ask who she is',b:[D('Suan','And who are you, to know the palace so well?'),D('Haneul','Someone who lives here and has far too many rules. Will that do?')]},
+ {l:'Answer lightly',b:[D('Suan','Perhaps I am lost on purpose. It is the only way to see anything alone.'),D('Haneul','Then you are the first sensible guest I have met.')]}]},
+D('Haneul','I am Haneul. You must be the princess from the neighbouring dynasty. Everyone whispers about you in the corridors.'),
+D('Suan','Everyone whispers about me in every corridor I have walked. It is tiresome.'),
+D('Haneul','Oh, I know. They whisper about me too. They say I am spoiled, and they are right.'),
+N('Suan laughed. She had not laughed with another woman since leaving home.'),
+D('Haneul','Come and help me with these flowers. My brothers think I only break things.'),
+N('They sat on a stone bench, sorting peonies. And as the morning went on, the talk turned from flowers to freedom.'),
+D('Suan','My father wishes to place me in a marriage, as one places a seal on a letter.'),
+D('Haneul','Father and brothers watch over me like a candle in a wind. I cannot step into the courtyard without three guards pretending not to follow me.'),
+D('Suan','So we are both caged, only in different silks.'),
+D('Haneul','Yes! Exactly that.'),
+N('Two young women, strangers an hour before, sat among the flowers and spoke freely. It was the first time either of them had done so in a long while.'),
+D('Haneul','Can you keep a secret, Suan?'),
+D('Suan','I am keeping three already. One more is no burden.'),
+D('Haneul','There is someone I love. He is a knight.'),
+N('Suan turned, surprised. Haneul would not meet her eyes. She was turning a peony in her fingers, petal by petal.'),
+D('Haneul','I am the king\'s daughter. And he is only a knight. The kingdom will never allow it, and he knows it better than I.'),
+N('So she was the princess of this house. Suan looked at her again, and she did not see a spoiled child. She saw a woman choosing bravely.'),
+D('Suan','You are not asking my judgment. But I will give you something better. I believe you.'),
+D('Haneul','You do not think me foolish?'),
+D('Suan','I think it is the opposite of foolish to know your own heart in a palace like this.'),
+N('Haneul squeezed her hand. For the first time that morning, she did not seem like a princess at all.'),
+
+BG('courtyard'),
+N('At dusk the archery courtyard lay empty, the straw targets casting long shadows over the stones. A single bow hummed.'),
+N('A slim figure drew her arm back, held her breath, and released. The arrow struck the centre of the target with a clean, bright sound.'),
+N('At the far end of the courtyard, a tall shape in a knight\'s dark robe stood at a pillar, hand resting on a sword hilt, watching.'),
+D('Yeon','You have lowered your elbow again, Princess.'),
+D('Haneul','I have not. You are only late.'),
+D('Yeon','I was here before the sun set.'),
+D('Haneul','Then you watched me a long time, and said nothing.'),
+N('He did not answer. The silence said what he could not. Haneul crossed the stones and held out a length of pale blue ribbon from her sleeve.'),
+D('Haneul','Take it. Keep it where no one will find it.'),
+D('Yeon','Princess, I cannot take something like—'),
+D('Haneul','Yeon.'),
+N('He took it. Their fingers touched on the silk, and neither of them moved for a long breath. Then he folded the ribbon inside his sleeve.'),
+D('Yeon','If the king knew, he would see me gone from the palace by morning.'),
+D('Haneul','Father loves me. He may love me enough to listen.'),
+D('Yeon','Kings love their daughters. But they also love their treaties.'),
+D('Haneul','Then I will choose my own life, and make him see it.'),
+D('Yeon','I would rather lose my sword than be the cause of your ruin.'),
+N('She looked at the darkening sky, then back at him, and said nothing. It was not an answer. But it was not a refusal either.'),
+
+
+BG('pavilion'),
+N('That night the guest pavilion glowed with a single warm lantern. Haneul had come by quietly, and the two women sat with tea between them.'),
+D('Haneul','You are thinking of someone. You have been looking at your sleeve for a quarter of an hour.'),
+D('Suan','Am I so plain?'),
+D('Haneul','Only to someone who is also in love.'),
+D('Suan','I did not say that word.'),
+D('Haneul','You did not need to.'),
+N('Suan laughed, and then grew quiet. Something in her face softened, as if she were looking at a faraway road.'),
+D('Suan','He goes by Eunsik. I met him in the festival crowd, masked in black. I thought him a thief.'),
+N('Haneul stilled. She kept her face calm, though her heart had suddenly begun to race.'),
+D('Suan','He cleared the road for my chariot. He spoke to the people as if they were his own. Afterwards he took me through the villages by moonlight, and we walked in the rain.'),
+D('Haneul','Did he... show you his face?'),
+D('Suan','At the very end. His eyes are blue, a colour I have never seen in anyone else.'),
+N('Blue. There was only one person in the whole kingdom with eyes like that, and he was her brother.'),
+N('Haneul pressed her lips together to keep from smiling, and felt her heart ache a little for both of them.'),
+D('Haneul','He sounds... remarkable.'),
+D('Suan','He is hiding something. I can tell. But I find that I do not mind.'),
+D('Haneul','(gently) Perhaps he is afraid you will mind.'),
+N('Haneul knew the truth, and she kept it. It was not hers to tell. It was Eunsin\'s, and she would trust her brother to find the courage.'),
+D('Haneul','Suan, there is something else you should know. It concerns your brother.'),
+D('Suan','Wan? What of him?'),
+D('Haneul','He looks at me too long, and speaks too gently. I think he has come to care for me. I do not feel the same.'),
+{q:'How does Suan receive this?',o:[
+ {l:'With surprise',b:[D('Suan','Wan? He has said nothing to me!'),N('She put a hand to her cheek, half laughing, half dismayed.')]},
+ {l:'With quiet concern',b:[N('She was silent for a moment. Then she nodded slowly, because she had seen how her brother\'s gaze lingered, and had told herself not to notice.')]}]},
+D('Suan','He is good-hearted, Haneul. But he believes that his rank will carry a woman\'s heart. He is wrong.'),
+D('Haneul','I do not want to wound him.'),
+D('Suan','Then be honest with him, when the time comes. Kindness that hides the truth is only a slower cruelty.'),
+D('Suan','And I cannot marry a man simply because two kingdoms wish it. Not even a prince.'),
+D('Haneul','I understand that better than you know.'),
+N('They sat together by the lantern, and neither felt alone any more.'),
+
+BG('moongarden'),
+N('Later, when the palace slept, Haneul slipped out through a gate she was not supposed to know. A small lantern swung from her hand.'),
+N('The secret garden lay behind a screen of old cypress, where the moon came down in white threads through the branches.'),
+N('He was already there. A knight, standing among the shadows, with a blue ribbon at his sleeve.'),
+D('Haneul','You wore it.'),
+D('Yeon','I could think of no reason to hide it from the moon.'),
+N('For a moment, they stood without speaking, and the lantern between them lit the edge of her sleeve and the edge of his.'),
+D('Haneul','Promise me something.'),
+D('Yeon','Anything within my power.'),
+D('Haneul','Promise that we will find a way. Not tonight, not this season. But that we will not give up.'),
+D('Yeon','(quietly) I promise, Haneul. If the world demands a price, let it ask me first.'),
+N('Her hand found his. This time neither of them let go.'),
+N('Beyond the cypress, in the long shadow of a palace gallery, another figure stood very still. It was Wan, who had followed a distant glimmer of lantern light.'),
+N('He did not move. He did not call out. He only watched her, with eyes that were not angry, but sad, and unwilling to understand.'),
+
+BG('palacenight'),
+N('The palace slept under a pale moon. The tiled roofs shone like silver water, and the lanterns of the outer gates burned small and gold.'),
+N('In one chamber, a prince held a borrowed name against his heart. In another, a princess pressed a strip of black cloth to hers.'),
+N('In a hidden garden, a knight and a king\'s daughter swore a promise. And in a dark gallery, a foreign prince watched the light that was not his.'),
+N('Three hearts had chosen love.'),
+N('None of them knew what the palace would demand in return.')
+];
+
+/* ---------- ENGINE ---------- */
+var $=function(i){return document.getElementById(i)};
+var box=$('box'),who=$('who'),txt=$('txt'),sub=$('sub'),opts=$('opts'),hint=$('hint');
+var q=story.slice(),i=0,locked=true,started=false,layers=[$('bgA'),$('bgB')],cur=0,fxOn=true;
+
+function setBg(k){
+  var nxt=layers[1-cur];
+  nxt.className='bg k-'+k;
+  void nxt.offsetWidth;
+  nxt.classList.add('on');
+  layers[cur].classList.remove('on');
+  cur=1-cur;
+}
+function show(w,t,cls,s){
+  who.textContent=w||'';txt.textContent=t||'';txt.className=cls||'';sub.textContent=s||'';
+  box.classList.add('in');
+}
+function next(){
+  if(locked)return;
+  var b=q[i++];
+  if(!b){finish();return}
+  locked=true;
+  box.classList.remove('in');
+  setTimeout(function(){render(b)},b.bg?200:550);
+}
+function render(b){
+  opts.innerHTML='';hint.style.display='none';
+    if(b.bg){setBg(b.bg);setTimeout(function(){locked=false;next()},1600);return}
+  if(b.n){show('',b.n,'nar');ready()}
+  else if(b.w){show(b.w,b.t,'');ready()}
+  else if(b.c){
+    who.textContent='';txt.className='';txt.textContent='';sub.textContent='';
+    txt.innerHTML='<div class="card"><h2></h2></div>';
+    txt.querySelector('h2').textContent=b.c[0];
+    who.textContent=b.c[1];sub.textContent=b.c[2];
+    box.classList.add('in');ready();
+  }
+  else if(b.q){
+    show('Choose',b.q,'');
+    b.o.forEach(function(o){
+      var el=document.createElement('button');
+      el.className='opt';el.type='button';el.textContent=o.l;
+      el.addEventListener('click',function(){
+        if(el.disabled)return;
+        Array.prototype.forEach.call(opts.children,function(x){x.disabled=true});
+        q.splice.apply(q,[i,0].concat(o.b));
+        locked=false;next();
+      });
+      opts.appendChild(el);
+    });
+    opts.firstChild.focus({preventScroll:true});
+  }
+}
+function ready(){hint.style.display='block';setTimeout(function(){locked=false},700)}
+function finish(){
+  locked=true;box.classList.remove('in');
+  setTimeout(function(){$('end').classList.remove('off');var l=document.querySelector('#end .primary');if(l)l.focus({preventScroll:true})},1200);
+}
+function advance(e){
+  if(!started)return;
+  if(e&&e.target.closest&&e.target.closest('.opt'))return;
+  if(opts.children.length&&!opts.firstChild.disabled)return;
+  next();
+}
+$('stage').addEventListener('click',advance);
+document.addEventListener('keydown',function(e){
+  if(!started)return;
+  if(e.key===' '||e.key==='ArrowRight'||(e.key==='Enter'&&!(e.target.closest&&e.target.closest('button,a')))){e.preventDefault();advance()}
+});
+$('begin').addEventListener('click',function(){
+  started=true;$('intro').classList.add('off');locked=false;
+  setTimeout(next,900);
+});
+
+/* ---------- PETALS, LEAVES, MOTES ---------- */
+var cv=$('fx'),cx=cv.getContext('2d'),P=[],W=0,H=0;
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+size();addEventListener('resize',size);
+function mk(kind){return{k:kind,x:Math.random(),y:Math.random(),r:kind==='m'?Math.random()*1.6+.6:Math.random()*3+4,v:kind==='m'?-(Math.random()*.0003+.0001):Math.random()*.00035+.00014,s:Math.random()*6,a:Math.random()*6}}
+var n;
+for(n=0;n<14;n++)P.push(mk('p'));
+for(n=0;n<3;n++)P.push(mk('l'));
+for(n=0;n<24;n++)P.push(mk('m'));
+var still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function tick(t){
+  cx.clearRect(0,0,W,H);
+  P.forEach(function(p){
+    p.y+=p.v;p.x+=Math.sin(t/2600+p.s)*.00018+(p.k==='m'?0:.00004);p.a+=.004;
+    if(p.k==='m'){
+      if(p.y<-.05){p.y=1.05;p.x=Math.random()}
+      var al=.22+.22*Math.sin(t/900+p.s);
+      var g=cx.createRadialGradient(p.x*W,p.y*H,0,p.x*W,p.y*H,p.r*6);
+      g.addColorStop(0,'rgba(255,205,120,'+al+')');g.addColorStop(1,'rgba(255,170,70,0)');
+      cx.fillStyle=g;cx.beginPath();cx.arc(p.x*W,p.y*H,p.r*6,0,6.283);cx.fill();
+    }else{
+      if(p.y>1.05){p.y=-.05;p.x=Math.random()}
+      cx.save();cx.translate(p.x*W,p.y*H);cx.rotate(p.a);cx.scale(1,.55+.35*Math.sin(p.a*1.7));
+      cx.fillStyle=p.k==='p'?'rgba(240,205,205,.38)':'rgba(150,110,60,.4)';
+      cx.beginPath();cx.ellipse(0,0,p.r,p.r*.55,0,0,6.283);cx.fill();cx.restore();
+    }
+  });
+  if(!still)requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

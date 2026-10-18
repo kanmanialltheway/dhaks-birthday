@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Heirs of the Crown — Chapter I: The Three Heirs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#07060a;--ivory:#efe6d2;--gold:#b89a5e;--brown:#2a1d14;--crimson:#7a2230;--moon:#6f8fb8;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--black);color:var(--ivory);overflow:hidden}
+body{font-family:var(--serif);-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* backgrounds */
+.bg{position:fixed;inset:0;opacity:0;transition:opacity 1.8s ease;background-color:var(--black)}
+.bg.on{opacity:1;animation:pan 30s ease-in-out infinite alternate}
+@keyframes pan{from{transform:scale(1)}to{transform:scale(1.07) translate(-1%,-1%)}}
+.k-palace{background:url(assets/palace-bg.jpg) center/cover,radial-gradient(ellipse at 50% 25%,#2b2a46 0,#12101c 55%,#07060a 100%)}
+.k-hall{background:url(assets/royal-hall-bg.jpg) center/cover,radial-gradient(ellipse at 50% 40%,#4a2a1a 0,#2a1410 45%,#0a0606 100%)}
+.k-street{background:url(assets/night-street-bg.jpg) center/cover,radial-gradient(ellipse at 30% 70%,#2a3550 0,#10141f 55%,#05060a 100%)}
+.k-lantern{background:url(assets/lantern-bg.jpg) center/cover,radial-gradient(ellipse at 50% 55%,#6a3a14 0,#2b1a12 45%,#08060a 100%)}
+.shade{position:fixed;inset:0;pointer-events:none;background:linear-gradient(to bottom,rgba(7,6,10,.55),rgba(7,6,10,.25) 35%,rgba(7,6,10,.88) 100%),radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.65) 100%)}
+.fog{position:fixed;left:-20%;width:140%;height:45%;pointer-events:none;filter:blur(40px);opacity:.14;background:radial-gradient(ellipse,#9fb0cc,transparent 65%);animation:drift 40s linear infinite alternate}
+.fog.a{bottom:0}.fog.b{top:20%;animation-duration:55s;animation-direction:alternate-reverse;opacity:.08}
+@keyframes drift{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+.grain{position:fixed;inset:-50%;pointer-events:none;opacity:.09;animation:grain 1s steps(5) infinite;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-4%,3%)}50%{transform:translate(3%,-4%)}75%{transform:translate(-3%,-2%)}100%{transform:translate(2%,4%)}}
+#fx{position:fixed;inset:0;pointer-events:none}
+
+/* top bar */
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 0;font:500 11px var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.top a{color:var(--gold);text-decoration:none;opacity:.75;transition:opacity .3s}.top a:hover{opacity:1}
+
+/* Eunsin — full-screen reveal */
+
+.eyes{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  opacity:0;
+  transition:opacity 1.4s ease;
+  pointer-events:none;
+  z-index:5;
+  overflow:hidden;
+}
+.eyes{
+  background:#07060a;
+}
+
+.eyes.on{
+  opacity:1;
+}
+.eyes::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(5,5,8,.55) 0%,
+      rgba(5,5,8,.05) 38%,
+      rgba(5,5,8,.18) 60%,
+      rgba(5,5,8,.85) 100%
+    ),
+    radial-gradient(
+      ellipse at center,
+      transparent 35%,
+      rgba(0,0,0,.55) 100%
+    );
+}
+.eyes img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center 65%;
+
+  filter:
+    brightness(.48)
+    contrast(1.12)
+    saturate(.82);
+
+  transform:scale(1.04);
+
+  transition:transform 8s ease;
+}
+
+.eyes.on img{
+  transform:scale(1.08);
+}
+/* Suan's pink flower petals */
+
+#petals{
+  position:fixed;
+  inset:0;
+  z-index:15;
+  pointer-events:none;
+  overflow:hidden;
+  opacity:0;
+  transition:opacity 1s ease;
+}
+
+#petals.on{
+  opacity:1;
+}
+
+.petal{
+  position:absolute;
+  top:-30px;
+  width:12px;
+  height:18px;
+  background:linear-gradient(135deg,#f8b6c9,#d97898);
+  border-radius:70% 30% 70% 30%;
+  opacity:.85;
+  animation:petalFall linear forwards;
+  filter:drop-shadow(0 2px 4px rgba(80,20,40,.2));
+}
+
+@keyframes petalFall{
+  0%{
+    transform:translate3d(0,-30px,0) rotate(0deg);
+  }
+
+  25%{
+    transform:translate3d(35px,25vh,0) rotate(100deg);
+  }
+
+  50%{
+    transform:translate3d(-25px,50vh,0) rotate(210deg);
+  }
+
+  75%{
+    transform:translate3d(40px,75vh,0) rotate(290deg);
+  }
+
+  100%{
+    transform:translate3d(-20px,110vh,0) rotate(380deg);
+  }
+}
+/* text stage */
+#stage{
+  position:fixed;
+  inset:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 20px;
+  cursor:pointer;
+}
+#box{width:min(720px,100%);text-align:center;opacity:0;transform:translateY(10px);transition:opacity .9s,transform .9s}
+#box.in{opacity:1;transform:none}
+#who{font:500 12px var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;min-height:1em}
+#txt{font-size:clamp(20px,3.4vw,28px);line-height:1.55;font-weight:500;text-shadow:0 2px 14px #000}
+#txt.nar{font-style:italic;color:#e3d9c2}
+#sub{font-size:clamp(15px,2.4vw,18px);color:#bfb39a;margin-top:10px;font-style:italic}
+#hint{font:400 11px var(--sans);letter-spacing:.18em;color:var(--gold);opacity:.65;margin-top:22px;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.2}}
+#opts{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.opt{background:rgba(10,8,12,.7);border:1px solid var(--gold);padding:13px 24px;font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;transition:background .3s,color .3s;min-height:44px}
+.opt:hover{background:var(--gold);color:var(--black)}
+.card{border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);padding:18px 8px}
+.card h2{font-size:clamp(34px,6vw,54px);font-weight:500;letter-spacing:.08em}
+
+/* overlays */
+.screen{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center,rgba(20,14,12,.55),var(--black) 85%);transition:opacity 1.6s}
+.screen.off{opacity:0;pointer-events:none}
+.screen h1{font-size:clamp(40px,10vw,96px);font-weight:500;letter-spacing:.12em;line-height:1.05;color:var(--ivory);text-shadow:0 0 40px rgba(184,154,94,.35)}
+.screen .tag{font:500 12px var(--sans);letter-spacing:.3em;color:var(--gold);margin:22px 0 8px}
+.screen .ch{font-size:clamp(20px,3.4vw,28px);font-style:italic;color:#cbbfa4;margin-bottom:40px}
+.btn{display:inline-block;text-decoration:none;background:transparent;border:1px solid var(--gold);color:var(--ivory);padding:14px 30px;font:500 12px var(--sans);letter-spacing:.2em;text-transform:uppercase;transition:background .3s,color .3s;margin:6px;min-height:44px}
+.btn:hover{background:var(--gold);color:var(--black)}
+.btn.primary{background:var(--crimson);border-color:var(--crimson)}.btn.primary:hover{background:#9c2c3d;color:var(--ivory)}
+.btn.quiet{border-color:transparent;color:var(--gold);padding:10px 16px}
+#end h2{font-size:clamp(28px,6vw,52px);font-weight:500;letter-spacing:.14em;margin-bottom:34px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+<style>
+@media (max-width: 768px) and (orientation: portrait) {
+  body {
+    visibility: hidden;
+  }
+}
+</style>
+</head>
+<body>
+<div class="bg" id="bgA"></div><div class="bg" id="bgB"></div>
+<div class="shade"></div><div class="fog a"></div><div class="fog b"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div id="petals" aria-hidden="true"></div>
+<div class="eyes" id="eyes" aria-hidden="true">
+  <img src="../assets/eunsin-eyes.png" alt="">
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<nav class="top" aria-label="Chapter navigation">
+  <a href="../chapters.html">← Back to Story</a>
+  <a href="../../../index.html#library">← Back to Library</a>
+</nav>
+
+<main id="stage" aria-live="polite">
+  <div id="box">
+    <div id="who"></div>
+    <div id="txt"></div>
+    <div id="sub"></div>
+    <div id="opts" role="group"></div>
+    <div id="hint">CLICK OR TAP TO CONTINUE</div>
+  </div>
+</main>
+
+<section class="screen" id="intro" aria-label="Title">
+  <h1>HEIRS OF<br>THE CROWN</h1>
+  <p class="tag">THREE HEIRS. THREE LOVES. ONE CROWN.</p>
+  <p class="ch">Chapter I — The Three Heirs</p>
+  <button class="btn" id="begin">Begin</button>
+</section>
+
+<section class="screen off" id="end" aria-label="Chapter complete">
+  <h2>CHAPTER I COMPLETE</h2>
+  <a class="btn primary" href="chapter2.html">CONTINUE TO CHAPTER II →</a>
+  <div>
+    <a class="btn quiet" href="../chapters.html">← BACK TO STORY</a>
+    <a class="btn quiet" href="../../../index.html#library">← BACK TO LIBRARY</a>
+  </div>
+</section>
+
+<script>
+(function(){
+
+'use strict';
+
+var $=function(i){return document.getElementById(i)};
+
+var petals=$('petals');
+
+function showerPetals(){
+  petals.innerHTML='';
+  petals.classList.add('on');
+
+  for(var p=0;p<28;p++){
+    var petal=document.createElement('span');
+    petal.className='petal';
+
+    petal.style.left=(Math.random()*100)+'%';
+    petal.style.animationDuration=(4+Math.random()*4)+'s';
+    petal.style.animationDelay=(Math.random()*2)+'s';
+    petal.style.transform='scale('+(0.6+Math.random()*.7)+')';
+
+    petals.appendChild(petal);
+  }
+
+  setTimeout(function(){
+    petals.classList.remove('on');
+  },7000);
+}
+/* ---------- STORY ---------- */
+var N=function(t){return{n:t}},D=function(w,t){return{w:w,t:t}},BG=function(k){return{bg:k}};
+var story=[
+BG('palace'),
+N('Long ago, in a kingdom beneath the eastern mountains, the harvest had been gentle, the king was just, and the people had known peace for many years.'),
+N('Tonight the whole capital would celebrate. Lanterns hung from every gate, and envoys from distant dynasties had come to share the feast.'),
+{q:'Where does your eye fall first?',o:[
+ {l:'The Palace',b:[N('Tiled roofs rise in layers against the moon, quiet and bright. Inside the walls, a hundred candles wait for the guests.')]},
+ {l:'The Festival',b:[N('Below the hill, the city glows like a river of embers. The drums carry all the way up, and somewhere a child is laughing.')]}]},
+N('Two worlds, one night, and only a single wall between them.'),
+
+BG('hall'),
+N('In the Hall of Audience, the king waited for his children. He was an old man now, and he never tired of watching them arrive.'),
+{c:['Haneul','The Princess','Youngest child and only daughter of the king. The happiness of the royal family.']},
+D('Haneul','Father, Hansan says I will trip on my skirts in front of the foreign guests.'),
+{c:['Hansan','The Second Prince','Charming, quick to smile, and fond of the pleasures of royal life.']},
+D('Hansan','I said you would trip on the guests, little sister. It is not at all the same thing.'),
+N('The king laughed, and the hall seemed warmer for it.'),
+D('Hansan','A kingdom is a house, Father. The king speaks, and all else follows. I only wish more people remembered it.'),
+D('The King','And you, Hansan, will remember it for everyone. Now, Eunsin?'),
+{c:['Eunsin','The First Prince','Eldest son and heir to the throne. Brave, kind, and never at ease within walls.'],e:1},
+N('The eldest prince stood by the lattice window, watching the glow beyond the palace roofs.'),
+D('Haneul','Brother, you are not listening. You are looking out the window again.'),
+D('Eunsin','The window is the only honest thing in this palace, Haneul. It shows me how the people live.'),
+N('The queen had died the night Haneul was born. In Haneul\'s laugh, the king and both princes heard her still, and so they could refuse her nothing.'),
+D('The King','Tonight there will be many guests. Some come with gifts, and some come with daughters. Be courteous to all.'),
+N('Hours remained before the banquet. Eunsin listened to the faraway music, and his patience grew thin.'),
+{q:'What would Eunsin do?',o:[
+ {l:'Stay with the royal family',b:[N('He stays. He bows to ministers, nods at the envoys\' flattery, and counts the drumbeats from outside. An hour passes like a year.'),D('Eunsin','(quietly) I cannot. Not tonight.')]},
+ {l:'Sneak outside',b:[N('He does not wait. He bows to his father with a calm face, and his heart is already beyond the gate.')]}]},
+
+BG('palace'),
+N('In his chamber, Eunsin unfolded black cloth that no prince should own. A dark robe. A veil for the face.'),
+{n:'Only his eyes remained uncovered. They were blue, and they were not easily forgotten.',e:1},
+D('Eunsin','Forgive me, Father. Only until the moon is high.'),
+N('Over the wall, past the sleeping guards, he dropped into the lantern-lit lane below.'),
+
+BG('lantern'),
+N('Inside the palace, everything had been formal and controlled and silent. Outside, the world was alive.'),
+N('Paper lanterns swayed above the streets. Vendors sold hot rice cakes, roasted chestnuts and sweet honey cakes. Children ran everywhere, and old men sang off-key.'),
+{q:'The festival opens before him.',o:[
+ {l:'Follow the music',b:[N('He follows a gayageum\'s bright notes to a ring of dancers. The drums quicken, the crowd claps, and for a moment he forgets he is a prince.')]},
+ {l:'Watch the crowd',b:[N('He lingers where the people are thickest. A grandmother shares a sweet with a stranger. A father lifts his daughter onto his shoulders to see the dancers.')]}]},
+N('A small boy dropped his paper lantern at the masked man\'s feet. Eunsin lifted it and held it out.'),
+D('Boy','Thank you, mister thief!'),
+D('Eunsin','Keep it burning, little one. Tonight is for you.'),
+N('Behind the veil, he smiled. This was what a kingdom was for.'),
+
+BG('street'),
+N('Further along the market road, the crowd had swallowed a royal chariot whole.'),
+{c:['Suan','Princess of Another Dynasty','Beautiful, clever and independent. She will not be handed over in a bargain.'],petals:1},
+D('Wan','Sister, the guards say the road is blocked all the way to the palace.'),
+D('Suan','Then we shall be late, Wan. Father will not be pleased.'),
+D('Suan','He wishes me to marry a prince, either one, as if I were silk to be unrolled and chosen. I would rather meet the street than the throne.'),
+{c:['Wan','Her Brother','Loyal and good-humoured. He will not long be indifferent to this kingdom.']},
+D('Servant','Make way! Make way for the Princess!'),
+N('Nobody moved. The crowd only pressed closer, and a servant shoved an old vendor aside.'),
+D('Eunsin','Gently. No one here is your enemy.'),
+N('The voice was calm, and it carried. Then he turned to the people.'),
+D('Eunsin','Friends, step back a little. Let the lady\'s chariot pass.'),
+N('The crowd parted like water. The chariot rolled forward, then stopped. The door opened.'),
+{n:'Princess Suan stepped down, irritated. And she saw him: a figure in black, face hidden, only two blue eyes catching the lantern light.'},
+D('Suan','You there. Since when do masked men give orders on the king\'s road?'),
+{q:'How does she answer the stranger?',o:[
+ {l:'Question the stranger',b:[D('Suan','Who are you to speak for these people, and for my servants?'),D('Eunsin','Only someone who would like the road to move.')]},
+ {l:'Watch him silently',b:[N('She says nothing. She studies the black cloth, the hidden face, a stillness that does not belong to a festival. The silence stretches until even the drums seem to quiet.')]}]},
+D('Suan','Tell me who you are. Are you a thief?'),
+{n:'The blue eyes crinkled, as if he were smiling.'},
+D('Eunsin','Maybe.'),
+D('Suan','Maybe? A thief should at least have the courtesy to lie properly.'),
+N('A burst of drums rose from the market. The crowd surged, lanterns swung overhead, and light filled the lane.'),
+D('Suan','Wait. I have not finished—'),
+N('When the light settled, he was gone. Only the lanterns remained, swaying where he had been.'),
+N('She stood in the middle of the road and looked for him a long moment.'),
+N('She did not know his name.'),
+N('He did not know hers.'),
+N('Neither of them knew that this brief meeting beneath the lanterns would change the fate of the kingdom.')
+];
+
+/* ---------- ENGINE ---------- */
+
+var box=$('box'),who=$('who'),txt=$('txt'),sub=$('sub'),opts=$('opts'),hint=$('hint'),eyes=$('eyes');
+var q=story.slice(),i=0,locked=true,started=false,layers=[$('bgA'),$('bgB')],cur=0,fxOn=true;
+
+function setBg(k){
+  var nxt=layers[1-cur];
+  nxt.className='bg k-'+k;
+  void nxt.offsetWidth;
+  nxt.classList.add('on');
+  layers[cur].classList.remove('on');
+  cur=1-cur;
+}
+function show(w,t,cls,s){
+  who.textContent=w||'';txt.textContent=t||'';txt.className=cls||'';sub.textContent=s||'';
+  box.classList.add('in');
+}
+function next(){
+  if(locked)return;
+  var b=q[i++];
+  if(!b){finish();return}
+  locked=true;
+  box.classList.remove('in');
+  setTimeout(function(){render(b)},b.bg?200:550);
+}
+function render(b){
+  opts.innerHTML='';hint.style.display='none';
+  eyes.classList.toggle('on',!!b.e);
+  if(b.bg){setBg(b.bg);setTimeout(function(){locked=false;next()},1600);return}
+  if(b.n){show('',b.n,'nar');ready()}
+  else if(b.w){show(b.w,b.t,'');ready()}
+  else if(b.c){
+    if(b.petals) showerPetals();
+    who.textContent='';txt.className='';txt.textContent='';sub.textContent='';
+    txt.innerHTML='<div class="card"><h2></h2></div>';
+    txt.querySelector('h2').textContent=b.c[0];
+    who.textContent=b.c[1];sub.textContent=b.c[2];
+    box.classList.add('in');ready();
+  }
+  else if(b.q){
+    show('Choose',b.q,'');
+    b.o.forEach(function(o){
+      var el=document.createElement('button');
+      el.className='opt';el.type='button';el.textContent=o.l;
+      el.addEventListener('click',function(){
+        if(el.disabled)return;
+        Array.prototype.forEach.call(opts.children,function(x){x.disabled=true});
+        q.splice.apply(q,[i,0].concat(o.b));
+        locked=false;next();
+      });
+      opts.appendChild(el);
+    });
+    opts.firstChild.focus({preventScroll:true});
+  }
+  if(b.e&&b.n){eyes.classList.add('on')}
+}
+function ready(){hint.style.display='block';setTimeout(function(){locked=false},700)}
+function finish(){
+  locked=true;box.classList.remove('in');eyes.classList.remove('on');
+  setTimeout(function(){$('end').classList.remove('off');var l=document.querySelector('#end .primary');if(l)l.focus({preventScroll:true})},1200);
+}
+function advance(e){
+  if(!started)return;
+  if(e&&e.target.closest&&e.target.closest('.opt'))return;
+  if(opts.children.length&&!opts.firstChild.disabled)return;
+  next();
+}
+$('stage').addEventListener('click',advance);
+document.addEventListener('keydown',function(e){
+  if(!started)return;
+  if(e.key===' '||e.key==='ArrowRight'||(e.key==='Enter'&&!(e.target.closest&&e.target.closest('button,a')))){e.preventDefault();advance()}
+});
+$('begin').addEventListener('click',function(){
+  started=true;$('intro').classList.add('off');locked=false;
+  setTimeout(next,900);
+});
+
+/* ---------- LANTERN PARTICLES ---------- */
+var cv=$('fx'),cx=cv.getContext('2d'),P=[],W=0,H=0;
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}
+size();addEventListener('resize',size);
+for(var n=0;n<38;n++)P.push({x:Math.random(),y:Math.random(),r:Math.random()*1.8+.6,v:Math.random()*.00035+.00012,s:Math.random()*6});
+var still=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function tick(t){
+  cx.clearRect(0,0,W,H);
+  P.forEach(function(p){
+    p.y-=p.v;p.x+=Math.sin(t/2500+p.s)*.00012;
+    if(p.y<-.05){p.y=1.05;p.x=Math.random()}
+    var a=.25+.25*Math.sin(t/900+p.s);
+    var g=cx.createRadialGradient(p.x*W,p.y*H,0,p.x*W,p.y*H,p.r*6);
+    g.addColorStop(0,'rgba(255,205,120,'+a+')');g.addColorStop(1,'rgba(255,170,70,0)');
+    cx.fillStyle=g;cx.beginPath();cx.arc(p.x*W,p.y*H,p.r*6,0,6.283);cx.fill();
+  });
+  if(!still)requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
