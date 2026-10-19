@@ -281,7 +281,6 @@ function K(x){return{t:"big",x:x}}
 function CUT(ms){return{t:"cut",ms:ms}}
 var D="dhaks",B="bangchan",A="afu",M="minho";
 
-/* Scene 1 — Two Years Later */
 var S1=[
 T("Chapter V","warm"),
 {t:"big",x:"The One Who Came Back"},
@@ -296,7 +295,6 @@ n("Bangchan set a cup of warm milk beside her without a word.|She watched him kn
 n("She thought the past had finally stayed where it belonged.")
 ];
 
-/* Scene 2 — Knock. Knock. */
 var S2=[
 T("Late Evening","cold"),
 n("The house was quiet. Ken was asleep. Afu was reading upstairs.|Dhaks sat by the lamp, one hand on her stomach, listening to the rain."),
@@ -307,10 +305,9 @@ n("Bangchan was somewhere upstairs.|She pushed herself up and went to the door a
 n("A man stood in the rain.|He looked older.|Thinner.|Tired."),
 n("But she knew those eyes.|Dhaks forgot how to breathe."),
 s(M,"Did you really think I was dead?","cold"),
-CUT(3500)
+CUT(2000)
 ];
 
-/* Scene 3 — Minho */
 var S3=[
 n("Her hand slipped from the door. She could not speak."),
 s(D,"Minho...?"),
@@ -321,7 +318,6 @@ s(M,"I am."),
 n("Two years ago, she had buried him in her heart.|Now he was standing in front of her.")
 ];
 
-/* Scene 4 — The Truth */
 var S4=[
 n("He didn't step inside. He stood at the edge of the light, as if unsure he had the right."),
 n("He had gone looking for his father, not knowing what waited for him.|He survived. Barely.|He built a small, quiet life far away.|And never stopped thinking about her.|Eventually, he found his way back."),
@@ -333,7 +329,6 @@ n("The rain filled the silence.|Neither of them tried to fill it."),
 s(M,"I'm sorry.")
 ];
 
-/* Scene 5 — Ken */
 var S5=[
 n("A small sound behind her. Bare feet on wood.|Ken stood in the hallway in his pyjamas, a stuffed wolf dangling from one hand."),
 n("Minho saw him.|And did not move at all.|Something in the tilt of the boy's head. The line of his jaw.|Something he had seen in mirrors."),
@@ -347,10 +342,9 @@ n("Silence.|She watched him count backwards through years he never had."),
 s(M,"Dhaks..."),
 n("She looked away."),
 s(D,"He's yours.","cold"),
-CUT(5000)
+CUT(2000)
 ];
 
-/* Scene 6 — The Life He Missed */
 var S6=[
 n("Ken tugged her sleeve, sleepy, and hid half his face behind her leg."),
 n("Minho crouched slowly, as if the boy might vanish.|He didn't reach out. He only looked."),
@@ -362,7 +356,6 @@ s(M,"Does he know my name?"),
 s(D,"He knows that his father loved him.")
 ];
 
-/* Scene 7 — Bangchan */
 var S7=[
 n("Afu appeared in the hall without a sound, scooped Ken up, and carried him back to bed."),
 n("A step on the stairs. Then another.|Bangchan came down slowly, and saw the open door, the rain, the stranger."),
@@ -375,7 +368,6 @@ s(B,"She waited for you."),
 s(B,"Longer than you know.")
 ];
 
-/* Scene 8 — The Confrontation */
 var S8=[
 n("Minho's voice was barely there."),
 s(M,"Did you love him?"),
@@ -387,7 +379,6 @@ s(B,"You came back."),
 s(B,"But she isn't the same person you left behind.","cold")
 ];
 
-/* Scene 9 — The Choice (unresolved) */
 var S9=[
 T("Later That Night","cold"),
 n("The house was silent again. Minho had gone.|Not far. Just far enough to give them the night."),
@@ -395,7 +386,7 @@ n("Dhaks sat alone in the dim light, an old photograph in her hands.|A younger v
 n("Down the hall, the door stood ajar.|Bangchan and Ken, asleep.|The boy's small hand lost in Bangchan's larger one."),
 n("One was the love she lost.|One was the man who stayed.|And now both were standing in front of her."),
 n("For the first time...|Dhaks didn't know what her heart was asking her to choose."),
-CUT(3500)
+CUT(2000)
 ];
 
 var END=[
@@ -469,11 +460,11 @@ async function step(){
   var b=queue[qi];busy=false;
   bar.style.width=Math.min(100,qi/queue.length*100)+"%";
   if(b.t==="cut"){
-    fade.classList.add("on");await wait(1300);lines.innerHTML="";
-    await wait(b.ms);fade.classList.remove("on");await wait(700);
+    fade.classList.add("on");await wait(1000);lines.innerHTML="";
+    await wait(b.ms);fade.classList.remove("on");await wait(500);
     qi++;return step();
   }
-  if(b.br&&qi>0){fade.classList.add("on");await wait(1300);lines.innerHTML="";mood(b.m);fade.classList.remove("on");await wait(500)}
+  if(b.br&&qi>0){fade.classList.add("on");await wait(1000);lines.innerHTML="";mood(b.m);fade.classList.remove("on");await wait(400)}
   else mood(b.m);
   if(b.t==="end"){showEnd();return}
   var d=render(b);
@@ -484,8 +475,8 @@ async function step(){
 async function advance(){
   if(!busy)return;busy=false;
   cta.innerHTML="";
-  var cur=lines.firstChild;if(cur){cur.style.transition="opacity .6s";cur.style.opacity=0}
-  await wait(650);
+  var cur=lines.firstChild;if(cur){cur.style.transition="opacity .5s";cur.style.opacity=0}
+  await wait(550);
   qi++;step();
 }
 
@@ -522,7 +513,7 @@ document.getElementById("stage").addEventListener("click",function(e){
   if(n)loop();
 })();
 
-setTimeout(function(){fade.classList.remove("on");setTimeout(step,900)},300);
+setTimeout(function(){fade.classList.remove("on");setTimeout(step,800)},300);
 })();
 
 /* Fullscreen Controller */
