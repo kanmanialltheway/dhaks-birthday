@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <title>For Dhaks</title>
 <meta name="theme-color" content="#06050b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,80 +11,92 @@
 <link rel="stylesheet" href="css/style.css">
 
 <style>
-
-#rotate-screen {
-  display: none;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-@media (max-width: 768px) and (orientation: portrait) {
-  #rotate-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 999999;
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  position: fixed;
+  inset: 0;
+  background: #06050b;
+}
+
+/* Base responsive reset & mobile portrait containment */
+@media (max-width: 768px) {
+  .scene {
+    width: 100%;
+    height: 100dvh;
+    padding: calc(20px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)) 16px;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+
+  .library {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    justify-content: flex-start;
+    padding-top: calc(32px + env(safe-area-inset-top));
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+
+  .library-header {
+    margin-bottom: 20px;
     text-align: center;
-    padding: 30px;
-    box-sizing: border-box;
-    background:
-      radial-gradient(ellipse at top, #252039 0%, #100f1c 45%, #07070c 100%);
-    color: #f1e6d6;
-    font-family: 'Cormorant Garamond', Georgia, serif;
   }
 
-  #rotate-screen .rotate-icon {
-    font-size: 42px;
-    margin-bottom: 28px;
-    animation: gentle-float 3s ease-in-out infinite;
+  .library-title {
+    font-size: clamp(1.8rem, 7vw, 2.6rem);
   }
 
-  #rotate-screen h2 {
-    font-family: 'Cinzel', Georgia, serif;
-    font-size: clamp(30px, 7vw, 42px);
-    font-weight: normal;
-    letter-spacing: 1px;
-    margin: 0 0 18px;
+  /* Force cards container into a tidy vertical stack */
+  .cards {
+    width: 100% !important;
+    max-width: 420px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    margin: 0 auto !important;
+    padding: 0 4px !important;
   }
 
-  #rotate-screen p {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: 19px;
-    line-height: 1.8;
-    color: #c9bfd0;
-    margin: 0;
+  /* Prevent individual card containers from overflowing */
+  .card, 
+  .cards > div,
+  .cards a {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    box-sizing: border-box !important;
   }
 
-  #rotate-screen .little-star {
-    color: #d7bd91;
-    font-size: 17px;
-    margin-top: 32px;
-    letter-spacing: 7px;
-  }
-
-  @keyframes gentle-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+  /* Lock all card cover images to fit cleanly within portrait height */
+  .card img,
+  .cards img,
+  .card-cover,
+  .card-thumb {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 28dvh !important;
+    object-fit: cover !important;
+    display: block !important;
+    border-radius: 8px !important;
   }
 }
-
 </style>
 </head>
 <body>
-  
-<div id="rotate-screen">
-  <div class="rotate-icon">✧</div>
 
-  <h2>Turn your world sideways</h2>
-
-  <p>
-    A little world awaits you...<br>
-    Some stories are meant to be entered sideways.
-  </p>
-
-  <div class="little-star">✧ · ✦ · ✧</div>
-</div>
 <canvas id="atmosphere" aria-hidden="true"></canvas>
 <div class="fog" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
@@ -116,47 +128,5 @@
 
 <script src="js/script.js"></script>
 
-<script>
-const rotateScreen = document.getElementById("rotate-screen");
-
-function checkOrientation() {
-  const isPhone = window.innerWidth <= 768;
-  const isPortrait = window.innerHeight > window.innerWidth;
-
-  if (isPhone && isPortrait) {
-    rotateScreen.style.display = "flex";
-  } else {
-    rotateScreen.style.display = "none";
-  }
-}
-
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
-
-checkOrientation();
-</script>
-  <button id="fullscreen-btn" aria-label="Enter fullscreen">
-    ⛶
-</button>
-
-<script>
-(function () {
-    const button = document.getElementById("fullscreen-btn");
-
-    if (!button) return;
-
-    button.addEventListener("click", async function () {
-        try {
-            if (!document.fullscreenElement) {
-                await document.documentElement.requestFullscreen();
-            } else {
-                await document.exitFullscreen();
-            }
-        } catch (error) {
-            console.log("Fullscreen is unavailable in this browser.");
-        }
-    });
-})();
-</script>
 </body>
 </html>
