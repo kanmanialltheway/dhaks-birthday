@@ -1,50 +1,175 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Heirs of the Crown — Chapter VI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#05070f;color:#efe6d2;font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;overflow:hidden}
+html,body{
+  height:100%;
+  min-height:100vh;
+  min-height:100dvh;
+  background:#05070f;
+  color:#efe6d2;
+  font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  overflow:hidden;
+  position:relative;
+  -webkit-tap-highlight-color:transparent;
+}
+
 .layer{position:fixed;inset:0;opacity:0;transition:opacity 2.2s ease;z-index:1}
 .layer.show{opacity:1}
-.layer::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26vh;background:var(--sil,#04060c);opacity:.85;
-clip-path:polygon(0 100%,0 62%,8% 62%,12% 46%,16% 62%,26% 62%,30% 30%,34% 62%,40% 62%,44% 52%,48% 62%,60% 62%,64% 24%,68% 62%,76% 62%,80% 44%,84% 62%,92% 62%,96% 50%,100% 62%,100% 100%)}
+.layer::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:24vh;
+  background:var(--sil,#04060c);
+  opacity:.85;
+  clip-path:polygon(0 100%,0 62%,8% 62%,12% 46%,16% 62%,26% 62%,30% 30%,34% 62%,40% 62%,44% 52%,48% 62%,60% 62%,64% 24%,68% 62%,76% 62%,80% 44%,84% 62%,92% 62%,96% 50%,100% 62%,100% 100%);
+}
+
 #rain{position:fixed;inset:0;z-index:2;pointer-events:none}
 #shade{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,.15) 0,rgba(0,0,0,.74) 100%)}
-#stage{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:0 20px;cursor:pointer}
-#box{width:min(720px,100%);text-align:center;opacity:0;transform:translateY(10px);transition:opacity .9s,transform .9s}
+
+#stage{
+  position:fixed;
+  inset:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:max(50px, env(safe-area-inset-top)) 20px max(40px, env(safe-area-inset-bottom));
+  cursor:pointer;
+}
+
+#box{
+  width:min(720px,100%);
+  max-height:85dvh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .9s,transform .9s;
+}
 #box.in{opacity:1;transform:none}
-.n{font-size:clamp(21px,3.2vw,29px);line-height:1.6;text-shadow:0 2px 18px #000}
-.n.big{font-size:clamp(25px,4vw,38px);color:#fff4d6;font-style:italic}
-.d{font-size:clamp(23px,3.4vw,31px);line-height:1.5;font-style:italic;color:#fff4d6;text-shadow:0 2px 18px #000}
-.who{font-size:15px;letter-spacing:.35em;color:#d9b45f;margin-bottom:14px;text-transform:uppercase}
-.kn{font-size:clamp(34px,6vw,56px);color:#e6c373;letter-spacing:.08em;font-weight:600;text-shadow:0 0 30px rgba(230,195,115,.35)}
-.ks{margin-top:12px;font-size:19px;font-style:italic;color:#c9bfa6}
-#hint{margin-top:45px;font-size:13px;letter-spacing:.4em;color:rgba(214,198,150,.6);opacity:0;transition:opacity 1.4s}
+
+.n{font-size:clamp(19px,3.8vw,28px);line-height:1.55;text-shadow:0 2px 18px #000;word-break:break-word}
+.n.big{font-size:clamp(22px,4.5vw,36px);color:#fff4d6;font-style:italic}
+.d{font-size:clamp(20px,4vw,30px);line-height:1.45;font-style:italic;color:#fff4d6;text-shadow:0 2px 18px #000;word-break:break-word}
+.who{font-size:clamp(12px,2.8vw,14px);letter-spacing:.3em;color:#d9b45f;margin-bottom:10px;text-transform:uppercase}
+.kn{font-size:clamp(26px,6vw,52px);color:#e6c373;letter-spacing:.08em;font-weight:600;text-shadow:0 0 30px rgba(230,195,115,.35);line-height:1.2}
+.ks{margin-top:10px;font-size:clamp(15px,3.2vw,19px);font-style:italic;color:#c9bfa6;line-height:1.4}
+
+#hint{margin-top:28px;font-size:12px;letter-spacing:.35em;color:rgba(214,198,150,.6);opacity:0;transition:opacity 1.4s}
 #hint.on{opacity:1;animation:pulse 2.6s infinite}
 @keyframes pulse{50%{opacity:.25}}
-a.lk,.btn{display:inline-block;margin:10px;padding:13px 28px;border:1px solid #b99a52;color:#efe6d2;background:rgba(8,12,26,.7);font:inherit;font-size:20px;letter-spacing:.12em;text-decoration:none;cursor:pointer}
+
+a.lk,.btn{
+  display:inline-block;
+  margin:8px;
+  padding:12px 26px;
+  border:1px solid #b99a52;
+  color:#efe6d2;
+  background:rgba(8,12,26,.7);
+  font:inherit;
+  font-size:clamp(16px,3.5vw,19px);
+  letter-spacing:.12em;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .3s,color .3s;
+}
 a.lk:hover,.btn:hover,a.lk:focus,.btn:focus{background:#b99a52;color:#0a0d1a;outline:2px solid #e6c373;outline-offset:3px}
-#title{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(ellipse at 50% 35%,#2a1a3a,#05070f 70%);transition:opacity 1.6s}
+
+#title{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
+  background:radial-gradient(ellipse at 50% 35%,#2a1a3a,#05070f 70%);
+  transition:opacity 1.6s;
+}
 #title.gone{opacity:0;pointer-events:none}
-#title h1{font-size:clamp(34px,7vw,68px);color:#e6c373;letter-spacing:.14em;font-weight:600}
-#title .tg{margin:14px 0 36px;font-size:16px;letter-spacing:.38em;color:#a9a086}
-#title h2{font-size:clamp(20px,3.4vw,28px);font-style:italic;font-weight:400;margin-bottom:44px}
-#menuBtn{position:fixed;top:14px;right:16px;z-index:40;background:none;border:1px solid rgba(185,154,82,.5);color:#d9c9a0;font:inherit;font-size:15px;letter-spacing:.2em;padding:6px 14px;cursor:pointer}
+#title h1{font-size:clamp(30px,7.5vw,64px);color:#e6c373;letter-spacing:.12em;font-weight:600;line-height:1.1}
+#title .tg{margin:14px 0 24px;font-size:clamp(12px,2.6vw,15px);letter-spacing:.3em;color:#a9a086}
+#title h2{font-size:clamp(18px,4vw,26px);font-style:italic;font-weight:400;margin-bottom:34px}
+
+#menuBtn{
+  position:fixed;
+  top:max(14px, env(safe-area-inset-top));
+  right:16px;
+  z-index:40;
+  background:rgba(5,7,15,.6);
+  border:1px solid rgba(185,154,82,.5);
+  color:#d9c9a0;
+  font:inherit;
+  font-size:13px;
+  letter-spacing:.2em;
+  padding:6px 14px;
+  cursor:pointer;
+  border-radius:4px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
 #menuBtn:focus{outline:2px solid #e6c373}
-#menu{position:fixed;inset:0;z-index:50;background:rgba(3,5,12,.9);display:none;align-items:center;justify-content:center;text-align:center}
+
+#menu{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(3,5,12,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
 #menu.open{display:flex}
-#menu div{display:flex;flex-direction:column;align-items:center}
+#menu div{display:flex;flex-direction:column;align-items:center;gap:6px}
+
+/* Fullscreen toggle button styling */
+#fullscreen-btn{
+  position:fixed;
+  bottom:max(16px, env(safe-area-inset-bottom));
+  right:16px;
+  z-index:40;
+  background:rgba(10, 8, 12, 0.6);
+  border:1px solid rgba(184, 154, 94, 0.4);
+  color:#d9b45f;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  cursor:pointer;
+  transition:border-color 0.3s, background 0.3s;
+}
+#fullscreen-btn:hover{
+  background:rgba(184, 154, 94, 0.2);
+  border-color:#e6c373;
+}
+
 @media(prefers-reduced-motion:reduce){.layer{transition:opacity .3s}}
 </style>
-<style>
-@media (max-width: 768px) and (orientation: portrait) {
-  body {
-    visibility: hidden;
-  }
-}
-</style></head><body>
+</head>
+<body>
 <div class="layer" id="bgA"></div><div class="layer" id="bgB"></div>
 <canvas id="rain"></canvas><div id="shade"></div>
 <div id="stage"><div id="box"></div></div>
@@ -59,6 +184,9 @@ a.lk:hover,.btn:hover,a.lk:focus,.btn:focus{background:#b99a52;color:#0a0d1a;out
 <button class="btn" id="begin">BEGIN</button><br>
 <a class="lk" href="../../../index.html#library" style="font-size:15px;border-color:transparent">BACK TO LIBRARY</a>
 </div></div>
+
+<button id="fullscreen-btn" aria-label="Enter fullscreen">⛶</button>
+
 <script>
 var $=function(i){return document.getElementById(i)};
 var BG=[
@@ -79,10 +207,12 @@ var BG=[
 {g:"radial-gradient(ellipse at 50% 20%,#162a5a 0,#09112a 55%,#02040a 100%),radial-gradient(circle at 18% 82%,#ffcf7a 0,transparent .6%),radial-gradient(circle at 36% 86%,#ffcf7a 0,transparent .6%),radial-gradient(circle at 70% 80%,#ffcf7a 0,transparent .6%),radial-gradient(circle at 88% 85%,#ffcf7a 0,transparent .6%)",s:"#02030a",m:"mote"},
 {g:"radial-gradient(ellipse at 50% 20%,#162a5a 0,#09112a 55%,#02040a 100%),radial-gradient(circle at 18% 82%,#ffcf7a 0,transparent .6%),radial-gradient(circle at 70% 80%,#ffcf7a 0,transparent .6%)",s:"#02030a",m:"storm"},
 {g:"linear-gradient(#f2d9a0 0,#d7a6a0 35%,#8fa0c8 70%,#46557a 100%)",s:"#2a2a44",m:"petal"}];
+
 function N(b,t,p){return{b:b,k:"n",t:t,p:p}}
 function B(b,t,p){return{b:b,k:"n",t:t,p:p,big:1}}
 function D(b,w,t,p){return{b:b,k:"d",w:w,t:t,p:p}}
 function K(b,t,s){return{b:b,k:"k",t:t,s:s}}
+
 var story=[
 B(0,"A NOTE BEFORE THE FINAL CHAPTER",2200),
 N(0,"This chapter revisits a few moments from the previous chapter as memories",2600),
@@ -218,106 +348,173 @@ B(15,"He never learned how to stop being Eunsik.",3600),
 B(15,"Some crowns are inherited.",1800),
 B(15,"Some are earned.",1800),
 B(15,"And some are worn over a heart that never healed.",4000),
-K(15,"HEIRS OF THE CROWN","THREE HEIRS. THREE LOVES. ONE CROWN.")];
+K(15,"HEIRS OF THE CROWN","THREE HEIRS. THREE LOVES. ONE CROWN.")
+];
+
 var q=story.slice(),i=0,locked=true,started=false,layers=[$('bgA'),$('bgB')],cur=0,fxOn=true;
 var rain=$('rain'),ctx=rain.getContext('2d'),box=$('box'),bgNow=-1,mode="mote",P=[],T=0;
-function size(){rain.width=innerWidth;rain.height=innerHeight}
-size();addEventListener('resize',size);
+
+function size(){
+  rain.width=window.innerWidth;
+  rain.height=window.innerHeight;
+}
+size();
+window.addEventListener('resize',size);
+
 function setBg(b){
- if(b===bgNow)return;bgNow=b;
- var n=1-cur,L=layers[n];
- L.style.background=BG[b].g;L.style.setProperty('--sil',BG[b].s);
- L.classList.add('show');layers[cur].classList.remove('show');cur=n;
- mode=BG[b].m;
+  if(b===bgNow)return;
+  bgNow=b;
+  var n=1-cur,L=layers[n];
+  L.style.background=BG[b].g;
+  L.style.setProperty('--sil',BG[b].s);
+  L.classList.add('show');
+  layers[cur].classList.remove('show');
+  cur=n;
+  mode=BG[b].m;
 }
+
 function spawn(){
- var w=rain.width,h=rain.height;
- if(mode==="rain"||mode==="storm")return{x:Math.random()*w,y:-10,v:11+Math.random()*7,l:14+Math.random()*12};
- if(mode==="petal")return{x:Math.random()*w,y:-10,v:.7+Math.random()*1.1,d:Math.random()*6,s:3+Math.random()*3};
- return{x:Math.random()*w,y:h+10,v:-.25-Math.random()*.4,d:Math.random()*6,s:1+Math.random()*1.8};
+  var w=rain.width,h=rain.height;
+  if(mode==="rain"||mode==="storm")return{x:Math.random()*w,y:-10,v:11+Math.random()*7,l:14+Math.random()*12};
+  if(mode==="petal")return{x:Math.random()*w,y:-10,v:.7+Math.random()*1.1,d:Math.random()*6,s:3+Math.random()*3};
+  return{x:Math.random()*w,y:h+10,v:-.25-Math.random()*.4,d:Math.random()*6,s:1+Math.random()*1.8};
 }
+
 function tick(t){
- ctx.clearRect(0,0,rain.width,rain.height);
- if(fxOn){
-  var max=mode==="storm"?170:mode==="rain"?90:mode==="petal"?36:mode==="none"?0:30;
-  if(P.length<max&&Math.random()<.5)P.push(spawn());
-  var rm=(mode==="none"||(P.length>max))?1:0;
-  for(var k=P.length-1;k>=0;k--){
-   var p=P[k];
-   if(p.l){p.y+=p.v;p.x-=1.2;ctx.strokeStyle="rgba(170,195,235,.28)";ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+1.5,p.y-p.l);ctx.stroke()}
-   else if(p.l===undefined&&p.s>=3){p.y+=p.v;p.x+=Math.sin(t/900+p.d)*.7;ctx.fillStyle="rgba(255,236,236,.65)";ctx.beginPath();ctx.ellipse(p.x,p.y,p.s,p.s*.6,p.d,0,6.3);ctx.fill()}
-   else{p.y+=p.v;p.x+=Math.sin(t/1300+p.d)*.3;ctx.fillStyle="rgba(255,210,120,"+(.25+.25*Math.sin(t/500+p.d))+")";ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,6.3);ctx.fill()}
-   if(p.y>rain.height+20||p.y<-20||(rm&&Math.random()<.04))P.splice(k,1);
+  ctx.clearRect(0,0,rain.width,rain.height);
+  if(fxOn){
+    var max=mode==="storm"?170:mode==="rain"?90:mode==="petal"?36:mode==="none"?0:30;
+    if(P.length<max&&Math.random()<.5)P.push(spawn());
+    var rm=(mode==="none"||(P.length>max))?1:0;
+    for(var k=P.length-1;k>=0;k--){
+      var p=P[k];
+      if(p.l){
+        p.y+=p.v;p.x-=1.2;
+        ctx.strokeStyle="rgba(170,195,235,.28)";
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p.x+1.5,p.y-p.l);
+        ctx.stroke();
+      } else if(p.l===undefined&&p.s>=3){
+        p.y+=p.v;p.x+=Math.sin(t/900+p.d)*.7;
+        ctx.fillStyle="rgba(255,236,236,.65)";
+        ctx.beginPath();
+        ctx.ellipse(p.x,p.y,p.s,p.s*.6,p.d,0,6.3);
+        ctx.fill();
+      } else {
+        p.y+=p.v;p.x+=Math.sin(t/1300+p.d)*.3;
+        ctx.fillStyle="rgba(255,210,120,"+(.25+.25*Math.sin(t/500+p.d))+")";
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.s,0,6.3);
+        ctx.fill();
+      }
+      if(p.y>rain.height+20||p.y<-20||(rm&&Math.random()<.04))P.splice(k,1);
+    }
   }
- }
- requestAnimationFrame(tick);
+  requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);
+
 function render(it){
- var h="";
- if(it.k==="n")h='<p class="n'+(it.big?' big':'')+'">'+it.t+'</p>';
- else if(it.k==="d")h='<div class="who">'+it.w+'</div><p class="d">“'+it.t+'”</p>';
- else h='<div class="kn">'+it.t+'</div>'+(it.s?'<div class="ks">'+it.s+'</div>':'');
- h+='<div id="hint">CLICK OR TAP TO CONTINUE</div>';
- box.innerHTML=h;
+  var h="";
+  if(it.k==="n")h='<p class="n'+(it.big?' big':'')+'">'+it.t+'</p>';
+  else if(it.k==="d")h='<div class="who">'+it.w+'</div><p class="d">“'+it.t+'”</p>';
+  else h='<div class="kn">'+it.t+'</div>'+(it.s?'<div class="ks">'+it.s+'</div>':'');
+  h+='<div id="hint">CLICK OR TAP TO CONTINUE</div>';
+  box.innerHTML=h;
 }
+
 function show(){
- locked=true;box.classList.remove('in');var my=++T;
- setTimeout(function(){
-  var it=q[i];setBg(it.b);render(it);box.classList.add('in');
-  var wait=it.p||(it.k==="k"?1700:1000);
-  setTimeout(function(){if(my!==T)return;locked=false;var h=$('hint');if(h)h.classList.add('on')},wait);
- },i===0?200:(q[i].k==="k"?1400:750));
+  locked=true;
+  box.classList.remove('in');
+  var my=++T;
+  setTimeout(function(){
+    var it=q[i];
+    setBg(it.b);
+    render(it);
+    box.classList.add('in');
+    var wait=it.p||(it.k==="k"?1700:1000);
+    setTimeout(function(){
+      if(my!==T)return;
+      locked=false;
+      var h=$('hint');
+      if(h)h.classList.add('on');
+    },wait);
+  },i===0?200:(q[i].k==="k"?1400:750));
 }
+
 function ending(){
- locked=true;box.classList.remove('in');
- setTimeout(function(){
-  box.innerHTML='<div class="kn">CHAPTER VI COMPLETE</div><div class="ks" style="font-size:26px;letter-spacing:.4em;margin-top:22px">THE END</div><div style="margin-top:42px"><button class="btn" id="again">BACK TO STORY</button><a class="lk" href="../../../index.html#library">BACK TO LIBRARY</a></div>';
-  $('again').onclick=function(e){e.stopPropagation();i=0;bgNow=-1;show()};
-  box.classList.add('in');
- },1200);
+  locked=true;
+  box.classList.remove('in');
+  setTimeout(function(){
+    box.innerHTML='<div class="kn">CHAPTER VI COMPLETE</div><div class="ks" style="font-size:clamp(20px,4.5vw,26px);letter-spacing:.3em;margin-top:18px">THE END</div><div style="margin-top:34px"><button class="btn" id="again">BACK TO STORY</button><br><a class="lk" href="../../../index.html#library" style="font-size:15px;border-color:transparent">BACK TO LIBRARY</a></div>';
+    $('again').onclick=function(e){e.stopPropagation();i=0;bgNow=-1;show()};
+    box.classList.add('in');
+  },1200);
 }
+
 function next(){
- if(locked||!started)return;
- i++;if(i>=q.length){ending();return}
- show();
+  if(locked||!started)return;
+  i++;
+  if(i>=q.length){ending();return}
+  show();
 }
+
 $('stage').onclick=next;
+
 document.addEventListener('keydown',function(e){
- if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){
-  var tg=e.target.tagName;
-  if(!$('menu').classList.contains('open')&&$('title').classList.contains('gone')&&tg!=="BUTTON"&&tg!=="A"){e.preventDefault();next()}
- }
- if(e.key==="Escape")$('menu').classList.remove('open');
+  if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){
+    var tg=e.target.tagName;
+    if(!$('menu').classList.contains('open')&&$('title').classList.contains('gone')&&tg!=="BUTTON"&&tg!=="A"){
+      e.preventDefault();
+      next();
+    }
+  }
+  if(e.key==="Escape")$('menu').classList.remove('open');
 });
+
 $('begin').onclick=function(){
- started=true;$('title').classList.add('gone');$('menuBtn').style.display="block";
- i=0;show();
+  started=true;
+  $('title').classList.add('gone');
+  $('menuBtn').style.display="block";
+  i=0;
+  show();
 };
-$('menuBtn').onclick=function(e){e.stopPropagation();$('menu').classList.add('open');$('mBack').focus()};
-$('mBack').onclick=function(){$('menu').classList.remove('open')};
-$('mFx').onclick=function(){fxOn=!fxOn;this.textContent="EFFECTS: "+(fxOn?"ON":"OFF")};
-</script>
-<button id="fullscreen-btn" aria-label="Enter fullscreen">
-    ⛶
-</button>
 
-<script>
+$('menuBtn').onclick=function(e){
+  e.stopPropagation();
+  $('menu').classList.add('open');
+  $('mBack').focus();
+};
+
+$('mBack').onclick=function(e){
+  e.stopPropagation();
+  $('menu').classList.remove('open');
+};
+
+$('mFx').onclick=function(e){
+  e.stopPropagation();
+  fxOn=!fxOn;
+  this.textContent="EFFECTS: "+(fxOn?"ON":"OFF");
+};
+
+/* Fullscreen toggle */
 (function () {
-    const button = document.getElementById("fullscreen-btn");
-
-    if (!button) return;
-
-    button.addEventListener("click", async function () {
-        try {
-            if (!document.fullscreenElement) {
-                await document.documentElement.requestFullscreen();
-            } else {
-                await document.exitFullscreen();
-            }
-        } catch (error) {
-            console.log("Fullscreen is unavailable in this browser.");
-        }
-    });
+  const button = document.getElementById("fullscreen-btn");
+  if (!button) return;
+  button.addEventListener("click", async function (e) {
+    e.stopPropagation();
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.log("Fullscreen is unavailable in this browser.");
+    }
+  });
 })();
-</script></body></html>
+</script>
+</body>
+</html>
