@@ -377,5 +377,28 @@ document.getElementById("stage").addEventListener("click",function(e){
 setTimeout(function(){fade.classList.remove("on");setTimeout(step,900)},300);
 })();
 </script>
+  <button id="fullscreen-btn" aria-label="Enter fullscreen">
+    ⛶
+</button>
+
+<script>
+(function () {
+    const button = document.getElementById("fullscreen-btn");
+
+    if (!button) return;
+
+    button.addEventListener("click", async function () {
+        try {
+            if (!document.fullscreenElement) {
+                await document.documentElement.requestFullscreen();
+            } else {
+                await document.exitFullscreen();
+            }
+        } catch (error) {
+            console.log("Fullscreen is unavailable in this browser.");
+        }
+    });
+})();
+</script>
 </body>
 </html>
