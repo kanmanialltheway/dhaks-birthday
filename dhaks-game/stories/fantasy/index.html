@@ -7,254 +7,268 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../css/style.css">
 
 <style>
-:root{
-  --black:#070706;
-  --velvet:#120d09;
-  --gold-pure:#f3e3be;
-  --gold-warm:#c9ae78;
-  --gold-dark:#876735;
-  --ivory:#f8f3ea;
-  --serif-title:"Cinzel Decorative","Cinzel",Georgia,serif;
-  --serif-royal:"Cinzel",Georgia,serif;
-  --serif-poetic:"Cormorant Garamond",Georgia,serif;
-  --sans:"Montserrat","Inter",sans-serif;
-  --ease:cubic-bezier(.2,.7,.2,1);
+:root {
+  --black: #070706;
+  --velvet: #120d09;
+  --gold-pure: #f3e3be;
+  --gold-warm: #c9ae78;
+  --gold-dark: #876735;
+  --ivory: #f8f3ea;
+  --serif-title: "Cinzel Decorative", "Cinzel", Georgia, serif;
+  --serif-royal: "Cinzel", Georgia, serif;
+  --serif-poetic: "Cormorant Garamond", Georgia, serif;
+  --sans: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{
-  height:100%;
-  min-height:100vh;
-  min-height:100dvh;
-}
-body{
-  background:var(--black);
-  color:var(--ivory);
-  font-family:var(--sans);
-  -webkit-font-smoothing:antialiased;
-  position:relative;
-  overflow-x:hidden;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-a{color:inherit;text-decoration:none}
-a:focus-visible{outline:1px solid var(--gold-warm);outline-offset:8px}
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--black);
+  color: var(--ivory);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow: hidden;
+}
 
-/* ---------- Royal Backdrop & Depth Layers ---------- */
-.scene{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-.palace-plate{
-  position:absolute;
-  inset:-5%;
+a:focus-visible {
+  outline: 1px solid var(--gold-warm);
+  outline-offset: 6px;
+}
+
+/* ---------- Background & Atmosphere (Isolated classes) ---------- */
+.bg-scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.palace-plate {
+  position: absolute;
+  inset: -5%;
   background:
-    radial-gradient(ellipse 65% 50% at 50% 90%,rgba(184,140,70,.22),transparent 75%),
-    linear-gradient(180deg,rgba(7,7,6,.75) 0%,rgba(18,13,9,.82) 50%,rgba(7,7,6,.92) 100%),
+    radial-gradient(ellipse 65% 50% at 50% 90%, rgba(184, 140, 70, .25), transparent 75%),
+    linear-gradient(180deg, rgba(7, 7, 6, .75) 0%, rgba(18, 13, 9, .82) 50%, rgba(7, 7, 6, .95) 100%),
     url("assets/palace-bg.jpg") center/cover no-repeat;
-  will-change:transform;
-  transition:transform 1.8s var(--ease);
+  will-change: transform;
+  transition: transform 1.8s var(--ease);
 }
 
-/* Velvet & Gold Vignette */
-.vignette{
-  position:absolute;
-  inset:0;
+.vignette {
+  position: absolute;
+  inset: 0;
   background:
-    radial-gradient(ellipse 80% 70% at 50% 50%,transparent 30%,rgba(4,4,3,.85) 90%),
-    linear-gradient(180deg,rgba(4,4,3,.6) 0%,transparent 25%,transparent 70%,rgba(4,4,3,.8) 100%);
+    radial-gradient(ellipse 80% 70% at 50% 50%, transparent 25%, rgba(4, 4, 3, .88) 90%),
+    linear-gradient(180deg, rgba(4, 4, 3, .65) 0%, transparent 25%, transparent 70%, rgba(4, 4, 3, .9) 100%);
 }
 
-.shaft-gold{
-  position:absolute;
-  top:-20%;
-  width:22%;
-  height:140%;
-  transform:skewX(-20deg);
-  background:linear-gradient(180deg,rgba(201,174,120,.12) 0%,rgba(201,174,120,.03) 70%,transparent 100%);
-  filter:blur(35px);
-  animation:drift 28s ease-in-out infinite alternate;
+.shaft-gold {
+  position: absolute;
+  top: -20%;
+  width: 26%;
+  height: 140%;
+  transform: skewX(-20deg);
+  background: linear-gradient(180deg, rgba(201, 174, 120, .14) 0%, rgba(201, 174, 120, .02) 70%, transparent 100%);
+  filter: blur(35px);
+  animation: drift 28s ease-in-out infinite alternate;
 }
-.shaft-gold:nth-child(1){left:15%}
-.shaft-gold:nth-child(2){left:65%;animation-delay:-12s;animation-duration:34s;opacity:.7}
+.shaft-gold:nth-child(1) { left: 10%; }
+.shaft-gold:nth-child(2) { left: 60%; animation-delay: -12s; animation-duration: 34s; opacity: .7; }
 
-canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-
-/* ---------- Navigation ---------- */
-.back{
-  position:fixed;
-  top:max(20px,env(safe-area-inset-top));
-  left:clamp(18px,4vw,56px);
-  z-index:20;
-  font-size:.68rem;
-  letter-spacing:.32em;
-  text-transform:uppercase;
-  color:rgba(248,243,234,.7);
-  transition:color .4s ease;
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.back span{transition:transform .4s ease}
-.back:hover{color:var(--gold-warm)}
-.back:hover span{transform:translateX(-5px)}
-
-/* ---------- Main Throne Stage ---------- */
-.crown-stage{
-  position:relative;
-  z-index:10;
-  min-height:100vh;
-  min-height:100dvh;
-  width:100%;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:max(70px, env(safe-area-inset-top)) 20px max(40px, env(safe-area-inset-bottom));
+canvas#embers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
-.content{
-  max-width:920px;
-  width:100%;
-  animation:regalRise 1.6s var(--ease) forwards;
+/* ---------- Top Navigation ---------- */
+.back {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top));
+  left: clamp(16px, 4vw, 48px);
+  z-index: 30;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(248, 243, 234, .75);
+  transition: color .4s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.back span { transition: transform .4s ease; }
+.back:hover { color: var(--gold-warm); }
+.back:hover span { transform: translateX(-4px); }
+
+/* ---------- Center Crown Stage ---------- */
+.crown-stage {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: max(60px, env(safe-area-inset-top)) 20px max(40px, env(safe-area-inset-bottom));
 }
 
-/* Royal Seal Crest */
-.crest{
-  display:inline-block;
-  margin-bottom:14px;
-}
-.crest svg{
-  width:30px;
-  height:30px;
-  stroke:var(--gold-warm);
-  fill:none;
-  stroke-width:1.2;
-  filter:drop-shadow(0 0 14px rgba(201,174,120,.45));
+.content {
+  max-width: 900px;
+  width: 100%;
+  animation: regalRise 1.4s var(--ease) forwards;
 }
 
-.eyebrow{
-  font-family:var(--sans);
-  font-size:clamp(.65rem, 2vw, .82rem);
-  font-weight:400;
-  letter-spacing:.45em;
-  text-transform:uppercase;
-  color:var(--gold-warm);
-  padding-left:.45em;
-  margin-bottom:12px;
+.crest {
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.crest svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--gold-warm);
+  fill: none;
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 14px rgba(201, 174, 120, .45));
 }
 
-/* Master Royal Title */
-.title{
-  font-family:var(--serif-title);
-  font-size:clamp(1.9rem, 7.5vw, 5.2rem);
-  font-weight:700;
-  line-height:1.08;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  color:var(--gold-pure);
-  background:linear-gradient(180deg,#ffffff 0%,#f5e5c9 35%,#c9ae78 70%,#7a5a27 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 4px 22px rgba(184,140,70,.35)) drop-shadow(0 0 60px rgba(135,103,53,.25));
-  word-break:break-word;
+.eyebrow {
+  font-family: var(--sans);
+  font-size: clamp(0.65rem, 2vw, 0.8rem);
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold-warm);
+  padding-left: 0.45em;
+  margin-bottom: 14px;
 }
 
-/* Architectural Royal Divider */
-.ornament{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  margin:18px auto;
-}
-.ornament .line{
-  width:60px;
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,174,120,.65),transparent);
-}
-.ornament .diamond{
-  width:5px;
-  height:5px;
-  background:var(--gold-warm);
-  transform:rotate(45deg);
-  box-shadow:0 0 8px var(--gold-warm);
+.title {
+  font-family: var(--serif-title);
+  font-size: clamp(2rem, 7vw, 4.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-pure);
+  background: linear-gradient(180deg, #ffffff 0%, #f5e5c9 35%, #c9ae78 70%, #7a5a27 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 20px rgba(184, 140, 70, .35));
+  word-break: break-word;
 }
 
-.subtitle{
-  font-family:var(--serif-poetic);
-  font-size:clamp(1.05rem, 3.2vw, 1.45rem);
-  font-style:italic;
-  font-weight:300;
-  line-height:1.5;
-  color:rgba(248,243,234,.9);
-  max-width:32ch;
-  margin:0 auto 30px;
-  text-shadow:0 2px 18px rgba(0,0,0,.9);
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 18px auto;
+}
+.ornament .line {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 174, 120, .65), transparent);
+}
+.ornament .diamond {
+  width: 5px;
+  height: 5px;
+  background: var(--gold-warm);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px var(--gold-warm);
 }
 
-/* Velvet Pill Interactive Button */
-.enter{
-  position:relative;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:12px 34px;
-  font-family:var(--sans);
-  font-size:clamp(.7rem, 2.2vw, .76rem);
-  letter-spacing:.32em;
-  text-transform:uppercase;
-  color:var(--gold-pure);
-  border-radius:100px;
-  isolation:isolate;
-  cursor:pointer;
-  transition:transform .5s var(--ease),text-shadow .5s ease;
+.subtitle {
+  font-family: var(--serif-poetic);
+  font-size: clamp(1.05rem, 3.2vw, 1.45rem);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(248, 243, 234, .9);
+  max-width: 32ch;
+  margin: 0 auto 28px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .9);
 }
 
-.enter::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  z-index:-1;
-  background:radial-gradient(ellipse at 50% 120%,rgba(201,174,120,.24),rgba(18,13,9,.88) 75%);
-  border:1px solid rgba(201,174,120,.5);
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  transition:border-color .5s ease,box-shadow .5s ease,background .5s ease;
+/* Enter Button */
+.enter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 38px;
+  font-family: var(--sans);
+  font-size: clamp(0.72rem, 2.2vw, 0.78rem);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-pure);
+  border-radius: 100px;
+  isolation: isolate;
+  cursor: pointer;
+  background: radial-gradient(ellipse at 50% 120%, rgba(201, 174, 120, .24), rgba(18, 13, 9, .88) 75%);
+  border: 1px solid rgba(201, 174, 120, .5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: transform .4s var(--ease), border-color .4s ease, box-shadow .4s ease, text-shadow .4s ease;
 }
 
-.enter:hover{
-  transform:translateY(-3px);
-  text-shadow:0 0 16px rgba(243,227,190,.7);
-}
-.enter:hover::before{
-  background:radial-gradient(ellipse at 50% 120%,rgba(201,174,120,.42),rgba(18,13,9,.92) 75%);
-  border-color:var(--gold-warm);
-  box-shadow:0 10px 40px -10px rgba(184,140,70,.45),0 0 30px rgba(201,174,120,.2);
+.enter:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold-warm);
+  text-shadow: 0 0 16px rgba(243, 227, 190, .7);
+  box-shadow: 0 10px 40px -10px rgba(184, 140, 70, .45), 0 0 30px rgba(201, 174, 120, .2);
 }
 
-.enter span{
-  display:inline-block;
-  margin-left:8px;
-  transition:transform .4s var(--ease);
+.enter span {
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform .4s var(--ease);
 }
-.enter:hover span{transform:translateX(5px)}
-
-@keyframes regalRise{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:none}
-}
-@keyframes drift{
-  from{transform:skewX(-20deg) translateX(-4vw);opacity:.5}
-  to{transform:skewX(-20deg) translateX(4vw);opacity:.9}
+.enter:hover span {
+  transform: translateX(5px);
 }
 
-@media(max-width:640px){
-  .title{letter-spacing:.05em;}
-  .subtitle{margin-bottom:26px}
-  .ornament .line{width:40px}
+@keyframes regalRise {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes drift {
+  from { transform: skewX(-20deg) translateX(-4vw); opacity: .5; }
+  to { transform: skewX(-20deg) translateX(4vw); opacity: .9; }
+}
+
+@media (max-width: 640px) {
+  .title { letter-spacing: 0.05em; font-size: clamp(1.9rem, 8.5vw, 2.8rem); }
+  .subtitle { margin-bottom: 24px; }
+  .ornament .line { width: 40px; }
+  .enter { padding: 12px 30px; }
 }
 </style>
 </head>
@@ -265,7 +279,7 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
   <span>←</span> Back to Library
 </a>
 
-<div class="scene" aria-hidden="true">
+<div class="bg-scene" aria-hidden="true">
   <div class="palace-plate" id="palacePlate"></div>
   <div class="shaft-gold"></div>
   <div class="shaft-gold"></div>
@@ -307,7 +321,7 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 <script>
 (function(){
   var c = document.getElementById('embers');
-  if(!c) return;
+  if (!c) return;
   var ctx = c.getContext('2d'),
       W, H, embers = [],
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -368,11 +382,13 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 
   if (window.matchMedia('(pointer:fine)').matches) {
     var plate = document.getElementById('palacePlate');
-    window.addEventListener('mousemove', function(ev) {
-      var nx = (ev.clientX / window.innerWidth) - 0.5;
-      var ny = (ev.clientY / window.innerHeight) - 0.5;
-      plate.style.transform = 'translate3d(' + (-nx * 18) + 'px, ' + (-ny * 12) + 'px, 0) scale(1.03)';
-    });
+    if (plate) {
+      window.addEventListener('mousemove', function(ev) {
+        var nx = (ev.clientX / window.innerWidth) - 0.5;
+        var ny = (ev.clientY / window.innerHeight) - 0.5;
+        plate.style.transform = 'translate3d(' + (-nx * 18) + 'px, ' + (-ny * 12) + 'px, 0) scale(1.03)';
+      });
+    }
   }
 })();
 </script>
