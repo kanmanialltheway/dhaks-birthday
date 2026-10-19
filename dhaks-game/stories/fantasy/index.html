@@ -25,21 +25,18 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-html,
-body {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
+html,body{
+  height:100%;
+  min-height:100vh;
+  min-height:100dvh;
 }
-
-body {
-  background: var(--black);
-  color: var(--ivory);
-  font-family: var(--sans);
-  -webkit-font-smoothing: antialiased;
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
+body{
+  background:var(--black);
+  color:var(--ivory);
+  font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+  overflow-x:hidden;
 }
 
 a{color:inherit;text-decoration:none}
@@ -86,50 +83,51 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 /* ---------- Navigation ---------- */
 .back{
   position:fixed;
-  top:max(28px,env(safe-area-inset-top));
-  left:clamp(22px,4vw,56px);
+  top:max(20px,env(safe-area-inset-top));
+  left:clamp(18px,4vw,56px);
   z-index:20;
   font-size:.68rem;
-  letter-spacing:.38em;
+  letter-spacing:.32em;
   text-transform:uppercase;
-  color:rgba(248,243,234,.6);
+  color:rgba(248,243,234,.7);
   transition:color .4s ease;
   display:inline-flex;
   align-items:center;
-  gap:10px;
+  gap:8px;
 }
 .back span{transition:transform .4s ease}
 .back:hover{color:var(--gold-warm)}
 .back:hover span{transform:translateX(-5px)}
 
 /* ---------- Main Throne Stage ---------- */
-.crown-stage {
-  position: relative;
-  z-index: 10;
-  min-height: 100vh;
-  min-height: 100dvh;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 80px 24px 40px;
-  box-sizing: border-box;
+.crown-stage{
+  position:relative;
+  z-index:10;
+  min-height:100vh;
+  min-height:100dvh;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:max(70px, env(safe-area-inset-top)) 20px max(40px, env(safe-area-inset-bottom));
 }
+
 .content{
   max-width:920px;
+  width:100%;
   animation:regalRise 1.6s var(--ease) forwards;
 }
 
 /* Royal Seal Crest */
 .crest{
   display:inline-block;
-  margin-bottom:20px;
+  margin-bottom:14px;
 }
 .crest svg{
-  width:34px;
-  height:34px;
+  width:30px;
+  height:30px;
   stroke:var(--gold-warm);
   fill:none;
   stroke-width:1.2;
@@ -138,28 +136,29 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 
 .eyebrow{
   font-family:var(--sans);
-  font-size:clamp(.7rem,.95vw,.82rem);
+  font-size:clamp(.65rem, 2vw, .82rem);
   font-weight:400;
-  letter-spacing:.65em;
+  letter-spacing:.45em;
   text-transform:uppercase;
   color:var(--gold-warm);
-  padding-left:.65em;
-  margin-bottom:14px;
+  padding-left:.45em;
+  margin-bottom:12px;
 }
 
 /* Master Royal Title */
 .title{
   font-family:var(--serif-title);
-  font-size:clamp(2.6rem,7.5vw,5.8rem);
+  font-size:clamp(1.9rem, 7.5vw, 5.2rem);
   font-weight:700;
-  line-height:1.06;
-  letter-spacing:.12em;
+  line-height:1.08;
+  letter-spacing:.08em;
   text-transform:uppercase;
   color:var(--gold-pure);
   background:linear-gradient(180deg,#ffffff 0%,#f5e5c9 35%,#c9ae78 70%,#7a5a27 100%);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   filter:drop-shadow(0 4px 22px rgba(184,140,70,.35)) drop-shadow(0 0 60px rgba(135,103,53,.25));
+  word-break:break-word;
 }
 
 /* Architectural Royal Divider */
@@ -167,17 +166,17 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:18px;
-  margin:24px auto;
+  gap:16px;
+  margin:18px auto;
 }
 .ornament .line{
-  width:80px;
+  width:60px;
   height:1px;
   background:linear-gradient(90deg,transparent,rgba(201,174,120,.65),transparent);
 }
 .ornament .diamond{
-  width:6px;
-  height:6px;
+  width:5px;
+  height:5px;
   background:var(--gold-warm);
   transform:rotate(45deg);
   box-shadow:0 0 8px var(--gold-warm);
@@ -185,13 +184,13 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 
 .subtitle{
   font-family:var(--serif-poetic);
-  font-size:clamp(1.2rem,2.1vw,1.55rem);
+  font-size:clamp(1.05rem, 3.2vw, 1.45rem);
   font-style:italic;
   font-weight:300;
-  line-height:1.6;
+  line-height:1.5;
   color:rgba(248,243,234,.9);
   max-width:32ch;
-  margin:0 auto 42px;
+  margin:0 auto 30px;
   text-shadow:0 2px 18px rgba(0,0,0,.9);
 }
 
@@ -201,10 +200,10 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  padding:14px 42px;
+  padding:12px 34px;
   font-family:var(--sans);
-  font-size:.76rem;
-  letter-spacing:.42em;
+  font-size:clamp(.7rem, 2.2vw, .76rem);
+  letter-spacing:.32em;
   text-transform:uppercase;
   color:var(--gold-pure);
   border-radius:100px;
@@ -238,12 +237,11 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 
 .enter span{
   display:inline-block;
-  margin-left:10px;
+  margin-left:8px;
   transition:transform .4s var(--ease);
 }
 .enter:hover span{transform:translateX(5px)}
 
-/* ---------- Keyframes ---------- */
 @keyframes regalRise{
   from{opacity:0;transform:translateY(20px)}
   to{opacity:1;transform:none}
@@ -254,45 +252,9 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 }
 
 @media(max-width:640px){
-  .title{letter-spacing:.08em;font-size:clamp(2.2rem,10vw,3.4rem)}
-  .subtitle{font-size:1.15rem;margin-bottom:34px}
-  .ornament .line{width:50px}
-}
-  /* Ensure the royal entrance fits short phone screens */
-@media (max-height: 500px) and (orientation: landscape) {
-  .crown-stage {
-    min-height: 100dvh;
-    justify-content: flex-start;
-    padding: 65px 20px 35px;
-  }
-
-  .crest {
-    margin-bottom: 8px;
-  }
-
-  .crest svg {
-    width: 26px;
-    height: 26px;
-  }
-
-  .ornament {
-    margin: 12px auto;
-  }
-
-  .subtitle {
-    margin-bottom: 20px;
-  }
-
-  .title {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-  }
-}
-</style>
-<style>
-@media (max-width: 768px) and (orientation: portrait) {
-  body {
-    visibility: hidden;
-  }
+  .title{letter-spacing:.05em;}
+  .subtitle{margin-bottom:26px}
+  .ornament .line{width:40px}
 }
 </style>
 </head>
@@ -344,8 +306,9 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
 
 <script>
 (function(){
-  var c = document.getElementById('embers'),
-      ctx = c.getContext('2d'),
+  var c = document.getElementById('embers');
+  if(!c) return;
+  var ctx = c.getContext('2d'),
       W, H, embers = [],
       dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -370,7 +333,7 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
   function init(){
     resize();
     embers = [];
-    var count = Math.round(Math.min(75, innerWidth / 14));
+    var count = Math.round(Math.min(60, innerWidth / 16));
     for (var i = 0; i < count; i++) {
       embers.push(spawnMote(true));
     }
@@ -411,29 +374,6 @@ canvas#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:no
       plate.style.transform = 'translate3d(' + (-nx * 18) + 'px, ' + (-ny * 12) + 'px, 0) scale(1.03)';
     });
   }
-})();
-</script>
-  <button id="fullscreen-btn" aria-label="Enter fullscreen">
-    ⛶
-</button>
-
-<script>
-(function () {
-    const button = document.getElementById("fullscreen-btn");
-
-    if (!button) return;
-
-    button.addEventListener("click", async function () {
-        try {
-            if (!document.fullscreenElement) {
-                await document.documentElement.requestFullscreen();
-            } else {
-                await document.exitFullscreen();
-            }
-        } catch (error) {
-            console.log("Fullscreen is unavailable in this browser.");
-        }
-    });
 })();
 </script>
 </body>
