@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../../css/style.css">
 
   <style>
     :root {
@@ -21,7 +20,7 @@
       
       --font-title: "Cinzel", Georgia, serif;
       --font-quote: "Cormorant Garamond", Georgia, serif;
-      --font-sans: "Montserrat", sans-serif;
+      --font-sans: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
     }
 
@@ -29,17 +28,21 @@
     html, body {
       height: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       background: var(--bg);
       color: var(--ivory);
       font-family: var(--font-sans);
       -webkit-font-smoothing: antialiased;
       overflow: hidden;
+      position: relative;
     }
 
-    /* Ambient Background Atmosphere */
-    .scene {
+    /* Ambient Background Atmosphere (Isolated class name) */
+    .ambient-stage {
       position: fixed;
       inset: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 1;
       overflow: hidden;
@@ -74,17 +77,17 @@
     /* Navigation */
     .back {
       position: fixed;
-      top: max(26px, env(safe-area-inset-top));
-      left: clamp(22px, 4vw, 52px);
-      z-index: 20;
+      top: max(20px, env(safe-area-inset-top));
+      left: clamp(16px, 4vw, 48px);
+      z-index: 30;
       font-size: 0.65rem;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
       color: var(--ivory-dim);
       text-decoration: none;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       transition: color 0.4s ease;
     }
     .back span { transition: transform 0.4s ease; }
@@ -95,34 +98,37 @@
     .mafia-story {
       position: relative;
       z-index: 10;
+      height: 100%;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 30px 24px;
+      padding: max(60px, env(safe-area-inset-top)) 20px max(40px, env(safe-area-inset-bottom));
     }
 
     .mafia-content {
       max-width: 800px;
-      animation: mafiaRise 2.2s var(--ease) forwards;
+      width: 100%;
+      animation: mafiaRise 2s var(--ease) forwards;
     }
 
     .mafia-label {
-      font-size: clamp(0.65rem, 0.85vw, 0.72rem);
+      font-size: clamp(0.62rem, 1.8vw, 0.72rem);
       font-weight: 400;
-      letter-spacing: 0.55em;
+      letter-spacing: 0.45em;
       text-transform: uppercase;
-      color: rgba(180, 60, 75, 0.7);
-      margin-bottom: 22px;
+      color: rgba(180, 60, 75, 0.75);
+      margin-bottom: 16px;
     }
 
     .mafia-title {
       font-family: var(--font-title);
-      font-size: clamp(2.8rem, 7.5vw, 5.8rem);
+      font-size: clamp(2.4rem, 8vw, 5.2rem);
       font-weight: 600;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       line-height: 1.1;
       text-transform: uppercase;
       color: #fff;
@@ -130,25 +136,26 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.95));
-      margin-bottom: 18px;
+      margin-bottom: 12px;
+      word-break: break-word;
     }
 
     .mafia-divider {
-      width: 60px;
+      width: 50px;
       height: 1px;
-      margin: 24px auto 30px;
+      margin: 18px auto 24px;
       background: linear-gradient(90deg, transparent, rgba(140, 30, 45, 0.5), transparent);
     }
 
     .mafia-subtitle {
       font-family: var(--font-quote);
-      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
       font-style: italic;
       font-weight: 300;
-      line-height: 1.65;
+      line-height: 1.55;
       color: var(--ivory-dim);
       max-width: 28ch;
-      margin: 0 auto 48px;
+      margin: 0 auto 34px;
       text-shadow: 0 4px 18px rgba(0, 0, 0, 0.9);
     }
 
@@ -158,12 +165,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      padding: 15px 44px;
+      gap: 10px;
+      padding: 13px 38px;
       font-family: var(--font-sans);
-      font-size: 0.72rem;
+      font-size: clamp(0.68rem, 2.2vw, 0.74rem);
       font-weight: 400;
-      letter-spacing: 0.35em;
+      letter-spacing: 0.32em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--ivory);
@@ -173,7 +180,7 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       cursor: pointer;
-      transition: all 0.5s var(--ease);
+      transition: all 0.4s var(--ease);
     }
 
     .enter-mafia:hover {
@@ -190,18 +197,37 @@
     }
     .enter-mafia:hover span { transform: translateX(4px); }
 
+    /* Fullscreen Button */
+    #fullscreen-btn {
+      position: fixed;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      right: 16px;
+      z-index: 40;
+      background: rgba(12, 8, 10, 0.6);
+      border: 1px solid rgba(140, 30, 45, 0.4);
+      color: var(--ivory);
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    #fullscreen-btn:hover {
+      background: rgba(60, 10, 16, 0.35);
+      border-color: rgba(180, 50, 65, 0.7);
+    }
+
     @keyframes mafiaRise {
       from { opacity: 0; transform: translateY(18px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
-  <style>
-@media (max-width: 768px) and (orientation: portrait) {
-  body {
-    visibility: hidden;
-  }
-}
-</style>
 </head>
 
 <body>
@@ -210,7 +236,7 @@
     <span>←</span> Back to Library
   </a>
 
-  <div class="scene" aria-hidden="true">
+  <div class="ambient-stage" aria-hidden="true">
     <div class="ambient-glow"></div>
     <canvas id="particles"></canvas>
     <div class="vignette"></div>
@@ -241,9 +267,12 @@
     </div>
   </main>
 
+  <button id="fullscreen-btn" aria-label="Enter fullscreen">⛶</button>
+
   <script>
     (function () {
       const canvas = document.getElementById('particles');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let W, H, particles = [], dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -257,11 +286,9 @@
           x: Math.random() * W,
           y: firstRun ? Math.random() * H : H + 15,
           r: (1.0 + Math.random() * 2.0) * dpr,
-          // Ultra slow, deliberate upward drift
           vy: -(0.18 + Math.random() * 0.35) * dpr,
           vx: (Math.random() - 0.5) * 0.15 * dpr,
           alpha: 0.1 + Math.random() * 0.35,
-          // Muted wine, oxidized ash, and dark clotted tones (no bright reds)
           color: Math.random() < 0.6 ? 'rgba(92, 15, 24, ' : 'rgba(60, 10, 16, ',
           sway: Math.random() * 6.28,
           swaySpeed: 0.005 + Math.random() * 0.008
@@ -271,8 +298,7 @@
       function init() {
         resize();
         particles = [];
-        // Increased count from 45 to 75 so they fill across wide screens gently
-        const count = Math.round(Math.min(75, innerWidth / 16));
+        const count = Math.round(Math.min(65, innerWidth / 16));
         for (let i = 0; i < count; i++) {
           particles.push(spawnParticle(true));
         }
@@ -307,29 +333,25 @@
       init();
       loop();
     })();
-  </script>
-<button id="fullscreen-btn" aria-label="Enter fullscreen">
-    ⛶
-</button>
 
-<script>
-(function () {
-    const button = document.getElementById("fullscreen-btn");
+    /* Fullscreen Controller */
+    (function () {
+      const button = document.getElementById("fullscreen-btn");
+      if (!button) return;
 
-    if (!button) return;
-
-    button.addEventListener("click", async function () {
+      button.addEventListener("click", async function (e) {
+        e.stopPropagation();
         try {
-            if (!document.fullscreenElement) {
-                await document.documentElement.requestFullscreen();
-            } else {
-                await document.exitFullscreen();
-            }
+          if (!document.fullscreenElement) {
+            await document.documentElement.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
         } catch (error) {
-            console.log("Fullscreen is unavailable in this browser.");
+          console.log("Fullscreen is unavailable in this browser.");
         }
-    });
-})();
-</script>
+      });
+    })();
+  </script>
 </body>
 </html>
