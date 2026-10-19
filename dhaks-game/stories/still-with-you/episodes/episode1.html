@@ -136,6 +136,7 @@ h1{font:400 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--serif);margin:16px 0 10px;lett
   object-fit:cover;
   object-position:center 20%;
   display:block;
+  opacity:0;
 }
 .fig::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2}
 
@@ -601,6 +602,15 @@ var S=[
 "!end"
 ];
 
+/* ---------- Preload Character Assets ---------- */
+(function preloadCharacterImages() {
+  var characters = ['meher', 'celine', 'sunny', 'mingyu', 'yerin', 'hyunjin', 'minho', 'ayeesha', 'thoufiq'];
+  characters.forEach(function(charId) {
+    var preImg = new Image();
+    preImg.src = '../assets/' + charId + '.png?v=crop1';
+  });
+})();
+
 /* ---------- Engine Code ---------- */
 var B=[],pend={},k,m,parts;
 S.forEach(function(s){
@@ -732,9 +742,23 @@ function showIntro(b){
   if(first){
     introId=b.id;
     var img=$('iimg');
+
+    // Instantly hide the old image so it never flashes on screen
+    img.style.opacity='0';
     img.style.display='';
     img.onerror=function(){img.style.display='none'};
+
+    // Fade the image in cleanly once ready
+    img.onload=function(){
+      img.style.transition='opacity 0.4s ease';
+      img.style.opacity='1';
+    };
     img.src='../assets/'+b.id+'.png?v=crop1';
+
+    // In case the image is already downloaded and ready from the preloader
+    if(img.complete && img.naturalWidth !== 0){
+      img.style.opacity='1';
+    }
 
     intro.className=b.side;
     $('inm').textContent=b.id==='ayeesha'?'AYEESHA':(b.id==='sunny'?'SUNNY':b.id.toUpperCase());
@@ -762,6 +786,8 @@ function hideIntro(){
   introTimers.forEach(clearTimeout);
   introTimers=[];
   intro.classList.remove('show');
+  var img=$('iimg');
+  if(img){ img.style.opacity='0'; }
   introId=null;
 }
 function go(){
