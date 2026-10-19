@@ -243,7 +243,6 @@ body.cold{--glow:rgba(122,18,38,.38)}
   margin-bottom:.3rem;
 }
 
-/* Fullscreen Button */
 #fullscreen-btn{
   position:fixed;
   bottom:max(16px, env(safe-area-inset-bottom));
@@ -299,7 +298,6 @@ var D="dhaks",B="bangchan",A="afu";
 
 var M=function(i,m,br){return{t:"m",i:i,m:m,br:br}};
 
-/* ===== STORY CONTENT ===== */
 var S1=[
 T("Chapter I","cold"),
 {t:"big",x:"The Girl Who Hated Him"},
@@ -428,7 +426,7 @@ function showChoice(b){
 
 function showEnd(){
   lines.innerHTML='<div class="beat"><p class="txt sm">End of Chapter I</p></div>';
-  cta.innerHTML='<div class="end"><a class="btn" href="chapter2.html">Continue to Chapter II \u2192</a><a class="btn ghost" href="./index.html">Back to Story</a></div>';
+  cta.innerHTML='<div class="end"><a class="btn" href="chapter2.html">Continue to Chapter II →</a><a class="btn ghost" href="./index.html">Back to Story</a></div>';
   bar.style.width="100%";
   setTimeout(function(){var f=cta.querySelector("a");if(f)f.focus({preventScroll:true})},700);
 }
