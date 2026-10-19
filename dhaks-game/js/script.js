@@ -194,8 +194,8 @@ function startAudioOnce() {
 function dodge() {
   if (!noBtn.dataset.dodge || dodges >= CONFIG.maxDodges || locked) return;
   dodges++;
-  const dx = (Math.random() < 0.5 ? -1 : 1) * (50 + Math.random() * 70);
-  const dy = (Math.random() - 0.5) * 70;
+  const dx = (Math.random() < 0.5 ? -1 : 1) * (35 + Math.random() * 45);
+  const dy = (Math.random() - 0.5) * 50;
   noBtn.style.transform = `translate(${dx}px, ${dy}px) scale(0.85)`;
 }
 noBtn.addEventListener("pointerenter", dodge);
@@ -331,29 +331,9 @@ async function showLibrary(withAudio) {
 /* ---------- Boot ---------- */
 buildCards();
 
-function startWebsite() {
-  if (location.hash === "#library") {
-    $("opening").hidden = true;
-    showLibrary(false);
-  } else {
-    playOpening();
-  }
-}
-
-const isPhonePortrait =
-  window.innerWidth <= 768 &&
-  window.innerHeight > window.innerWidth;
-
-if (isPhonePortrait) {
-  const waitForLandscape = setInterval(() => {
-    if (
-      window.innerWidth > 768 ||
-      window.innerWidth >= window.innerHeight
-    ) {
-      clearInterval(waitForLandscape);
-      startWebsite();
-    }
-  }, 300);
+if (location.hash === "#library") {
+  $("opening").hidden = true;
+  showLibrary(false);
 } else {
-  startWebsite();
+  playOpening();
 }
