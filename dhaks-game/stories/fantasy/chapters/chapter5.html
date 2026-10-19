@@ -1,48 +1,187 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Heirs of the Crown — Chapter V</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#05070f;color:#efe6d2;font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;overflow:hidden}
+html,body{
+  height:100%;
+  min-height:100vh;
+  min-height:100dvh;
+  background:#05070f;
+  color:#efe6d2;
+  font-family:'Cormorant Garamond',Georgia,'Times New Roman',serif;
+  overflow:hidden;
+  position:relative;
+  -webkit-tap-highlight-color:transparent;
+}
+
 .layer{position:fixed;inset:0;opacity:0;transition:opacity 2s ease;z-index:1}
 .layer.show{opacity:1}
-.layer::after{content:"";position:absolute;left:0;right:0;bottom:0;height:26vh;background:var(--sil,#04060c);opacity:.85;
-clip-path:polygon(0 100%,0 62%,8% 62%,12% 46%,16% 62%,26% 62%,30% 30%,34% 62%,40% 62%,44% 52%,48% 62%,60% 62%,64% 24%,68% 62%,76% 62%,80% 44%,84% 62%,92% 62%,96% 50%,100% 62%,100% 100%)}
+.layer::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:24vh;
+  background:var(--sil,#04060c);
+  opacity:.85;
+  clip-path:polygon(0 100%,0 62%,8% 62%,12% 46%,16% 62%,26% 62%,30% 30%,34% 62%,40% 62%,44% 52%,48% 62%,60% 62%,64% 24%,68% 62%,76% 62%,80% 44%,84% 62%,92% 62%,96% 50%,100% 62%,100% 100%);
+}
+
 #rain{position:fixed;inset:0;z-index:2;pointer-events:none}
 #shade{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,rgba(0,0,0,.15) 0,rgba(0,0,0,.72) 100%)}
-#stage{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:0 20px;cursor:pointer}
-#box{width:min(720px,100%);text-align:center;opacity:0;transform:translateY(10px);transition:opacity .9s,transform .9s}
-#box.in{opacity:1;transform:none}
-.n{font-size:clamp(21px,3.2vw,29px);line-height:1.6;text-shadow:0 2px 18px #000}
-.d{font-size:clamp(23px,3.4vw,31px);line-height:1.5;font-style:italic;color:#fff4d6;text-shadow:0 2px 18px #000}
-.who{font-size:15px;letter-spacing:.35em;color:#d9b45f;margin-bottom:14px;text-transform:uppercase}
-.kn{font-size:clamp(34px,6vw,56px);color:#e6c373;letter-spacing:.08em;font-weight:600;text-shadow:0 0 30px rgba(230,195,115,.35)}
-.ks{margin-top:12px;font-size:19px;font-style:italic;color:#c9bfa6}
-.ch{display:block;margin:12px auto;padding:13px 22px;width:min(520px,100%);background:rgba(8,12,26,.72);border:1px solid #b99a52;color:#efe6d2;font:inherit;font-size:21px;font-style:italic;cursor:pointer;transition:background .4s,color .4s}
-.ch:hover,.ch:focus{background:#b99a52;color:#0a0d1a;outline:none}
-#hint{margin-top:45px;font-size:13px;letter-spacing:.4em;color:#9d94806e;color:rgba(214,198,150,.6);animation:pulse 2.6s infinite}
-@keyframes pulse{50%{opacity:.25}}
-a.lk,.btn{display:inline-block;margin:10px;padding:13px 28px;border:1px solid #b99a52;color:#efe6d2;background:rgba(8,12,26,.7);font:inherit;font-size:20px;letter-spacing:.12em;text-decoration:none;cursor:pointer}
-a.lk:hover,.btn:hover{background:#b99a52;color:#0a0d1a}
-#title{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;background:radial-gradient(ellipse at 50% 35%,#16244a,#05070f 70%);transition:opacity 1.6s}
-#title.gone{opacity:0;pointer-events:none}
-#title h1{font-size:clamp(34px,7vw,68px);color:#e6c373;letter-spacing:.14em;font-weight:600}
-#title .tg{margin:14px 0 36px;font-size:16px;letter-spacing:.38em;color:#a9a086}
-#title h2{font-size:clamp(20px,3.4vw,28px);font-style:italic;font-weight:400;margin-bottom:44px}
-#menuBtn{position:fixed;top:14px;right:16px;z-index:40;background:none;border:1px solid rgba(185,154,82,.5);color:#d9c9a0;font:inherit;font-size:15px;letter-spacing:.2em;padding:6px 14px;cursor:pointer}
-#menu{position:fixed;inset:0;z-index:50;background:rgba(3,5,12,.9);display:none;align-items:center;justify-content:center;text-align:center}
-#menu.open{display:flex}
-#menu div{display:flex;flex-direction:column;align-items:center}
-</style>
-<style>
-@media (max-width: 768px) and (orientation: portrait) {
-  body {
-    visibility: hidden;
-  }
+
+#stage{
+  position:fixed;
+  inset:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:max(50px, env(safe-area-inset-top)) 20px max(40px, env(safe-area-inset-bottom));
+  cursor:pointer;
 }
-</style></head><body>
+
+#box{
+  width:min(720px,100%);
+  max-height:85dvh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .9s,transform .9s;
+}
+#box.in{opacity:1;transform:none}
+
+.n{font-size:clamp(19px,3.8vw,28px);line-height:1.5;text-shadow:0 2px 18px #000;word-break:break-word}
+.d{font-size:clamp(20px,4vw,30px);line-height:1.45;font-style:italic;color:#fff4d6;text-shadow:0 2px 18px #000;word-break:break-word}
+.who{font-size:clamp(12px,2.8vw,14px);letter-spacing:.3em;color:#d9b45f;margin-bottom:10px;text-transform:uppercase}
+.kn{font-size:clamp(26px,6vw,52px);color:#e6c373;letter-spacing:.08em;font-weight:600;text-shadow:0 0 30px rgba(230,195,115,.35);line-height:1.2}
+.ks{margin-top:10px;font-size:clamp(15px,3.2vw,19px);font-style:italic;color:#c9bfa6;line-height:1.4}
+
+.ch{
+  display:block;
+  margin:10px auto;
+  padding:12px 20px;
+  width:min(520px,100%);
+  background:rgba(8,12,26,.72);
+  border:1px solid #b99a52;
+  color:#efe6d2;
+  font:inherit;
+  font-size:clamp(17px,3.5vw,21px);
+  font-style:italic;
+  cursor:pointer;
+  transition:background .4s,color .4s;
+  border-radius:4px;
+}
+.ch:hover,.ch:focus{background:#b99a52;color:#0a0d1a;outline:none}
+
+#hint{margin-top:28px;font-size:12px;letter-spacing:.3em;color:rgba(214,198,150,.6);animation:pulse 2.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+
+a.lk,.btn{
+  display:inline-block;
+  margin:8px;
+  padding:12px 26px;
+  border:1px solid #b99a52;
+  color:#efe6d2;
+  background:rgba(8,12,26,.7);
+  font:inherit;
+  font-size:clamp(16px,3.5vw,19px);
+  letter-spacing:.12em;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background .3s,color .3s;
+}
+a.lk:hover,.btn:hover{background:#b99a52;color:#0a0d1a}
+
+#title{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
+  background:radial-gradient(ellipse at 50% 35%,#16244a,#05070f 70%);
+  transition:opacity 1.6s;
+}
+#title.gone{opacity:0;pointer-events:none}
+#title h1{font-size:clamp(30px,7.5vw,64px);color:#e6c373;letter-spacing:.12em;font-weight:600;line-height:1.1}
+#title .tg{margin:14px 0 24px;font-size:clamp(12px,2.6vw,15px);letter-spacing:.3em;color:#a9a086}
+#title h2{font-size:clamp(18px,4vw,26px);font-style:italic;font-weight:400;margin-bottom:34px}
+
+#menuBtn{
+  position:fixed;
+  top:max(14px, env(safe-area-inset-top));
+  right:16px;
+  z-index:40;
+  background:rgba(5,7,15,.6);
+  border:1px solid rgba(185,154,82,.5);
+  color:#d9c9a0;
+  font:inherit;
+  font-size:13px;
+  letter-spacing:.2em;
+  padding:6px 14px;
+  cursor:pointer;
+  border-radius:4px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+
+#menu{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:rgba(3,5,12,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:20px;
+}
+#menu.open{display:flex}
+#menu div{display:flex;flex-direction:column;align-items:center;gap:6px}
+
+/* Fullscreen toggle button styling */
+#fullscreen-btn{
+  position:fixed;
+  bottom:max(16px, env(safe-area-inset-bottom));
+  right:16px;
+  z-index:40;
+  background:rgba(10, 8, 12, 0.6);
+  border:1px solid rgba(184, 154, 94, 0.4);
+  color:#d9b45f;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  cursor:pointer;
+  transition:border-color 0.3s, background 0.3s;
+}
+#fullscreen-btn:hover{
+  background:rgba(184, 154, 94, 0.2);
+  border-color:#e6c373;
+}
+</style>
+</head>
+<body>
 <div class="layer" id="bgA"></div><div class="layer" id="bgB"></div>
 <canvas id="rain"></canvas><div id="shade"></div>
 <div id="stage"><div id="box"></div></div>
@@ -50,16 +189,20 @@ a.lk:hover,.btn:hover{background:#b99a52;color:#0a0d1a}
 <div id="menu"><div>
 <a class="lk" href="../chapters.html">BACK TO STORY</a>
 <a class="lk" href="../../../index.html#library">BACK TO LIBRARY</a>
-<button class="btn" id="mFx">EFFECTS: ON</button></div></div>
+<button class="btn" id="mFx">EFFECTS: ON</button>
+<button class="btn" id="mClose">CLOSE MENU</button>
+</div></div>
 <div id="title"><div>
 <h1>HEIRS OF THE CROWN</h1><div class="tg">THREE HEIRS. THREE LOVES. ONE CROWN.</div>
 <h2>Chapter V — The Queen and the Knight</h2>
 <button class="btn" id="begin">BEGIN</button><br>
 <a class="lk" href="../../../index.html#library">BACK TO LIBRARY</a>
 </div></div>
+
+<button id="fullscreen-btn" aria-label="Enter fullscreen">⛶</button>
+
 <script>
 var $=function(i){return document.getElementById(i)};
-// bg: gradient, silhouette colour, particle mode
 var BG=[
 {g:"radial-gradient(ellipse at 50% 20%,#2f4a5c 0,#16283a 45%,#08101c 100%)",s:"#050a12",m:"mote"},
 {g:"linear-gradient(#3a2f3d 0,#7a4f3c 55%,#1c1520 100%)",s:"#0b0709",m:"mote"},
@@ -71,10 +214,12 @@ var BG=[
 {g:"radial-gradient(circle at 30% 20%,#dfe8ff 0,#7e93c8 2.5%,#1c2f63 20%,#070c20 80%)",s:"#03050c",m:"petal"},
 {g:"radial-gradient(circle at 50% 70%,#6b4a2a 0,#1d2850 40%,#080c1c 100%)",s:"#04060d",m:"rain"},
 {g:"linear-gradient(#e9b98c 0,#d9a0a0 28%,#7d86b3 62%,#2a3358 100%)",s:"#1a1830",m:"mote"}];
+
 function N(b,t){return{b:b,k:"n",t:t}}
 function D(b,w,t){return{b:b,k:"d",w:w,t:t}}
 function K(b,t,s){return{b:b,k:"k",t:t,s:s}}
 function C(b,o){return{b:b,k:"c",o:o}}
+
 var story=[
 K(0,"I — After the Funeral","The palace garden, after rain"),
 N(0,"The rain had stopped, but the garden had not stopped weeping. Every leaf let go of its water one drop at a time."),
@@ -123,69 +268,37 @@ D(6,"Hansan","I offer you everything I have."),
 D(6,"Suan","I know. And I am sorry. It is not enough. I cannot accept."),
 N(6,"He bowed, smiling, as a prince must. Only after she left did the smile fall."),
 K(2,"VI — A Stranger’s Eyes","A palace corridor"),
-
 N(2,"Eunsin had been assigned to guard the royal family. He wore the dark armor of a knight, but kept his face partly hidden beneath the shadow of his hood."),
-
 N(2,"He knew she was there before he saw her."),
-
 N(2,"The faint fragrance of her perfume. The soft sound of her footsteps. The presence he had once known beneath lanterns, beneath trees, beneath the rain."),
-
 N(2,"He lowered his gaze immediately."),
-
 N(2,"He could not look into her eyes."),
-
 N(2,"If he did, he knew he would forget every reason he had forced himself to stay away."),
-
 N(2,"Suan turned the corner and stopped when she saw him."),
-
 N(2,"Something about the knight unsettled her."),
-
 N(2,"His height. The way he stood. The quiet strength in his shoulders. Even the faint scent that lingered in the air around him."),
-
 N(2,"For one impossible moment, her heart whispered a name she had been waiting to hear for months."),
-
 D(2,"Suan","Eunsik..."),
-
 N(2,"The knight's hand tightened slightly at his side."),
-
 N(2,"But he did not look at her."),
-
 D(2,"Eunsin","You have mistaken me for someone else, Your Highness."),
-
 N(2,"His voice was different. Colder. Deeper. Formal."),
-
 N(2,"Suan stared at him, searching for something familiar."),
-
 D(2,"Suan","Forgive me..."),
-
 N(2,"She looked at his face, but the shadow of his hood gave her nothing."),
-
 N(2,"Still, everything about him reminded her of Eunsik."),
-
 N(2,"The thought was absurd. Eunsik was somewhere beyond these palace walls. He had promised to return. This man was only a knight."),
-
 N(2,"She forced herself to believe it."),
-
 D(2,"Suan","I... must have been mistaken."),
-
 N(2,"Eunsin finally bowed, still refusing to meet her eyes."),
-
 D(2,"Eunsin","Your Highness."),
-
 N(2,"Before she could say another word, he stepped past her."),
-
 N(2,"He did not turn back."),
-
 N(2,"He walked away quickly, carrying the scent of rain and the memory of the woman he loved farther down the corridor."),
-
 N(2,"Suan remained where she was."),
-
 N(2,"She watched the knight disappear around the corner."),
-
 N(2,"Her heart still whispered the same name."),
-
 N(2,"Eunsik."),
-
 N(2,"But she refused to believe it."),
 K(5,"VII — The Coronation","The great hall"),
 N(5,"Gold bells. Banners in royal blue. A thousand candles, and incense rising like a slow tide."),
@@ -276,105 +389,179 @@ N(9,"She knew they could not return to what they had been. But for one night, th
 N(9,"For one night, the crown had no name."),
 N(9,"There was only Eunsik."),
 N(9,"There was only Suan."),
-N(9,"And neither of them knew what that night would cost.")];
+N(9,"And neither of them knew what that night would cost.")
+];
+
 var q=story.slice(),i=0,locked=true,started=false,layers=[$('bgA'),$('bgB')],cur=0,fxOn=true;
 var rain=$('rain'),ctx=rain.getContext('2d'),box=$('box'),bgNow=-1,mode="mote",P=[];
-function size(){rain.width=innerWidth;rain.height=innerHeight}
-size();addEventListener('resize',size);
+
+function size(){
+  rain.width=window.innerWidth;
+  rain.height=window.innerHeight;
+}
+size();
+window.addEventListener('resize',size);
+
 function setBg(b){
- if(b===bgNow)return;bgNow=b;
- var n=1-cur,L=layers[n];
- L.style.background=BG[b].g;L.style.setProperty('--sil',BG[b].s);
- L.classList.add('show');layers[cur].classList.remove('show');cur=n;
- mode=BG[b].m;P=[];
+  if(b===bgNow)return;
+  bgNow=b;
+  var n=1-cur,L=layers[n];
+  L.style.background=BG[b].g;
+  L.style.setProperty('--sil',BG[b].s);
+  L.classList.add('show');
+  layers[cur].classList.remove('show');
+  cur=n;
+  mode=BG[b].m;
+  P=[];
 }
+
 function spawn(){
- var w=rain.width,h=rain.height;
- if(mode==="rain")return{x:Math.random()*w,y:-10,v:11+Math.random()*7,l:14+Math.random()*12};
- if(mode==="petal")return{x:Math.random()*w,y:-10,v:.7+Math.random()*1.1,d:Math.random()*6,s:3+Math.random()*3};
- return{x:Math.random()*w,y:h+10,v:-.25-Math.random()*.4,d:Math.random()*6,s:1+Math.random()*1.8};
+  var w=rain.width,h=rain.height;
+  if(mode==="rain")return{x:Math.random()*w,y:-10,v:11+Math.random()*7,l:14+Math.random()*12};
+  if(mode==="petal")return{x:Math.random()*w,y:-10,v:.7+Math.random()*1.1,d:Math.random()*6,s:3+Math.random()*3};
+  return{x:Math.random()*w,y:h+10,v:-.25-Math.random()*.4,d:Math.random()*6,s:1+Math.random()*1.8};
 }
+
 function tick(t){
- ctx.clearRect(0,0,rain.width,rain.height);
- if(fxOn){
-  var max=mode==="rain"?110:mode==="petal"?36:34;
-  if(P.length<max&&Math.random()<.5)P.push(spawn());
-  for(var k=P.length-1;k>=0;k--){
-   var p=P[k];
-   if(mode==="rain"){p.y+=p.v;p.x-=1.2;ctx.strokeStyle="rgba(170,195,235,.28)";ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+1.5,p.y-p.l);ctx.stroke()}
-   else if(mode==="petal"){p.y+=p.v;p.x+=Math.sin(t/900+p.d)*.7;ctx.fillStyle="rgba(255,236,236,.65)";ctx.beginPath();ctx.ellipse(p.x,p.y,p.s,p.s*.6,p.d,0,6.3);ctx.fill()}
-   else{p.y+=p.v;p.x+=Math.sin(t/1300+p.d)*.3;ctx.fillStyle="rgba(255,210,120,"+(.25+.25*Math.sin(t/500+p.d))+")";ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,6.3);ctx.fill()}
-   if(p.y>rain.height+20||p.y<-20)P.splice(k,1);
+  ctx.clearRect(0,0,rain.width,rain.height);
+  if(fxOn){
+    var max=mode==="rain"?110:mode==="petal"?36:34;
+    if(P.length<max&&Math.random()<.5)P.push(spawn());
+    for(var k=P.length-1;k>=0;k--){
+      var p=P[k];
+      if(mode==="rain"){
+        p.y+=p.v;p.x-=1.2;
+        ctx.strokeStyle="rgba(170,195,235,.28)";
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);
+        ctx.lineTo(p.x+1.5,p.y-p.l);
+        ctx.stroke();
+      } else if(mode==="petal"){
+        p.y+=p.v;p.x+=Math.sin(t/900+p.d)*.7;
+        ctx.fillStyle="rgba(255,236,236,.65)";
+        ctx.beginPath();
+        ctx.ellipse(p.x,p.y,p.s,p.s*.6,p.d,0,6.3);
+        ctx.fill();
+      } else {
+        p.y+=p.v;p.x+=Math.sin(t/1300+p.d)*.3;
+        ctx.fillStyle="rgba(255,210,120,"+(.25+.25*Math.sin(t/500+p.d))+")";
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.s,0,6.3);
+        ctx.fill();
+      }
+      if(p.y>rain.height+20||p.y<-20)P.splice(k,1);
+    }
   }
- }
- requestAnimationFrame(tick);
+  requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);
+
 function render(it){
- var h="";
- if(it.k==="n")h='<p class="n">'+it.t+'</p>';
- else if(it.k==="d")h='<div class="who">'+it.w+'</div><p class="d">“'+it.t+'”</p>';
- else if(it.k==="k")h='<div class="kn">'+it.t+'</div>'+(it.s?'<div class="ks">'+it.s+'</div>':'');
- else if(it.k==="c"){it.o.forEach(function(o,n){h+='<button class="ch" data-n="'+n+'">'+o[0]+'</button>'})}
- if(it.k!=="c")h+='<div id="hint">CLICK OR TAP TO CONTINUE</div>';
- box.innerHTML=h;
- if(it.k==="c"){var bs=box.querySelectorAll('.ch');for(var n=0;n<bs.length;n++)bs[n].onclick=pick}
-}
-function pick(e){
- e.stopPropagation();
- var it=q[i],o=it.o[+this.getAttribute('data-n')];
- q.splice(i+1,0,N(it.b,o[1]));
- locked=false;next();
-}
-function show(){
- locked=true;box.classList.remove('in');
- setTimeout(function(){
-  var it=q[i];setBg(it.b);render(it);box.classList.add('in');
-  setTimeout(function(){locked=(it.k==="c")},900);
- },i===0?200:700);
-}
-function ending(){
- locked=true;box.classList.remove('in');
- setTimeout(function(){
-  box.innerHTML='<div class="kn">CHAPTER V COMPLETE</div><div class="ks">The Queen and the Knight</div><div style="margin-top:42px"><a class="lk" href="chapter6.html">CONTINUE TO CHAPTER VI →</a><br><a class="lk" href="../../../index.html#library" style="font-size:16px;border-color:transparent">BACK TO LIBRARY</a></div>';
-  box.classList.add('in');
- },900);
-}
-function next(){
- if(locked||!started)return;
- i++;if(i>=q.length){ending();return}
- show();
-}
-$('stage').onclick=next;
-document.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){if(!$('menu').classList.contains('open')&&$('title').classList.contains('gone')&&e.target.tagName!=="BUTTON"&&e.target.tagName!=="A"){e.preventDefault();next()}}});
-$('begin').onclick=function(){
- started=true;$('title').classList.add('gone');$('menuBtn').style.display="block";
- i=0;show();
-};
-$('menuBtn').onclick=function(e){e.stopPropagation();$('menu').classList.add('open')};
-
-$('mFx').onclick=function(){fxOn=!fxOn;this.textContent="EFFECTS: "+(fxOn?"ON":"OFF")};
-</script>
-<button id="fullscreen-btn" aria-label="Enter fullscreen">
-    ⛶
-</button>
-
-<script>
-(function () {
-    const button = document.getElementById("fullscreen-btn");
-
-    if (!button) return;
-
-    button.addEventListener("click", async function () {
-        try {
-            if (!document.fullscreenElement) {
-                await document.documentElement.requestFullscreen();
-            } else {
-                await document.exitFullscreen();
-            }
-        } catch (error) {
-            console.log("Fullscreen is unavailable in this browser.");
-        }
+  var h="";
+  if(it.k==="n")h='<p class="n">'+it.t+'</p>';
+  else if(it.k==="d")h='<div class="who">'+it.w+'</div><p class="d">“'+it.t+'”</p>';
+  else if(it.k==="k")h='<div class="kn">'+it.t+'</div>'+(it.s?'<div class="ks">'+it.s+'</div>':'');
+  else if(it.k==="c"){
+    it.o.forEach(function(o,n){
+      h+='<button class="ch" data-n="'+n+'">'+o[0]+'</button>';
     });
+  }
+  if(it.k!=="c")h+='<div id="hint">CLICK OR TAP TO CONTINUE</div>';
+  box.innerHTML=h;
+  if(it.k==="c"){
+    var bs=box.querySelectorAll('.ch');
+    for(var n=0;n<bs.length;n++)bs[n].onclick=pick;
+  }
+}
+
+function pick(e){
+  e.stopPropagation();
+  var it=q[i],o=it.o[+this.getAttribute('data-n')];
+  q.splice(i+1,0,N(it.b,o[1]));
+  locked=false;
+  next();
+}
+
+function show(){
+  locked=true;
+  box.classList.remove('in');
+  setTimeout(function(){
+    var it=q[i];
+    setBg(it.b);
+    render(it);
+    box.classList.add('in');
+    setTimeout(function(){locked=(it.k==="c")},800);
+  },i===0?200:600);
+}
+
+function ending(){
+  locked=true;
+  box.classList.remove('in');
+  setTimeout(function(){
+    box.innerHTML='<div class="kn">CHAPTER V COMPLETE</div><div class="ks">The Queen and the Knight</div><div style="margin-top:34px"><a class="lk" href="chapter6.html">CONTINUE TO CHAPTER VI →</a><br><a class="lk" href="../../../index.html#library" style="font-size:16px;border-color:transparent">BACK TO LIBRARY</a></div>';
+    box.classList.add('in');
+  },900);
+}
+
+function next(){
+  if(locked||!started)return;
+  i++;
+  if(i>=q.length){ending();return}
+  show();
+}
+
+$('stage').onclick=next;
+
+document.addEventListener('keydown',function(e){
+  if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){
+    if(!$('menu').classList.contains('open')&&$('title').classList.contains('gone')&&e.target.tagName!=="BUTTON"&&e.target.tagName!=="A"){
+      e.preventDefault();
+      next();
+    }
+  }
+});
+
+$('begin').onclick=function(){
+  started=true;
+  $('title').classList.add('gone');
+  $('menuBtn').style.display="block";
+  i=0;
+  show();
+};
+
+$('menuBtn').onclick=function(e){
+  e.stopPropagation();
+  $('menu').classList.add('open');
+};
+
+$('mClose').onclick=function(e){
+  e.stopPropagation();
+  $('menu').classList.remove('open');
+};
+
+$('mFx').onclick=function(e){
+  e.stopPropagation();
+  fxOn=!fxOn;
+  this.textContent="EFFECTS: "+(fxOn?"ON":"OFF");
+};
+
+/* Fullscreen toggle */
+(function () {
+  const button = document.getElementById("fullscreen-btn");
+  if (!button) return;
+  button.addEventListener("click", async function (e) {
+    e.stopPropagation();
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.log("Fullscreen is unavailable in this browser.");
+    }
+  });
 })();
-</script></body></html>
+</script>
+</body>
+</html>
