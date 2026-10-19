@@ -175,16 +175,25 @@ h1{font:400 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--serif);margin:16px 0 10px;lett
 
 /* Mobile Portrait Adaptation */
 @media (max-width: 768px) and (orientation: portrait) {
+  .fig {
+    height: 70dvh;
+    top: 0;
+    bottom: auto;
+  }
+  .fig img {
+    object-fit: cover;
+    object-position: center top;
+  }
   .L .fig::after, .R .fig::after {
-    background: linear-gradient(to top, var(--navy) 0%, rgba(10,18,34,0.95) 45%, rgba(10,18,34,0.4) 75%, transparent 100%);
+    background: linear-gradient(to top, var(--navy) 0%, rgba(10,18,34,0.92) 35%, rgba(10,18,34,0.3) 70%, transparent 100%);
   }
   .itext {
     top: auto;
     bottom: 0;
     transform: none;
     width: 100%;
-    max-height: 58dvh;
-    padding: 0 24px calc(45px + env(safe-area-inset-bottom, 0px));
+    max-height: 48dvh;
+    padding: 0 20px calc(42px + env(safe-area-inset-bottom, 0px));
     text-align: center;
   }
   .L .itext, .R .itext {
@@ -192,16 +201,16 @@ h1{font:400 clamp(2.4rem,7.5vw,4.6rem)/1.08 var(--serif);margin:16px 0 10px;lett
     right: 0;
   }
   .nm {
-    font-size: clamp(1.5rem, 5.5vw, 2.2rem);
+    font-size: clamp(1.4rem, 5vw, 2rem);
   }
   .ti {
-    margin: 6px 0 14px;
+    margin: 4px 0 10px;
     font-size: 10px;
   }
   .ln {
-    font-size: clamp(1rem, 3.8vw, 1.2rem);
+    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
     line-height: 1.4;
-    margin-bottom: .5rem;
+    margin-bottom: .4rem;
   }
 }
 
@@ -727,7 +736,7 @@ function showIntro(b){
     var img=$('iimg');
     img.style.display='';
     img.onerror=function(){img.style.display='none'};
-    img.src='../assets/'+b.id+'.png';
+    img.src='../assets/'+b.id+'.png?v=crop1';
 
     intro.className=b.side;
     $('inm').textContent=b.id==='ayeesha'?'AYEESHA':(b.id==='sunny'?'SUNNY':b.id.toUpperCase());
