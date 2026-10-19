@@ -20,77 +20,70 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100vw;
-  height: 100vh;
-  height: 100dvh;
-  overflow: hidden;
-  position: fixed;
-  inset: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
   background: #06050b;
 }
 
-/* Base responsive reset & mobile portrait containment */
+/* Ensure mobile text and buttons fit without clipping */
 @media (max-width: 768px) {
   .scene {
     width: 100%;
-    height: 100dvh;
-    padding: calc(20px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)) 16px;
+    min-height: 100dvh;
+    padding: calc(24px + env(safe-area-inset-top)) 20px calc(32px + env(safe-area-inset-bottom)) 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-
-  .library {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    justify-content: flex-start;
-    padding-top: calc(32px + env(safe-area-inset-top));
-    padding-bottom: calc(40px + env(safe-area-inset-bottom));
-  }
-
-  .library-header {
-    margin-bottom: 20px;
     text-align: center;
   }
 
+  /* Opening lines text scaling */
+  .lines {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 24px;
+  }
+
+  .lines p,
+  .line {
+    font-size: clamp(1.15rem, 4.5vw, 1.5rem) !important;
+    line-height: 1.6 !important;
+    word-break: break-word;
+  }
+
+  .choices {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Library & cards view */
+  .library {
+    justify-content: flex-start;
+    padding-top: calc(36px + env(safe-area-inset-top));
+  }
+
   .library-title {
-    font-size: clamp(1.8rem, 7vw, 2.6rem);
+    font-size: clamp(1.8rem, 6.5vw, 2.5rem);
+    line-height: 1.2;
+    margin: 8px 0 12px;
   }
 
-  /* Force cards container into a tidy vertical stack */
+  .library-eyebrow {
+    font-size: 10px;
+    letter-spacing: .25em;
+  }
+
   .cards {
-    width: 100% !important;
-    max-width: 420px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;
-    margin: 0 auto !important;
-    padding: 0 4px !important;
-  }
-
-  /* Prevent individual card containers from overflowing */
-  .card, 
-  .cards > div,
-  .cards a {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    box-sizing: border-box !important;
-  }
-
-  /* Lock all card cover images to fit cleanly within portrait height */
-  .card img,
-  .cards img,
-  .card-cover,
-  .card-thumb {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    max-height: 28dvh !important;
-    object-fit: cover !important;
-    display: block !important;
-    border-radius: 8px !important;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>
