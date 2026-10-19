@@ -1,11 +1,10 @@
 const CONFIG = {
   name: "Dhaks",
 
-  /* Slow, intentional cinematic pacing */
   opening: [
-    { text: "Hey Dhaks...", hold: 2600 },
-    { text: "Wanna play a game?", hold: 2800 },
-    { text: "Wanna escape reality for a while?", hold: 2000, focus: true }
+    { text: "Hey Dhaks...", hold: 1800 },
+    { text: "Wanna play a game?", hold: 2000 },
+    { text: "Wanna escape reality for a while?", hold: 1500, focus: true }
   ],
 
   noSequence: [
@@ -14,7 +13,7 @@ const CONFIG = {
     { text: "Stop.", scale: 0.85, dodge: true },
     { text: "I'm not accepting that answer. 😭", scale: 0.8, dodge: true },
     { text: "The NO button is nervous now.", scale: 0.7, dodge: true },
-    { text: "Okay fine. You win.", scale: 0.6, then: { text: "...NOPE.", delay: 2400 } }
+    { text: "Okay fine. You win.", scale: 0.6, then: { text: "...NOPE.", delay: 2000 } }
   ],
   maxDodges: 3,
   yesReply: "I knew you'd say yes.",
@@ -112,14 +111,20 @@ const Sound = {
 
 /* ---------- Canvas Particle Dust Engine ---------- */
 const Atmosphere = (() => {
-  const c = $("atmosphere"), ctx = c.getContext("2d");
+  const c = $("atmosphere");
+  if (!c) return { boost: () => {} };
+  const ctx = c.getContext("2d");
   let w, h, dots = [], speed = 1, target = 1;
+
   const resize = () => {
     const d = Math.min(devicePixelRatio || 1, 2);
-    w = innerWidth; h = innerHeight;
-    c.width = w * d; c.height = h * d;
+    w = window.innerWidth; 
+    h = window.innerHeight;
+    c.width = w * d; 
+    c.height = h * d;
     ctx.setTransform(d, 0, 0, d, 0, 0);
   };
+
   const make = () => ({
     x: Math.random() * w,
     y: Math.random() * h,
@@ -130,17 +135,21 @@ const Atmosphere = (() => {
     t: Math.random() * 6,
     gold: Math.random() < 0.3
   });
+
   resize();
-  addEventListener("resize", resize);
-  dots = Array.from({ length: innerWidth < 700 ? 45 : 75 }, make);
+  window.addEventListener("resize", resize);
+  dots = Array.from({ length: window.innerWidth < 700 ? 35 : 65 }, make);
 
   (function frame() {
     speed += (target - speed) * 0.02;
     ctx.clearRect(0, 0, w, h);
     for (const p of dots) {
-      p.x += p.vx * speed; p.y += p.vy * speed; p.t += 0.02;
+      p.x += p.vx * speed; 
+      p.y += p.vy * speed; 
+      p.t += 0.02;
       if (p.y < -5) { p.y = h + 5; p.x = Math.random() * w; }
-      if (p.x < -5) p.x = w + 5; if (p.x > w + 5) p.x = -5;
+      if (p.x < -5) p.x = w + 5; 
+      if (p.x > w + 5) p.x = -5;
       const tw = p.a * (0.6 + 0.4 * Math.sin(p.t));
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -151,11 +160,16 @@ const Atmosphere = (() => {
     }
     requestAnimationFrame(frame);
   })();
+
   return { boost: v => (target = v) };
 })();
 
 /* ---------- Opening & Interactive Sequence ---------- */
-const linesEl = $("lines"), choices = $("choices"), yesBtn = $("yesBtn"), noBtn = $("noBtn");
+const linesEl = $("lines");
+const choices = $("choices");
+const yesBtn = $("yesBtn");
+const noBtn = $("noBtn");
+
 let noCount = 0, dodges = 0, locked = false, audioStarted = false;
 let noConfirm = false, noSequenceStarted = false;
 
@@ -164,19 +178,22 @@ async function transitionLine(text, focus) {
   if (old) {
     old.classList.remove("show");
     old.classList.add("out");
-    await wait(800);
+    await wait(600);
   }
   linesEl.innerHTML = "";
+  
   const el = document.createElement("p");
   el.className = "line" + (focus ? " focus" : "");
   el.textContent = text;
   linesEl.append(el);
-  await wait(50);
+  
+  // Force browser layout repaint so opacity transition fires reliably
+  void el.offsetHeight;
   el.classList.add("show");
 }
 
 async function playOpening() {
-  await wait(800);
+  await wait(200);
   for (const item of CONFIG.opening) {
     await transitionLine(item.text, item.focus);
     await wait(item.hold);
@@ -264,11 +281,11 @@ yesBtn.addEventListener("click", async () => {
   locked = true;
   startAudioOnce();
   choices.classList.add("fading");
-  await wait(800);
+  await wait(600);
   choices.hidden = true;
 
   await transitionLine(CONFIG.yesReply, true);
-  await wait(2400);
+  await wait(1800);
 
   Atmosphere.boost(5);
   $("sweep").classList.add("go");
@@ -279,9 +296,9 @@ yesBtn.addEventListener("click", async () => {
     reply.classList.add("out");
   }
 
-  await wait(1000);
+  await wait(800);
   $("opening").classList.add("leaving");
-  await wait(1800);
+  await wait(1200);
   $("opening").hidden = true;
   Atmosphere.boost(1);
   showLibrary(true);
@@ -290,6 +307,7 @@ yesBtn.addEventListener("click", async () => {
 /* ---------- Library Cards Builder ---------- */
 function buildCards() {
   const wrap = $("cards");
+  if (!wrap) return;
   wrap.innerHTML = "";
   CONFIG.stories.forEach(s => {
     const a = document.createElement("a");
@@ -317,23 +335,30 @@ async function showLibrary(withAudio) {
   window.scrollTo(0, 0);
   if (withAudio) Sound.play("selection");
 
-  await wait(400);
+  await wait(300);
   const header = document.querySelector(".library-header");
   if (header) header.classList.add("in");
 
-  await wait(600);
+  await wait(400);
   const cards = document.querySelectorAll(".card");
   cards.forEach((c, i) => {
-    setTimeout(() => c.classList.add("in"), i * 220);
+    setTimeout(() => c.classList.add("in"), i * 180);
   });
 }
 
-/* ---------- Boot ---------- */
-buildCards();
+/* ---------- Boot On DOM Ready ---------- */
+function init() {
+  buildCards();
+  if (location.hash === "#library") {
+    $("opening").hidden = true;
+    showLibrary(false);
+  } else {
+    playOpening();
+  }
+}
 
-if (location.hash === "#library") {
-  $("opening").hidden = true;
-  showLibrary(false);
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
 } else {
-  playOpening();
+  init();
 }
