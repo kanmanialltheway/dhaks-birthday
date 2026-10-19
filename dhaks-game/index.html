@@ -2,94 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>For Dhaks</title>
 <meta name="theme-color" content="#06050b">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
-
-<style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100vw;
-  min-height: 100vh;
-  min-height: 100dvh;
-  background: #06050b;
-}
-
-/* Ensure mobile text and buttons fit without clipping */
-@media (max-width: 768px) {
-  .scene {
-    width: 100%;
-    min-height: 100dvh;
-    padding: calc(24px + env(safe-area-inset-top)) 20px calc(32px + env(safe-area-inset-bottom)) 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  /* Opening lines text scaling */
-  .lines {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto 24px;
-  }
-
-  .lines p,
-  .line {
-    font-size: clamp(1.15rem, 4.5vw, 1.5rem) !important;
-    line-height: 1.6 !important;
-    word-break: break-word;
-  }
-
-  .choices {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    width: 100%;
-  }
-
-  /* Library & cards view */
-  .library {
-    justify-content: flex-start;
-    padding-top: calc(36px + env(safe-area-inset-top));
-  }
-
-  .library-title {
-    font-size: clamp(1.8rem, 6.5vw, 2.5rem);
-    line-height: 1.2;
-    margin: 8px 0 12px;
-  }
-
-  .library-eyebrow {
-    font-size: 10px;
-    letter-spacing: .25em;
-  }
-
-  .cards {
-    width: 100%;
-    max-width: 400px;
-    margin: 20px auto 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-}
-</style>
 </head>
 <body>
-
+  
 <canvas id="atmosphere" aria-hidden="true"></canvas>
 <div class="fog" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
@@ -120,6 +42,5 @@ html, body {
 </section>
 
 <script src="js/script.js"></script>
-
 </body>
 </html>
