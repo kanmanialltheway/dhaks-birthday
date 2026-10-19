@@ -22,7 +22,18 @@
   --sans:'Jost',system-ui,-apple-system,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:var(--navy);color:var(--ivory);-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{
+  width:100%;
+  height:100%;
+  height:100dvh;
+  margin:0;
+  overflow:hidden;
+  background:var(--navy);
+  color:var(--ivory);
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  position:relative;
+}
 
 /* ---------- Upgraded Cinematic Atmospheric Backgrounds ---------- */
 .bg{position:fixed;inset:0;opacity:0;transition:opacity 1.8s cubic-bezier(.4,0,.2,1);background-size:cover;background-position:center}
@@ -81,15 +92,26 @@ html,body{height:100%;overflow:hidden;background:var(--navy);color:var(--ivory);
 
 .lens{position:fixed;inset:0;box-shadow:inset 0 0 120px rgba(0,0,0,.65);pointer-events:none;z-index:5}
 
-nav{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:calc(18px + env(safe-area-inset-top,0px)) 28px 0;z-index:25;font:300 11px var(--sans);letter-spacing:.28em;text-transform:uppercase}
+nav{
+  position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;
+  padding:calc(16px + env(safe-area-inset-top,0px)) 24px 0;z-index:25;
+  font:300 11px var(--sans);letter-spacing:.28em;text-transform:uppercase;
+}
 nav a{color:var(--ivory);opacity:.45;text-decoration:none;padding:6px 2px;transition:opacity .3s,color .3s}
 nav a:hover,nav a:focus-visible{opacity:1;color:var(--amber)}
 
-#story,#title,#end{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 36px;pointer-events:none;z-index:10}
+#story,#title,#end{
+  position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:70px 24px;pointer-events:none;z-index:10;
+}
 
 #story .in{
-  max-width:44rem;
-  font:400 clamp(1.35rem,3.1vw,1.9rem)/1.72 var(--serif);
+  width:100%;
+  max-width:42rem;
+  max-height:80dvh;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+  font:400 clamp(1.15rem,3.4vh,1.9rem)/1.5 var(--serif);
   opacity:0;
   transform:translateY(16px);
   filter:blur(5px);
@@ -98,26 +120,33 @@ nav a:hover,nav a:focus-visible{opacity:1;color:var(--amber)}
 }
 #story .in.show{opacity:1;transform:translateY(0);filter:blur(0)}
 
-.sp{display:block;font:400 11.5px var(--sans);letter-spacing:.32em;color:var(--amber);margin-bottom:1.1rem;text-transform:uppercase}
+.sp{
+  display:block;font:400 clamp(11px,1.8vh,13px) var(--sans);letter-spacing:.32em;
+  color:var(--amber);margin-bottom:.85rem;text-transform:uppercase;
+}
 .d{font-style:italic;color:var(--ivory);letter-spacing:.01em}
 
 #title,#end{opacity:0;transition:opacity 2s cubic-bezier(.4,0,.2,1)}
 #title.show,#end.show{opacity:1}
 #end{pointer-events:none}
-#end a{pointer-events:auto;color:var(--ivory);font:400 11px var(--sans);letter-spacing:.26em;text-decoration:none;opacity:.7;margin:30px 16px 0;display:inline-block;border-bottom:1px solid rgba(240,180,106,.4);padding-bottom:5px;transition:all .3s}
+#end a{
+  pointer-events:auto;color:var(--ivory);font:400 12px var(--sans);letter-spacing:.26em;text-decoration:none;
+  opacity:.7;margin:24px 14px 0;display:inline-block;border-bottom:1px solid rgba(240,180,106,.4);
+  padding-bottom:5px;transition:all .3s;
+}
 #end a:hover{opacity:1;color:var(--amber);border-color:var(--amber)}
 
 .t1{font:300 12px var(--sans);letter-spacing:.42em;color:var(--rose);text-transform:uppercase}
-h1{font:400 clamp(2.3rem,7.5vw,4.5rem)/1.08 var(--serif);margin:20px 0 14px;letter-spacing:.08em;text-transform:uppercase}
+h1{font:400 clamp(2.3rem,7.5vw,4.5rem)/1.08 var(--serif);margin:16px 0 12px;letter-spacing:.08em;text-transform:uppercase}
 .t2{font:italic 400 1.25rem var(--serif);color:var(--amber);margin-top:6px}
-.t3{font:italic 300 1.15rem/1.6 var(--serif);color:var(--parchment);opacity:.9;margin-top:36px;max-width:38ch}
+.t3{font:italic 300 1.15rem/1.6 var(--serif);color:var(--parchment);opacity:.9;margin-top:28px;max-width:38ch}
 
 #hint{
   position:fixed;
-  bottom:calc(26px + env(safe-area-inset-bottom,0px));
+  bottom:calc(20px + env(safe-area-inset-bottom,0px));
   left:0;right:0;
   text-align:center;
-  font:400 9.5px var(--sans);
+  font:400 10px var(--sans);
   letter-spacing:.36em;
   opacity:.4;
   color:var(--amber);
@@ -127,11 +156,50 @@ h1{font:400 clamp(2.3rem,7.5vw,4.5rem)/1.08 var(--serif);margin:20px 0 14px;lett
   z-index:20;
 }
 @keyframes pulse{50%{opacity:.12}}
-</style>
-<style>
-@media (max-width: 768px) and (orientation: portrait) {
-  body {
-    visibility: hidden;
+
+/* Fullscreen Button */
+#fullscreen-btn{
+  position:fixed;
+  bottom:max(16px, env(safe-area-inset-bottom));
+  right:16px;
+  z-index:30;
+  background:rgba(10, 18, 34, 0.65);
+  border:1px solid rgba(240, 180, 106, 0.4);
+  color:var(--ivory);
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  cursor:pointer;
+  transition:border-color 0.3s, background 0.3s;
+}
+#fullscreen-btn:hover{
+  background:rgba(110, 42, 58, 0.45);
+  border-color:var(--amber);
+}
+
+/* Landscape compact screens */
+@media (orientation: landscape) and (max-height: 520px) {
+  #title, #end, #story {
+    padding: 44px 20px 30px;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 6.5vh, 2.8rem);
+  }
+  .t3 {
+    margin-top: 10px;
+  }
+  #hint {
+    bottom: 8px;
+    font-size: 9px;
+  }
+  nav {
+    padding-top: 6px;
   }
 }
 </style>
@@ -170,6 +238,8 @@ h1{font:400 clamp(2.3rem,7.5vw,4.5rem)/1.08 var(--serif);margin:20px 0 14px;lett
 </div>
 
 <div id="hint">Tap to Continue</div>
+
+<button id="fullscreen-btn" aria-label="Enter fullscreen">⛶</button>
 
 <script>
 (function(){
@@ -452,7 +522,7 @@ var S=[
 
 "@bg=rainstorm",
 "Minho stood up from his bed, clutching his wounded shoulder, staring out the window toward the northern district.",
-"*Meher.*",
+"Meher.",
 "The realization struck him like lightning through his marrow.",
 "His father was a sociopath who had just shot his own flesh and blood over a business scandal.",
 "If Minho fled to America... what would his father do?",
@@ -565,7 +635,7 @@ var S=[
 ];
 
 /* ---------- Upgraded Dual-Engine Rendering Logic ---------- */
-var B=[],pend={},cur,k,m,parts;
+var B=[],pend={},k,m;
 S.forEach(function(s){
   if(s[0]==='@'){s.slice(1).split(';').forEach(function(p){var a=p.split('=');pend[a[0]]=a[1]});return}
   var b={};for(k in pend)b[k]=pend[k];pend={};
@@ -683,33 +753,32 @@ function advance(){
   if(idx===-1){$('title').classList.remove('show')}
   go();
 }
-document.addEventListener('click',function(e){if(e.target.closest('a'))return;advance()});
+document.addEventListener('click',function(e){
+  if(e.target.closest('a,#fullscreen-btn'))return;
+  advance();
+});
 document.addEventListener('keydown',function(e){
   if(e.key===' '||e.key==='Enter'||e.key==='ArrowRight'){e.preventDefault();advance()}
 });
 })();
-</script>
-  <button id="fullscreen-btn" aria-label="Enter fullscreen">
-    ⛶
-</button>
 
-<script>
+/* Fullscreen Controller */
 (function () {
-    const button = document.getElementById("fullscreen-btn");
+  const button = document.getElementById("fullscreen-btn");
+  if (!button) return;
 
-    if (!button) return;
-
-    button.addEventListener("click", async function () {
-        try {
-            if (!document.fullscreenElement) {
-                await document.documentElement.requestFullscreen();
-            } else {
-                await document.exitFullscreen();
-            }
-        } catch (error) {
-            console.log("Fullscreen is unavailable in this browser.");
-        }
-    });
+  button.addEventListener("click", async function (e) {
+    e.stopPropagation();
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      console.log("Fullscreen is unavailable in this browser.");
+    }
+  });
 })();
 </script>
 </body>
